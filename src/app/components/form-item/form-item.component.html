@@ -1,0 +1,90 @@
+<div *ngIf="!item.invisible">
+  <div *ngIf="item.isDivider" style="width: 100%;border-bottom: gainsboro 1px dashed;font-weight: bold"
+       translate>{{item.label}}</div>
+  <span class="md-inputfield" *ngIf="item.type==formItemType.SINGLE_TEXT||item.type==formItemType.INT"
+        style="margin-top: 15px;padding-left: 15px">
+        <input type="text" pInputText
+               style="width: 100%;"
+               [disabled]="item.disabled"
+               [pTooltip]="item.invalidMessage|translate"
+               [ngClass]="{'ng-invalid':item.invalidMessage!=null}"
+               [(ngModel)]="formService.formModel.data[item.name]"
+               (change)="formService.valueChanged(item)"
+               (keypress)="keyPress($event)">
+          <label style="padding-left: 15px">
+            {{item.label|translate}}
+            <span *ngIf="item.required" style="color: red">*</span>
+          </label>
+      </span>
+  <span class="md-inputfield" *ngIf="item.type==formItemType.PASSWORD"
+        style="margin-top: 15px;padding-left: 15px">
+        <input type="password" pInputText
+               style="width: 100%;"
+               [disabled]="item.disabled"
+               [pTooltip]="item.invalidMessage|translate"
+               [ngClass]="{'ng-invalid':item.invalidMessage!=null}"
+               [(ngModel)]="formService.formModel.data[item.name]"
+               (change)="formService.valueChanged(item)"
+               (keypress)="keyPress($event)">
+          <label style="padding-left: 15px">
+            <span *ngIf="item.required" style="color: red">*</span>
+            {{item.label|translate}}
+          </label>
+      </span>
+  <div class="ui-g">
+    <div class="ui-g-4">
+      <span style="padding: 10px;"
+            *ngIf="(item.type!=formItemType.PASSWORD)&&(item.type!=formItemType.SINGLE_TEXT)&&(item.type!=formItemType.INT)&&!item.isDivider">
+        {{item.label|translate}}
+        <span *ngIf="item.required" style="color: red">*</span>
+      </span>
+    </div>
+    <div class="ui-g-8">
+      <textarea *ngIf="item.type==formItemType.MULTI_TEXT"
+                [disabled]="item.disabled"
+                style="width: 100%;max-height: 200px"
+                [rows]="1" [cols]="30"
+                [ngClass]="{'ng-invalid':item.invalidMessage!=null}"
+                (change)="formService.valueChanged(item)"
+                [pTooltip]="item.invalidMessage|translate"
+                [(ngModel)]="formService.formModel.data[item.name]"
+                pInputTextarea autoResize="autoResize"></textarea>
+      <p-checkbox *ngIf="item.type==formItemType.CHECK"
+                  [disabled]="item.disabled"
+                  (onChange)="formService.valueChanged(item)"
+                  [(ngModel)]="formService.formModel.data[item.name]"
+                  binary="true"></p-checkbox>
+      <p-dropdown *ngIf="item.type==formItemType.SINGLE_SELECT"
+                  [disabled]="item.disabled"
+                  [pTooltip]="item.invalidMessage|translate"
+                  [ngClass]="{'ng-invalid':item.invalidMessage!=null}"
+                  [placeholder]="'Select'|translate"
+                  [style]="{'width': '100%'}"
+                  [showClear]="true"
+                  (onChange)="formService.valueChanged(item)"
+                  [(ngModel)]="formService.formModel.data[item.name]"
+                  [options]="item.options"></p-dropdown>
+      <p-colorPicker *ngIf="item.type==formItemType.COLOR"
+                     [disabled]="item.disabled"
+                     (onChange)="formService.valueChanged(item)"
+                     [(ngModel)]="formService.formModel.data[item.name]"
+      ></p-colorPicker>
+      <p-multiSelect *ngIf="item.type==formItemType.MULTI_SELECT"
+                     [options]="item.options"
+                     [pTooltip]="item.invalidMessage|translate"
+                     [ngClass]="{'ng-invalid':item.invalidMessage!=null}"
+                     (onChange)="formService.valueChanged(item)"
+                     [style]="{'width': '100%'}"
+                     [(ngModel)]="formService.formModel.data[item.name]"
+                     [panelStyle]="{minWidth:'12em'}">
+      </p-multiSelect>
+      <p-chips *ngIf="item.type==formItemType.CHIPS"
+               [disabled]="item.disabled"
+               [allowDuplicate]="false"
+               [style]="{'width': '100%'}"
+               [ngClass]="{'ng-invalid':item.invalidMessage!=null}"
+               (change)="formService.valueChanged(item)"
+               [(ngModel)]="formService.formModel.data[item.name]"></p-chips>
+    </div>
+  </div>
+</div>

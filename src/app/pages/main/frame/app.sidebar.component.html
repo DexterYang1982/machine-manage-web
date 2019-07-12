@@ -1,0 +1,148 @@
+<div class="layout-sidebar" [ngStyle]="{'overflow':app.sidebarActive ? 'hidden' : 'visible'}"
+     [ngClass]="{'layout-sidebar-dark':app.darkMenu}" (click)="app.onSidebarClick($event)">
+  <div class="layout-tabmenu">
+    <ul class="layout-tabmenu-nav">
+      <li [ngClass]="{'active-item':app.activeTabIndex === sideBarTab.MACHINE_RUNTIME}">
+        <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, sideBarTab.MACHINE_RUNTIME)"><i
+          class="material-icons">widgets</i></a>
+        <div class="layout-tabmenu-tooltip">
+          <div class="layout-tabmenu-tooltip-arrow"></div>
+          <div class="layout-tabmenu-tooltip-text">Machine Runtime</div>
+        </div>
+      </li>
+      <li [ngClass]="{'active-item':app.activeTabIndex === sideBarTab.MACHINE_CONFIG}">
+        <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, sideBarTab.MACHINE_CONFIG)"><i
+          class="material-icons">build</i></a>
+        <div class="layout-tabmenu-tooltip">
+          <div class="layout-tabmenu-tooltip-arrow"></div>
+          <div class="layout-tabmenu-tooltip-text">Machine Config</div>
+        </div>
+      </li>
+      <li [ngClass]="{'active-item':app.activeTabIndex === sideBarTab.ENTITY_CLASS}">
+        <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, sideBarTab.ENTITY_CLASS)"><i
+          class="material-icons">settings</i></a>
+        <div class="layout-tabmenu-tooltip">
+          <div class="layout-tabmenu-tooltip-arrow"></div>
+          <div class="layout-tabmenu-tooltip-text">Entity Class</div>
+        </div>
+      </li>
+    </ul>
+    <div class="layout-tabmenu-contents">
+      <div class="layout-tabmenu-content"
+           [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === sideBarTab.MACHINE_RUNTIME}">
+        <div class="layout-submenu-title clearfix">
+          <span>Features</span>
+          <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
+        </div>
+        <app-sidebarTabContent>
+        </app-sidebarTabContent>
+      </div>
+      <div class="layout-tabmenu-content"
+           [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === sideBarTab.MACHINE_CONFIG}">
+        <div class="layout-submenu-title clearfix">
+          <span>Inbox</span>
+          <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
+        </div>
+        <app-sidebarTabContent>
+          <div class="inbox-tab">
+            <ul>
+              <li class="clearfix">
+                <img src="assets/layout/images/avatar1.png" alt="" width="45">
+                <span class="name">Joshua Williams</span>
+                <span class="message">Reports attached</span>
+              </li>
+              <li class="clearfix">
+                <img src="assets/layout/images/avatar1.png" alt="" width="45">
+                <span class="name">Joshua Williams</span>
+                <span class="message">About the meeting</span>
+              </li>
+              <li class="clearfix">
+                <img src="assets/layout/images/avatar2.png" alt="" width="45">
+                <span class="name">Emily Clark</span>
+                <span class="message">TODO Update</span>
+              </li>
+              <li class="clearfix">
+                <img src="assets/layout/images/avatar3.png" alt="" width="45">
+                <span class="name">Tim Johnson</span>
+                <span class="message">Expense Reports</span>
+              </li>
+              <li class="clearfix">
+                <img src="assets/layout/images/avatar4.png" alt="" width="45">
+                <span class="name">David Stark</span>
+                <span class="message">Rating Reviews</span>
+              </li>
+            </ul>
+            <div class="inbox-labels">
+              <span>Labels</span>
+              <ul>
+                <li class="clearfix">
+                  <span class="inbox-label">Work</span>
+                  <span class="inbox-label-badge">4</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label">Personel</span>
+                  <span class="inbox-label-badge">2</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label">Shared</span>
+                  <span class="inbox-label-badge">3</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label">General</span>
+                  <span class="inbox-label-badge">5</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </app-sidebarTabContent>
+      </div>
+      <div class="layout-tabmenu-content"
+           [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === sideBarTab.ENTITY_CLASS}">
+        <div class="layout-submenu-title clearfix">
+          <span>Entity Class</span>
+          <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
+        </div>
+        <app-sidebarTabContent>
+          <div class="inbox-tab">
+            <div class="inbox-labels">
+              <ul>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Machine</span>
+                  <span class="inbox-label-badge">4</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Modbus Slave</span>
+                  <span class="inbox-label-badge">2</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Modbus Unit</span>
+                  <span class="inbox-label-badge">3</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Group</span>
+                  <span class="inbox-label-badge">5</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Cabin</span>
+                  <span class="inbox-label-badge">5</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Display</span>
+                  <span class="inbox-label-badge">5</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Device</span>
+                  <span class="inbox-label-badge">5</span>
+                </li>
+                <li class="clearfix">
+                  <span class="inbox-label menu-item">Tunnel</span>
+                  <span class="inbox-label-badge">5</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </app-sidebarTabContent>
+      </div>
+    </div>
+  </div>
+</div>

@@ -79,6 +79,17 @@ import {I18nResolve} from "./core/util/i18n.resolve";
 import {HttpService} from "./core/util/http.service";
 import {MenuService} from "./core/util/menu.service";
 import {AppRoutes} from "./app.routes";
+import {ServerEntryService} from "./core/util/server-entry.service";
+import {FormService} from "./core/util/form.service";
+import {FormItemComponent} from "./components/form-item/form-item.component";
+import {FormComponent} from "./components/form/form.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FrameComponent} from './pages/main/frame/frame.component';
+import {AppFooterComponent} from "./pages/main/frame/app.footer.component";
+import {AppTopbarComponent} from "./pages/main/frame/app.topbar.component";
+import {AppSidebartabcontentComponent} from "./pages/main/frame/app.sidebartabcontent.component";
+import {AppSideBarComponent} from "./pages/main/frame/app.sidebar.component";
+import {EntityClassComponent} from "./pages/main/entity-class/entity-class.component";
 
 ////////////
 
@@ -91,12 +102,21 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    AppSideBarComponent,
+    AppSidebartabcontentComponent,
+    AppTopbarComponent,
+    AppFooterComponent,
+    FrameComponent,
+    LoginComponent,
+    FormItemComponent,
+    FormComponent,
+    EntityClassComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutes,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -174,6 +194,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     ConfirmationService,
     MessageService,
+    ServerEntryService,
+    FormService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

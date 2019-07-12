@@ -1,0 +1,24 @@
+<p-dialog *ngIf="formService.formModel"
+          [visible]="formService.visible"
+          [contentStyle]="{'overflow':'visible'}"
+          [modal]="true"
+          [resizable]="true"
+          [closable]="false"
+          appendTo="body"
+          [style]="{width: (formService.formModel.windowWidth?formService.formModel.windowWidth:500)+'px'}">
+  <p-header>
+    <span translate>{{formService.formModel.title}}</span>
+  </p-header>
+  <div class="ui-g form-group">
+    <app-form-item class="ui-g-12" [item]="item"
+                   *ngFor="let item of formService.formModel.formItems"></app-form-item>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button (click)="formService.commit()" pButton type="button" [label]="formService.formModel.action|translate">
+      </button>
+      <button (click)="formService.cancel()" pButton type="button" translate [label]="'Cancel'|translate">
+      </button>
+    </div>
+  </p-footer>
+</p-dialog>
