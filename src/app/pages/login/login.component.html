@@ -1,0 +1,45 @@
+<div class="login-body">
+  <div class="login-panel ui-fluid"
+       style="padding: 5px 50px;width: 600px;margin-bottom: 20px">
+    <div class="ui-g">
+      <div class="ui-g-12 logo-container">
+        <h1>{{'Welcome'|translate}}</h1>
+        <h2>{{'Machine Management System V1'|translate}}</h2>
+        <button pButton  type="button" icon="ui-icon-add" [label]="'Add Server'|translate"
+                class="ui-button">
+        </button>
+      </div>
+    </div>
+    <div class="ui-g dashboard">
+      <div class="ui-g-12" style="padding-top: 0">
+        <div class="user-card ui-shadow-content">
+          <div class="user-card-content" style="height: auto">
+            <div class="user-detail">
+              <ul style="padding: 0">
+<!--                <li class="clearfix" *ngFor="let server of serverEntryService.servers">-->
+<!--                  <div class="ui-g-1" style="padding: 0">-->
+<!--                    <i class="material-icons" style="cursor: pointer"-->
+<!--                       (click)="menuService.showMenu(getMenu(server),$event)">-->
+<!--                      list</i>-->
+<!--                  </div>-->
+<!--                  <div class="ui-g-4" style="padding: 0">-->
+<!--                    <div class="project-title" i18n>Name</div>-->
+<!--                    <div class="project-detail">{{server.name}}</div>-->
+<!--                  </div>-->
+<!--                  <div class="ui-g-4" style="padding: 0">-->
+<!--                    <div class="project-title" i18n>Address</div>-->
+<!--                    <div class="project-detail">{{server.ip}}:{{server.port}}</div>-->
+<!--                  </div>-->
+<!--                  <div class="ui-g-3" style="padding: 0">-->
+<!--                    <div class="project-title" i18n>Domain</div>-->
+<!--                    <div class="project-detail">{{server.domainKey}}</div>-->
+<!--                  </div>-->
+<!--                </li>-->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
