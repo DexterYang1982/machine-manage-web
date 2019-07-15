@@ -1,4 +1,5 @@
 let last = Date.now();
+
 export function currentTime(): number {
   let current = Date.now();
   if (current <= last) {
@@ -11,3 +12,4 @@ export function currentTime(): number {
 export function generateId() {
   return '' + currentTime();
 }
+

@@ -4,6 +4,7 @@ import {I18nResolve} from "./core/util/i18n.resolve";
 import {ModuleWithProviders} from "@angular/core";
 import {FrameComponent} from "./pages/main/frame/frame.component";
 import {EntityClassComponent} from "./pages/main/entity-class/entity-class.component";
+import {LoginGuard} from "./core/util/login.guard";
 
 
 export const routes: Routes = [
@@ -17,6 +18,7 @@ export const routes: Routes = [
   {
     path: 'main/:entryId',
     component: FrameComponent,
+    canActivate: [LoginGuard],
     resolve: {
       i18n: I18nResolve
     },

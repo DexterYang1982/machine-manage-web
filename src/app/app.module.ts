@@ -90,6 +90,10 @@ import {AppTopbarComponent} from "./pages/main/frame/app.topbar.component";
 import {AppSidebartabcontentComponent} from "./pages/main/frame/app.sidebartabcontent.component";
 import {AppSideBarComponent} from "./pages/main/frame/app.sidebar.component";
 import {EntityClassComponent} from "./pages/main/entity-class/entity-class.component";
+import {StructureDataSyncService} from "./core/service/structure-data-sync.service";
+import {LoginGuard} from "./core/util/login.guard";
+import {CustomFieldService} from "./core/service/entityField/custom-field.service";
+import {EmbeddedFieldService} from "./core/service/entityField/embedded-field.service";
 
 ////////////
 
@@ -192,6 +196,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxWebstorageModule.forRoot()
   ],
   providers: [
+    LoginGuard,
+    StructureDataSyncService,
     ConfirmationService,
     MessageService,
     ServerEntryService,
@@ -203,7 +209,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     AlertService,
     I18nResolve,
     HttpService,
-    MenuService,],
+    MenuService,
+    CustomFieldService,
+    EmbeddedFieldService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
