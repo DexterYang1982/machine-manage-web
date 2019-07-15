@@ -1,14 +1,12 @@
 import {Injectable} from "@angular/core";
 import {EntityClassService} from "./entity-class.service";
-import {ModbusUnitDescription} from "../../model/modbus-unit-description";
-import {StructureDataCapsule} from "../../model/structure-data.capsule";
 import {StructureDataSyncService} from "../structure-data-sync.service";
 import {HttpService} from "../../util/http.service";
 import {FormService} from "../../util/form.service";
 import {AlertService} from "../../util/alert.service";
 
 @Injectable()
-export class ModbusUnitClassService extends EntityClassService<ModbusUnitDescription> {
+export class CabinClassService extends EntityClassService<string> {
 
   constructor(public websocketService: StructureDataSyncService,
               public httpService: HttpService,
@@ -17,18 +15,16 @@ export class ModbusUnitClassService extends EntityClassService<ModbusUnitDescrip
     super(websocketService, httpService, formService, alertService)
   }
 
-  emptyDescription(): ModbusUnitDescription {
-    return {
-      read: [],
-      write: []
-    }
+  emptyDescription(): string {
+    return '';
   }
+
   getDataName(): string {
-    return 'ModbusUnitClass'
+    return 'CabinClass'
   }
 
   getShowName(): string {
-    return 'Modbus Unit Class'
+    return 'Cabin Class'
   }
 
 }

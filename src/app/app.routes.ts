@@ -24,7 +24,9 @@ export const routes: Routes = [
     },
     children: [
       {path: '', component: EntityClassComponent},
-      {path: 'entityClass', component: EntityClassComponent}
+      {path: 'entityClass/', component: EntityClassComponent},
+      {path: 'entityClass/:dataName', component: EntityClassComponent},
+      {path: 'entityClass/:dataName/:id', component: EntityClassComponent},
     ],
   }
   , {path: '**', redirectTo: 'login'}

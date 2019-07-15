@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, ViewChild, OnDestroy, ElementRef} from '@angular/core';
+import {Component, AfterViewInit, ViewChild} from '@angular/core';
 import {ScrollPanel} from 'primeng/primeng';
 
 

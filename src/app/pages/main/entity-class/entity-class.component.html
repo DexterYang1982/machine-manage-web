@@ -1,6 +1,7 @@
 <div class="p-grid">
   <div class="p-col">
     <div class="card" style="position:relative;" [ngStyle]="{'min-height.px': framework.height-160}">
+      {{entityClassService ? entityClassService.getShowName() : ''}}
     </div>
   </div>
 </div>

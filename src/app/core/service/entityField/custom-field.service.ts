@@ -16,8 +16,13 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
       valueDescriptions: []
     }
   }
-
+  getDataName():string{
+    return 'CustomField'
+  }
+  getShowName():string{
+    return 'Custom Field'
+  }
   fit(s: StructureDataCapsule): boolean {
-    return s.dataName == 'CustomField'
+    return s.dataName == this.getDataName()
   }
 }

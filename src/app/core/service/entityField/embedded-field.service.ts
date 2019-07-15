@@ -11,16 +11,18 @@ export class EmbeddedFieldService extends BaseStructureDateService<string> {
     super(websocketService);
   }
 
-  entityUpdated(u: StructureData<string>) {
-    console.log(u);
-    super.entityUpdated(u);
+  getDataName(): string {
+    return 'EmbeddedField'
   }
 
+  getShowName():string{
+    return 'Embedded Field'
+  }
   emptyDescription(): string {
     return '';
   }
 
   fit(s: StructureDataCapsule): boolean {
-    return s.dataName == 'EmbeddedField';
+    return s.dataName == this.getDataName();
   }
 }

@@ -12,7 +12,11 @@ export abstract class BaseStructureDateService<T> {
     return this.getById(id);
   }
 
+  abstract getDataName(): string
+  abstract getShowName(): string
+
   abstract emptyDescription(): T
+
   abstract fit(s: StructureDataCapsule): boolean
 
   createEmpty(id: string): StructureData<T> {

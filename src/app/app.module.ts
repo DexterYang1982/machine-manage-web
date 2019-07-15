@@ -94,6 +94,14 @@ import {StructureDataSyncService} from "./core/service/structure-data-sync.servi
 import {LoginGuard} from "./core/util/login.guard";
 import {CustomFieldService} from "./core/service/entityField/custom-field.service";
 import {EmbeddedFieldService} from "./core/service/entityField/embedded-field.service";
+import {ModbusUnitClassService} from "./core/service/entityClass/modbus-unit-class.service";
+import {MachineClassService} from "./core/service/entityClass/machine-class.service";
+import {ModbusSlaveClassService} from "./core/service/entityClass/modbus-slave-class.service";
+import {GroupClassService} from "./core/service/entityClass/group-class.service";
+import {DisplayClassService} from "./core/service/entityClass/display-class.service";
+import {CabinClassService} from "./core/service/entityClass/cabin-class.service";
+import {DeviceClassService} from "./core/service/entityClass/device-class.service";
+import {TunnelClassService} from "./core/service/entityClass/tunnel-class.service";
 
 ////////////
 
@@ -211,7 +219,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpService,
     MenuService,
     CustomFieldService,
-    EmbeddedFieldService
+    EmbeddedFieldService,
+    MachineClassService,
+    ModbusSlaveClassService,
+    ModbusUnitClassService,
+    GroupClassService,
+    DisplayClassService,
+    CabinClassService,
+    DeviceClassService,
+    TunnelClassService
   ],
   bootstrap: [AppComponent]
 })
