@@ -12,6 +12,7 @@ export interface StructureData<T> {
   name: string;
   alias: string;
   description: T;
+  nodeClassId: string;
   parentId: string;
 }
 

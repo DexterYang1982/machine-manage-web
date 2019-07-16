@@ -7,3 +7,35 @@
 .item-selected {
   background-color: #eeeeee;
 }
+
+.title {
+  font-size: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.label {
+  color: #888888;
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 15px;
+}
+
+.value {
+  font-style: italic;
+  font-size: 10px;
+}
+
+.field-count{
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 15px;
+  height: 16px;
+  padding-left: 8px;
+  padding-top: 3px;
+  float: right;
+  border-radius: 15px;
+  background-color: #71a436;
+  color: white;
+}

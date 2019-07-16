@@ -5,36 +5,40 @@ import {StructureData, StructureDataCapsule, UpdateType} from "../model/structur
 export abstract class BaseStructureDateService<T> {
   data: StructureData<T>[] = [];
   parentMap = {};
-  selectedId: string;
-
-  setSelected(id: string): StructureData<T> {
-    this.selectedId = id;
-    return this.getById(id);
-  }
 
   abstract getDataName(): string
+
   abstract getShowName(): string
 
   abstract emptyDescription(): T
 
   abstract fit(s: StructureDataCapsule): boolean
 
+  getByParentId(parentId: string): StructureData<T>[] {
+    if (!this.parentMap[parentId]) {
+      this.parentMap[parentId] = [];
+    }
+    return this.parentMap[parentId]
+  }
+
   createEmpty(id: string): StructureData<T> {
     return {
       id: id,
       name: '',
       alias: '',
-      parentId: '',
+      parentId: null,
+      nodeClassId: null,
       description: this.emptyDescription()
     }
   }
 
   entityUpdated(entity: StructureData<T>) {
-    if (entity.parentId) {
-      let brothers = this.parentMap[entity.parentId] as StructureData<T>[];
+    const parentId = entity.parentId ? entity.parentId : entity.nodeClassId;
+    if (parentId) {
+      let brothers = this.parentMap[parentId] as StructureData<T>[];
       if (brothers == null) {
         brothers = [];
-        this.parentMap[entity.parentId] = brothers;
+        this.parentMap[parentId] = brothers;
       }
       if (brothers.find(it => it.id == entity.id) == null) {
         brothers.push(entity)
@@ -88,7 +92,7 @@ export abstract class BaseStructureDateService<T> {
       }
       return find;
     }
-    return this.createEmpty('');
+    return null;
   }
 
 

@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AccordionModule} from 'primeng/accordion';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
@@ -102,6 +102,7 @@ import {DisplayClassService} from "./core/service/entityClass/display-class.serv
 import {CabinClassService} from "./core/service/entityClass/cabin-class.service";
 import {DeviceClassService} from "./core/service/entityClass/device-class.service";
 import {TunnelClassService} from "./core/service/entityClass/tunnel-class.service";
+import {RequestInterceptor} from "./core/util/request.interceptor";
 
 ////////////
 
@@ -210,6 +211,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     MessageService,
     ServerEntryService,
     FormService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true,
+    },
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

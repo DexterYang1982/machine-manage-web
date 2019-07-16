@@ -1,7 +1,55 @@
-<div class="p-grid">
+<div class="p-grid" *ngIf="entityClassService">
   <div class="p-col">
     <div class="card" style="position:relative;" [ngStyle]="{'min-height.px': framework.height-160}">
-      {{entityClassService ? entityClassService.getShowName() : ''}}
+      <div class="title">
+        <span class="menu-item"
+              (click)="menuService.showMenu(entityClassService.getMenu(null),$event)">
+          {{entityClassService.getShowName()|translate}}
+        </span>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-4">
+          <div *ngFor="let entityClass of entityClassService.data" class="card"
+               [ngClass]="{'item-selected':selected.id==entityClass.id}">
+            <span translate class="label" style="margin-right: 15px">Name</span>
+            <span class="menu-item"
+                  (click)="menuService.showMenu(entityClassService.getMenu(entityClass),$event)">{{entityClass.name}}</span>
+            <span style="margin-left: 15px" class="value"> ( {{entityClass.alias}} )</span>
+            <div class="field-count"
+                 (click)="detail(entityClass.id)">{{customFieldService.getByParentId(entityClass.id).length}}</div>
+          </div>
+        </div>
+        <div class="p-col-7" *ngIf="selected.data">
+          <p-fieldset>
+            <p-header>
+              <span i18n style="margin-right: 20px">Fields</span>
+              <button type="button" icon="ui-icon-add" pButton
+                      (click)="menuService.showMenu(customFieldService.getMenu(selected.data,null),$event)"></button>
+            </p-header>
+            <div class="p-grid" style="margin: 5px; border-bottom: 1px dashed #aaaaaa"
+                 *ngIf="customFieldService.getByParentId(selected.id).length>0">
+              <div class="p-col-2">
+                <span class="label">Field Name</span>
+              </div>
+              <div class="p-col-2">
+                <span class="label">Field Alias</span>
+              </div>
+              <div class="p-col-2">
+                <span class="label">Value Name</span>
+              </div>
+              <div class="p-col-2">
+                <span class="label">Value Alias</span>
+              </div>
+              <div class="p-col-2">
+                <span class="label">Value Expression</span>
+              </div>
+              <div class="p-col-2">
+                <span class="label">Extra Info</span>
+              </div>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
     </div>
   </div>
 </div>

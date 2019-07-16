@@ -9,7 +9,8 @@ export const entityClassServiceMap = {};
 export const entityClassServices: EntityClassService<any>[] = [];
 export const selectedEntityClass = {
   dataName: null,
-  id: null
+  id: null,
+  data: null
 };
 
 export abstract class EntityClassService<T> extends BaseStructureDateService<T> {
