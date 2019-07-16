@@ -4,6 +4,7 @@ import {StructureDataSyncService} from "../structure-data-sync.service";
 import {HttpService} from "../../util/http.service";
 import {FormService} from "../../util/form.service";
 import {AlertService} from "../../util/alert.service";
+import {CustomFieldService} from "../entityField/custom-field.service";
 
 @Injectable()
 export class ModbusSlaveClassService extends EntityClassService<string> {
@@ -11,8 +12,9 @@ export class ModbusSlaveClassService extends EntityClassService<string> {
   constructor(public websocketService: StructureDataSyncService,
               public httpService: HttpService,
               public formService: FormService,
-              public alertService: AlertService) {
-    super(websocketService, httpService, formService, alertService)
+              public alertService: AlertService,
+              public customFieldService:CustomFieldService) {
+    super(websocketService, httpService, formService, alertService,customFieldService)
   }
 
   emptyDescription(): string {

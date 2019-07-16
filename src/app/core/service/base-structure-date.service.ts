@@ -47,10 +47,11 @@ export abstract class BaseStructureDateService<T> {
   }
 
   entityDelete(entity: StructureData<T>) {
-    if (entity.parentId) {
-      const brothers = this.parentMap[entity.parentId] as StructureData<T>[];
+    const parentId = entity.parentId ? entity.parentId : entity.nodeClassId;
+    if (parentId) {
+      const brothers = this.parentMap[parentId] as StructureData<T>[];
       if (brothers != null) {
-        this.parentMap[entity.parentId] = brothers.filter(it => it.id != entity.id)
+        brothers.splice(brothers.indexOf(entity), 1);
       }
     }
   }
@@ -68,15 +69,10 @@ export abstract class BaseStructureDateService<T> {
           const find = this.findAndUpdate(this.data, update);
           this.entityUpdated(find);
         } else if (parcel.updateType == UpdateType.delete) {
-          this.data = this.data.filter(it => {
-            if (it.id !== parcel.id) {
-              return true;
-            } else {
-              it['deleted'] = true;
-              this.entityDelete(it);
-              return false;
-            }
-          });
+          const toDelete = this.getById(parcel.id);
+          const deleteIndex = this.data.indexOf(toDelete);
+          this.data.splice(deleteIndex, 1);
+          this.entityDelete(toDelete);
         }
       }
     );

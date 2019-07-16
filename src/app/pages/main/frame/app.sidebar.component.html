@@ -107,7 +107,7 @@
             <div class="inbox-labels">
               <ul>
                 <li *ngFor="let entityClassService of entityClassServices" class="clearfix"
-                    [ngClass]="{'item-selected':entityClassService.getDataName()==selectedEntityClass.dataName}">
+                    [ngClass]="{'item-selected':entityClassService.getDataName()==selectedEntityClass.selectedDataName}">
                   <span class="inbox-label menu-item" translate
                         (click)="entityClass(entityClassService.getDataName())">{{entityClassService.getShowName()}}</span>
                   <span class="inbox-label-badge">{{entityClassService.data.length}}</span>

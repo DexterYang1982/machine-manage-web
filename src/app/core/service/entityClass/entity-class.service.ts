@@ -4,14 +4,11 @@ import {FormItemType, FormModel, FormService} from "../../util/form.service";
 import {AlertService} from "../../util/alert.service";
 import {StructureDataSyncService} from "../structure-data-sync.service";
 import {StructureData, StructureDataCapsule} from "../../model/structure-data.capsule";
+import {CustomFieldService} from "../entityField/custom-field.service";
 
 export const entityClassServiceMap = {};
 export const entityClassServices: EntityClassService<any>[] = [];
-export const selectedEntityClass = {
-  dataName: null,
-  id: null,
-  data: null
-};
+export const selectedEntityClass = {selectedDataName: null};
 
 export abstract class EntityClassService<T> extends BaseStructureDateService<T> {
   fit(s: StructureDataCapsule): boolean {
@@ -25,7 +22,8 @@ export abstract class EntityClassService<T> extends BaseStructureDateService<T> 
   protected constructor(public websocketService: StructureDataSyncService,
                         public httpService: HttpService,
                         public formService: FormService,
-                        public alertService: AlertService) {
+                        public alertService: AlertService,
+                        public customFieldService: CustomFieldService) {
     super(websocketService);
 
     entityClassServiceMap[this.getDataName()] = this;
@@ -82,6 +80,13 @@ export abstract class EntityClassService<T> extends BaseStructureDateService<T> 
         icon: 'ui-icon-delete',
         command: () => {
           this.delete(entityClass);
+        }
+      },
+      {
+        label: 'Add Custom Field',
+        icon: 'ui-icon-add',
+        command: () => {
+          this.customFieldService.addOrEditField(entityClass, null);
         }
       }
     ] : [{

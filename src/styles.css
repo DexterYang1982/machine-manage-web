@@ -27,15 +27,15 @@
 }
 
 .field-count{
+  display: inline-block;
+  margin-right: 20px;
   font-size: 10px;
   font-weight: bold;
-  cursor: pointer;
-  width: 15px;
-  height: 16px;
-  padding-left: 8px;
-  padding-top: 3px;
-  float: right;
+  width: 18px;
+  height: 18px;
+  padding-left: 6px;
+  padding-top: 2px;
   border-radius: 15px;
-  background-color: #71a436;
-  color: white;
+  background-color: white;
+  color: gray;
 }

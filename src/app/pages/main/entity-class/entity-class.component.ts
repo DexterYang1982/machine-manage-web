@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {
   EntityClassService,
   entityClassServiceMap,
-  selectedEntityClass,
+  selectedEntityClass
 } from "../../../core/service/entityClass/entity-class.service";
 import {MenuService} from "../../../core/util/menu.service";
 import {CustomFieldService} from "../../../core/service/entityField/custom-field.service";
@@ -16,7 +16,6 @@ import {CustomFieldService} from "../../../core/service/entityField/custom-field
 })
 export class EntityClassComponent implements OnInit {
   entityClassService: EntityClassService<any>;
-  selected = selectedEntityClass;
 
   constructor(public framework: FrameComponent,
               public route: ActivatedRoute,
@@ -25,16 +24,9 @@ export class EntityClassComponent implements OnInit {
               public menuService: MenuService) {
     route.paramMap.subscribe(params => {
       const dataName = params.get('dataName');
-      const selectedId = params.get('id');
-      this.selected.dataName = dataName;
-      this.selected.id = selectedId;
+      selectedEntityClass.selectedDataName = dataName;
       this.entityClassService = entityClassServiceMap[dataName];
-      this.selected.data = this.entityClassService ? this.entityClassService.getById(selectedId) : null;
     });
-  }
-
-  detail(entityId: string) {
-    this.router.navigate(['entityClass/' + this.selected.dataName + "/" + entityId], {relativeTo: this.route.parent});
   }
 
   ngOnInit() {
