@@ -30,7 +30,7 @@
               >{{writePoint.name}}</span>
       </div>
       <div class="p-col">
-        <span class="value">{{customFieldService.getById(writePoint.resultFieldId).name}}</span>
+        <span class="value">{{customFieldService.getOrCreateById(writePoint.resultFieldId).name}}</span>
       </div>
       <div class="p-col">
         <span
@@ -43,7 +43,7 @@
         <span class="value">{{writePoint.expired}}</span>
       </div>
       <div class="p-col">
-        <span class="value">{{customFieldService.getById(writePoint.commandFieldId).name}}</span>
+        <span class="value">{{customFieldService.getOrCreateById(writePoint.commandFieldId).name}}</span>
       </div>
     </div>
   </p-fieldset>
@@ -72,7 +72,7 @@
               >{{readPoint.name}}</span>
       </div>
       <div class="p-col-2">
-        <span class="value">{{customFieldService.getById(readPoint.resultFieldId).name}}</span>
+        <span class="value">{{customFieldService.getOrCreateById(readPoint.resultFieldId).name}}</span>
       </div>
       <div class="p-col-2">
               <span

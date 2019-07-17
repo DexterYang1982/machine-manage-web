@@ -11,6 +11,7 @@ import {DisplayClassService} from "./core/service/entityClass/display-class.serv
 import {CabinClassService} from "./core/service/entityClass/cabin-class.service";
 import {DeviceClassService} from "./core/service/entityClass/device-class.service";
 import {TunnelClassService} from "./core/service/entityClass/tunnel-class.service";
+import {MachineService} from "./core/service/entity/machine.service";
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,8 @@ export class AppComponent implements AfterViewInit {
               public displayClassService: DisplayClassService,
               public cabinClassService: CabinClassService,
               public deviceClassService: DeviceClassService,
-              public tunnelClassService: TunnelClassService
+              public tunnelClassService: TunnelClassService,
+              public machineService: MachineService
   ) {
   }
 

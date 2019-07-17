@@ -5,6 +5,7 @@ import {ModuleWithProviders} from "@angular/core";
 import {FrameComponent} from "./pages/main/frame/frame.component";
 import {EntityClassComponent} from "./pages/main/entity-class/entity-class.component";
 import {LoginGuard} from "./core/util/login.guard";
+import {MachineConfigComponent} from "./pages/main/machine-config/machine-config.component";
 
 
 export const routes: Routes = [
@@ -25,7 +26,9 @@ export const routes: Routes = [
     children: [
       {path: '', component: EntityClassComponent},
       {path: 'entityClass/', component: EntityClassComponent},
-      {path: 'entityClass/:dataName', component: EntityClassComponent}
+      {path: 'entityClass/:dataName', component: EntityClassComponent},
+      {path: 'machine/', component: MachineConfigComponent},
+      {path: 'machine/:id', component: MachineConfigComponent}
     ],
   }
   , {path: '**', redirectTo: 'login'}

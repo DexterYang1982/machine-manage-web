@@ -105,6 +105,9 @@ import {TunnelClassService} from "./core/service/entityClass/tunnel-class.servic
 import {RequestInterceptor} from "./core/util/request.interceptor";
 import { ModbusUnitDescriptionComponent } from './components/modbus-unit-description/modbus-unit-description.component';
 import { DisplayClientVersionComponent } from './components/display-client-version/display-client-version.component';
+import {MachineService} from "./core/service/entity/machine.service";
+import { MachineConfigComponent } from './pages/main/machine-config/machine-config.component';
+import { EntityNameComponent } from './components/entity-name/entity-name.component';
 
 ////////////
 
@@ -128,6 +131,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EntityClassComponent,
     ModbusUnitDescriptionComponent,
     DisplayClientVersionComponent,
+    MachineConfigComponent,
+    EntityNameComponent,
   ],
   imports: [
     BrowserModule,
@@ -237,7 +242,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DisplayClassService,
     CabinClassService,
     DeviceClassService,
-    TunnelClassService
+    TunnelClassService,
+    MachineService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,19 @@
+<div class="p-grid" *ngIf="machine&&machine['deleted']!=true">
+  <div class="p-col">
+    <div class="card" style="position:relative;" [ngStyle]="{'min-height.px': framework.height-160}">
+      <div class="title">
+        <app-entity-name [entity]="machine" [menu]="machineService.getMenu(machine,null)"></app-entity-name>
+      </div>
+      <p-panel>
+        <p-header>
+          <span class="menu-item" translate>Modbus Slaves</span>
+        </p-header>
+      </p-panel>
+      <p-panel>
+        <p-header>
+          <span class="menu-item" translate>Groups</span>
+        </p-header>
+      </p-panel>
+    </div>
+  </div>
+</div>

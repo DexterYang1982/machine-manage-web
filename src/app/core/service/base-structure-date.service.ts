@@ -32,7 +32,8 @@ export abstract class BaseStructureDateService<T> {
       alias: '',
       parentId: null,
       nodeClassId: null,
-      description: this.emptyDescription()
+      description: this.emptyDescription(),
+      dataName: this.getDataName()
     }
   }
 
@@ -69,21 +70,23 @@ export abstract class BaseStructureDateService<T> {
       return this.fit(it)
     })).subscribe((parcel: StructureDataCapsule) => {
         if (parcel.updateType == UpdateType.update) {
-          const update = JSON.parse(parcel.content) as T;
+          const update = JSON.parse(parcel.content) as StructureData<T>;
+          update.dataName = parcel.dataName;
           const find = this.findAndUpdate(this.data, update);
           this.entityUpdated(find);
         } else if (parcel.updateType == UpdateType.delete) {
-          const toDelete = this.getById(parcel.id);
+          const toDelete = this.getOrCreateById(parcel.id);
           const deleteIndex = this.data.indexOf(toDelete);
           this.data.splice(deleteIndex, 1);
           this.entityDelete(toDelete);
+          toDelete['deleted'] = true
         }
       }
     );
   }
 
 
-  getById(id: string): StructureData<T> {
+  getOrCreateById(id: string): StructureData<T> {
     if (id && id.length > 0) {
       let find = this.data.find(it => it.id === id);
       if (!find) {
