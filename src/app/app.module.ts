@@ -103,6 +103,8 @@ import {CabinClassService} from "./core/service/entityClass/cabin-class.service"
 import {DeviceClassService} from "./core/service/entityClass/device-class.service";
 import {TunnelClassService} from "./core/service/entityClass/tunnel-class.service";
 import {RequestInterceptor} from "./core/util/request.interceptor";
+import { ModbusUnitDescriptionComponent } from './components/modbus-unit-description/modbus-unit-description.component';
+import { DisplayClientVersionComponent } from './components/display-client-version/display-client-version.component';
 
 ////////////
 
@@ -124,6 +126,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormItemComponent,
     FormComponent,
     EntityClassComponent,
+    ModbusUnitDescriptionComponent,
+    DisplayClientVersionComponent,
   ],
   imports: [
     BrowserModule,

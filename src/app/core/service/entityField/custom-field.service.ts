@@ -1,11 +1,12 @@
 import {Injectable} from "@angular/core";
 import {BaseStructureDateService} from "../base-structure-date.service";
-import {FieldValueDescription} from "../../model/field-value-description";
+import {FieldValueDescription, ValueDescription} from "../../model/field-value.description";
 import {StructureData, StructureDataCapsule} from "../../model/structure-data.capsule";
 import {StructureDataSyncService} from "../structure-data-sync.service";
 import {HttpService} from "../../util/http.service";
 import {FormItemType, FormModel, FormService} from "../../util/form.service";
 import {AlertService} from "../../util/alert.service";
+import {generateId} from "../../util/utils";
 
 
 @Injectable()
@@ -14,6 +15,9 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
   REQUEST_ADD = ['POST', 'api/' + this.getDataName() + '/add'];
   REQUEST_UPDATE = ['PUT', 'api/' + this.getDataName() + '/update'];
   REQUEST_DELETE = ['DELETE', 'api/' + this.getDataName() + '/delete'];
+  REQUEST_VALUE_DESCRIPTION_ADD = ['POST', 'api/' + this.getDataName() + '/addValueDescription'];
+  REQUEST_VALUE_DESCRIPTION_UPDATE = ['PUT', 'api/' + this.getDataName() + '/updateValueDescription'];
+  REQUEST_VALUE_DESCRIPTION_DELETE = ['DELETE', 'api/' + this.getDataName() + '/deleteValueDescription'];
 
   constructor(public websocketService: StructureDataSyncService,
               public httpService: HttpService,
@@ -22,13 +26,14 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
     super(websocketService);
   }
 
-  http_add(nodeClassId: string, name: string, alias: string, callBack: () => void) {
+  http_add(nodeClassId: string, name: string, alias: string, output: boolean, callBack: () => void) {
     this.httpService.http<any>(
       this.REQUEST_ADD,
       {
         nodeClassId,
         name,
-        alias
+        alias,
+        output
       }, null,
       callBack
     );
@@ -51,6 +56,37 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
       this.REQUEST_DELETE,
       {
         id
+      }, null,
+      callBack
+    );
+  }
+
+  http_value_description_add(id: string, valueDescription: ValueDescription, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_VALUE_DESCRIPTION_ADD,
+      {
+        id,
+      }, valueDescription,
+      callBack
+    );
+  }
+
+  http_value_description_update(id: string, valueDescription: ValueDescription, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_VALUE_DESCRIPTION_UPDATE,
+      {
+        id
+      }, valueDescription,
+      callBack
+    );
+  }
+
+  http_value_description_delete(id: string, valueDescriptionId: string, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_VALUE_DESCRIPTION_DELETE,
+      {
+        id,
+        valueDescriptionId
       }, null,
       callBack
     );
@@ -94,6 +130,7 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
         label: 'Add Value Info',
         icon: 'ui-icon-description',
         command: () => {
+          this.addOrEditValueDescription(field, null)
         }
       },
       {
@@ -112,6 +149,25 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
     }];
   }
 
+  getFieldValueDescriptionMenu(field: StructureData<FieldValueDescription>, valueDescription: ValueDescription) {
+    return [
+      {
+        label: 'Edit',
+        icon: 'ui-icon-edit',
+        command: () => {
+          this.addOrEditValueDescription(field, valueDescription);
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'ui-icon-delete',
+        command: () => {
+          this.deleteValueDescription(field, valueDescription);
+        }
+      }
+    ];
+  }
+
   delete(field: StructureData<FieldValueDescription>) {
     this.alertService.needToConfirm('Delete',
       field.name,
@@ -124,6 +180,17 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
   }
 
 
+  deleteValueDescription(field: StructureData<FieldValueDescription>, valueDescription: ValueDescription) {
+    this.alertService.needToConfirm('Delete',
+      valueDescription.name,
+      () => {
+        this.http_value_description_delete(field.id, valueDescription.id, () => {
+          this.alertService.operationDone();
+        });
+      }
+    );
+  }
+
   addOrEditField(entityClass: { id: string }, field: StructureData<FieldValueDescription>) {
     const fm: FormModel = {
       title: field ? 'Edit Field' : 'Add Field',
@@ -131,7 +198,8 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
       windowWidth: 400,
       data: {
         name: field ? field.name : '',
-        alias: field ? field.alias : ''
+        alias: field ? field.alias : '',
+        output: field ? field.description.output : false
       },
       formItems: [
         {
@@ -145,6 +213,12 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
           name: 'alias',
           type: FormItemType.SINGLE_TEXT,
           required: true
+        },
+        {
+          label: 'Output',
+          name: 'output',
+          type: FormItemType.CHECK,
+          disabled: !!field
         }
       ],
       okFunction: () => {
@@ -153,7 +227,67 @@ export class CustomFieldService extends BaseStructureDateService<FieldValueDescr
             this.formService.closeForm();
           });
         } else {
-          this.http_add(entityClass.id, fm.data.name, fm.data.alias, () => {
+          this.http_add(entityClass.id, fm.data.name, fm.data.alias, fm.data.output, () => {
+            this.formService.closeForm();
+          });
+        }
+      }
+    };
+    this.formService.popupForm(fm);
+  }
+
+  addOrEditValueDescription(field: StructureData<FieldValueDescription>, valueDescription: ValueDescription) {
+    const fm: FormModel = {
+      title: valueDescription ? 'Edit Field Value Description' : 'Add Field Value Description',
+      action: valueDescription ? 'Edit' : 'Add',
+      windowWidth: 400,
+      data: {
+        id: valueDescription ? valueDescription.id : generateId(),
+        name: valueDescription ? valueDescription.name : '',
+        alias: valueDescription ? valueDescription.alias : '',
+        valueExp: valueDescription ? valueDescription.valueExp : '',
+        extra: valueDescription ? valueDescription.extra : '',
+        color: valueDescription ? valueDescription.color : '#ffff00'
+      },
+      formItems: [
+        {
+          label: 'Name',
+          name: 'name',
+          type: FormItemType.SINGLE_TEXT,
+          required: true
+        },
+        {
+          label: 'Alias',
+          name: 'alias',
+          type: FormItemType.SINGLE_TEXT,
+          required: true
+        },
+        {
+          label: 'Value Expression',
+          name: 'valueExp',
+          type: FormItemType.SINGLE_TEXT,
+          required: true
+        },
+        {
+          label: 'Extra Info',
+          name: 'extra',
+          type: FormItemType.SINGLE_TEXT,
+          required: false
+        },
+        {
+          label: 'Color',
+          name: 'color',
+          type: FormItemType.COLOR,
+          required: true
+        }
+      ],
+      okFunction: () => {
+        if (valueDescription) {
+          this.http_value_description_update(field.id, fm.data, () => {
+            this.formService.closeForm();
+          });
+        } else {
+          this.http_value_description_add(field.id, fm.data, () => {
             this.formService.closeForm();
           });
         }

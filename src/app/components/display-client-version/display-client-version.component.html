@@ -1,0 +1,19 @@
+<div *ngIf="_displayClass">
+  <p-fieldset>
+    <p-header><span translate>Client Version</span></p-header>
+    <div class="p-grid">
+      <div class="p-col-2">
+        <span class="label" translate>Name</span>: <span class="value"> {{_displayClass.description.name}} </span>
+      </div>
+      <div class="p-col-2">
+        <span class="label" translate>Version</span>: <span class="value"> {{_displayClass.description.version}} </span>
+      </div>
+      <div class="p-col-8">
+        <span class="label" translate>Location</span>: <span
+        class="value"> {{_displayClass.description.location}} </span>
+      </div>
+    </div>
+  </p-fieldset>
+</div>
+
+

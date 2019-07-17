@@ -14,6 +14,10 @@ export abstract class BaseStructureDateService<T> {
 
   abstract fit(s: StructureDataCapsule): boolean
 
+  get(id: string): StructureData<T> {
+    return this.data.find(it => it.id == id)
+  }
+
   getByParentId(parentId: string): StructureData<T>[] {
     if (!this.parentMap[parentId]) {
       this.parentMap[parentId] = [];

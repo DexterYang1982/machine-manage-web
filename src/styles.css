@@ -26,7 +26,7 @@
   font-size: 10px;
 }
 
-.field-count{
+.field-input{
   display: inline-block;
   margin-right: 20px;
   font-size: 10px;
@@ -34,8 +34,25 @@
   width: 18px;
   height: 18px;
   padding-left: 6px;
-  padding-top: 2px;
   border-radius: 15px;
-  background-color: white;
-  color: gray;
+  background-color: blue;
+  color: white;
+  border: solid 1px gray;
+}
+.field-output{
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 10px;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  padding-left: 4px;
+  border-radius: 15px;
+  background-color: yellow;
+  color: black;
+  border: solid 1px gray;
+}
+body .ui-panel .ui-panel-titlebar .ui-panel-titlebar-icon{
+  float: left;
+  margin-right: 15px;
 }

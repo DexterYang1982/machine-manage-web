@@ -35,6 +35,8 @@
         </div>
         <div class="p-grid" *ngFor="let customField of customFieldService.getByParentId(entityClass.id)">
           <div class="p-col-2">
+            <div class="field-input" *ngIf="!customField.description.output">I</div>
+            <div class="field-output" *ngIf="customField.description.output">O</div>
             <span class="menu-item"
                   (click)="menuService.showMenu(customFieldService.getMenu(entityClass,customField),$event)">{{customField.name}}</span>
           </div>
@@ -42,11 +44,29 @@
             <span class="value">{{customField.alias}}</span>
           </div>
           <div class="p-col-8">
-            <div class="p-grid">
-
+            <div class="p-grid" *ngFor="let valueDescription of customField.description.valueDescriptions">
+              <div class="p-col">
+          <span class=" value menu-item"
+                (click)="menuService.showMenu(customFieldService.getFieldValueDescriptionMenu(customField,valueDescription),$event)">
+            {{valueDescription.name}}
+          </span>
+              </div>
+              <div class="p-col">
+                <span class="value">{{valueDescription.alias}}</span>
+              </div>
+              <div class="p-col">
+                <span class="value">{{valueDescription.valueExp}}</span>
+              </div>
+              <div class="p-col">
+                <div style="width: 15px;height: 13px;display: inline-block; border: 1px solid black;margin-right: 10px"
+                     [ngStyle]="{'backgroundColor':valueDescription.color}"></div>
+                <span class="value">{{valueDescription.extra}}</span>
+              </div>
             </div>
           </div>
         </div>
+        <app-modbus-unit-description [modbusUnitClass]="entityClass"></app-modbus-unit-description>
+        <app-display-client-version [displayClass]="entityClass"></app-display-client-version>
       </p-panel>
     </div>
   </div>
