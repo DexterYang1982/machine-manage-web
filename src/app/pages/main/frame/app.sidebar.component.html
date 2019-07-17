@@ -31,7 +31,7 @@
       <div class="layout-tabmenu-content"
            [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === sideBarTab.MACHINE_RUNTIME}">
         <div class="layout-submenu-title clearfix">
-          <span>Features</span>
+          <span translate>Machine Runtime</span>
           <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
         </div>
         <app-sidebarTabContent>
@@ -40,7 +40,7 @@
       <div class="layout-tabmenu-content"
            [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === sideBarTab.MACHINE_CONFIG}">
         <div class="layout-submenu-title clearfix">
-          <span class="menu-item"
+          <span class="menu-item" translate
                 (click)="menuService.showMenu(machineService.getMenu(null,serverEntryService.currentServerEntry.domainId),$event)"
           >Machine Config</span>
           <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
@@ -56,7 +56,7 @@
       <div class="layout-tabmenu-content"
            [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === sideBarTab.ENTITY_CLASS}">
         <div class="layout-submenu-title clearfix">
-          <span>Entity Class</span>
+          <span translate>Entity Class</span>
           <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
         </div>
         <app-sidebarTabContent>

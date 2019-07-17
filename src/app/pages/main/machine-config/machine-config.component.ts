@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MenuService} from "../../../core/util/menu.service";
 import {StructureData} from "../../../core/model/structure-data.capsule";
 import {MachineService} from "../../../core/service/entity/machine.service";
+import {ModbusSlaveService} from "../../../core/service/entity/modbus-slave.service";
+import {ModbusUnitService} from "../../../core/service/entity/modbus-unit.service";
 
 @Component({
   selector: 'app-machine-config',
@@ -17,6 +19,8 @@ export class MachineConfigComponent implements OnInit {
               public route: ActivatedRoute,
               public router: Router,
               public machineService: MachineService,
+              public modbusSlaveService: ModbusSlaveService,
+              public modbusUnitService: ModbusUnitService,
               public menuService: MenuService) {
     route.paramMap.subscribe(params => {
       const id = params.get('id');

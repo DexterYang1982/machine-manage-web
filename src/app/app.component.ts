@@ -12,6 +12,8 @@ import {CabinClassService} from "./core/service/entityClass/cabin-class.service"
 import {DeviceClassService} from "./core/service/entityClass/device-class.service";
 import {TunnelClassService} from "./core/service/entityClass/tunnel-class.service";
 import {MachineService} from "./core/service/entity/machine.service";
+import {ModbusSlaveService} from "./core/service/entity/modbus-slave.service";
+import {ModbusUnitService} from "./core/service/entity/modbus-unit.service";
 
 @Component({
   selector: 'app-root',
@@ -21,9 +23,9 @@ import {MachineService} from "./core/service/entity/machine.service";
 export class AppComponent implements AfterViewInit {
   @ViewChild('menu', {static: false}) menu: Menu;
 
-  constructor(private menuService: MenuService,
-              private customFieldService: CustomFieldService,
-              private embeddedFieldService: EmbeddedFieldService,
+  constructor(public menuService: MenuService,
+              public customFieldService: CustomFieldService,
+              public embeddedFieldService: EmbeddedFieldService,
               public machineClass: MachineClassService,
               public modbusSlaveClassService: ModbusSlaveClassService,
               public modbusUnitClassService: ModbusUnitClassService,
@@ -32,7 +34,9 @@ export class AppComponent implements AfterViewInit {
               public cabinClassService: CabinClassService,
               public deviceClassService: DeviceClassService,
               public tunnelClassService: TunnelClassService,
-              public machineService: MachineService
+              public machineService: MachineService,
+              public modbusSlaveService: ModbusSlaveService,
+              public modbusUnitService: ModbusUnitService
   ) {
   }
 

@@ -10,17 +10,17 @@ import {MenuService} from "../../core/util/menu.service";
   styleUrls: ['./entity-name.component.css']
 })
 export class EntityNameComponent implements OnInit {
-  name: string;
-  alias: string;
+  _entity: StructureData<any>;
   className: string;
   @Input()
   menu: MenuItem[];
 
   @Input()
   set entity(e: StructureData<any>) {
-    this.name = e.name;
-    this.alias = e.alias;
-    this.className = (entityServiceMap [e.dataName] as EntityService<any>).entityClassService.getOrCreateById(e.nodeClassId).name
+    this._entity = e;
+    if (e) {
+      this.className = (entityServiceMap [e.dataName] as EntityService<any>).entityClassService.getOrCreateById(e.nodeClassId).name
+    }
   }
 
   constructor(private menuService: MenuService) {

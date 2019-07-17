@@ -108,6 +108,8 @@ import { DisplayClientVersionComponent } from './components/display-client-versi
 import {MachineService} from "./core/service/entity/machine.service";
 import { MachineConfigComponent } from './pages/main/machine-config/machine-config.component';
 import { EntityNameComponent } from './components/entity-name/entity-name.component';
+import {ModbusSlaveService} from "./core/service/entity/modbus-slave.service";
+import {ModbusUnitService} from "./core/service/entity/modbus-unit.service";
 
 ////////////
 
@@ -243,7 +245,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     CabinClassService,
     DeviceClassService,
     TunnelClassService,
-    MachineService
+    MachineService,
+    ModbusSlaveService,
+    ModbusUnitService
   ],
   bootstrap: [AppComponent]
 })

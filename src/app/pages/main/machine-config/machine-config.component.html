@@ -6,12 +6,33 @@
       </div>
       <p-panel>
         <p-header>
-          <span class="menu-item" translate>Modbus Slaves</span>
+          <span translate>Modbus Slaves</span>
         </p-header>
+        <div *ngFor="let modbusSlave of modbusSlaveService.getByParentId(machine.id)" class="p-grid">
+          <div class="p-col-3">
+            <app-entity-name [entity]="modbusSlave"
+                             [menu]="modbusSlaveService.getMenu(modbusSlave,null)"></app-entity-name>
+            <div>
+              <span class="label" translate>Address</span>
+              <span class="value"> {{modbusSlave.description.ip}}:{{modbusSlave.description.port}}</span>
+            </div>
+          </div>
+          <div class="p-col-9">
+            <p-fieldset>
+              <p-header><span translate>Modbus Units</span></p-header>
+              <div class="p-grid">
+                <div class="p-col-4" *ngFor="let modbusUnit of modbusUnitService.getByParentId(modbusSlave.id)">
+                  <app-entity-name [entity]="modbusUnit"
+                                   [menu]="modbusUnitService.getMenu(modbusUnit,null)"></app-entity-name>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+        </div>
       </p-panel>
       <p-panel>
         <p-header>
-          <span class="menu-item" translate>Groups</span>
+          <span translate>Groups</span>
         </p-header>
       </p-panel>
     </div>
