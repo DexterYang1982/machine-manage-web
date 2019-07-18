@@ -14,6 +14,7 @@ export interface StructureData<T> {
   description: T;
   nodeClassId: string;
   parentId: string;
+  path: string[];
   dataName: string;
 }
 

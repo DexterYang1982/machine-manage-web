@@ -7,6 +7,7 @@ import {EntityService} from "./entity.service";
 import {MachineClassService} from "../entityClass/machine-class.service";
 import {StructureData} from "../../model/structure-data.capsule";
 import {ModbusSlaveService} from "./modbus-slave.service";
+import {GroupService} from "./group.service";
 
 @Injectable()
 export class MachineService extends EntityService<string> {
@@ -16,7 +17,8 @@ export class MachineService extends EntityService<string> {
               public formService: FormService,
               public alertService: AlertService,
               public machineClassService: MachineClassService,
-              public modbusSlaveService: ModbusSlaveService) {
+              public modbusSlaveService: ModbusSlaveService,
+              public groupService: GroupService) {
     super(websocketService, httpService, formService, alertService, machineClassService)
   }
 
@@ -46,6 +48,7 @@ export class MachineService extends EntityService<string> {
         label: 'Add Group',
         icon: 'ui-icon-add',
         command: () => {
+          this.groupService.addOrEdit(null, entity.id);
         }
       });
     }

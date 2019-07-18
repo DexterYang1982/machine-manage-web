@@ -1,6 +1,13 @@
 import {Injectable} from "@angular/core";
 import {EntityClassService} from "./entity-class.service";
-import {ModbusUnitDescription, ReadPoint, WritePoint} from "../../model/modbus-unit.description";
+import {
+  COMMAND_TYPE,
+  ModbusUnitDescription,
+  READ_MEMORY_TYPE,
+  ReadPoint,
+  WRITE_MEMORY_TYPE,
+  WritePoint
+} from "../../model/modbus-unit.description";
 import {StructureDataSyncService} from "../structure-data-sync.service";
 import {HttpService} from "../../util/http.service";
 import {FormItemType, FormService} from "../../util/form.service";
@@ -446,34 +453,3 @@ export class ModbusUnitClassService extends EntityClassService<ModbusUnitDescrip
   }
 }
 
-
-export const WRITE_MEMORY_TYPE = [
-  {
-    label: 'Holding Register', value: 'HOLDING_REGISTER'
-  },
-  {
-    label: 'Coil ClientStatus', value: 'COIL_STATUS'
-  }
-];
-export const READ_MEMORY_TYPE = [
-  {
-    label: 'Holding Register', value: 'HOLDING_REGISTER'
-  },
-  {
-    label: 'Coil ClientStatus', value: 'COIL_STATUS'
-  },
-  {
-    label: 'Input ClientStatus', value: 'INPUT_STATUS'
-  },
-  {
-    label: 'Input Register', value: 'INPUT_REGISTER'
-  }
-];
-export const COMMAND_TYPE = [
-  {
-    label: 'Instant', value: 'INSTANT'
-  },
-  {
-    label: 'Persistent', value: 'PERSISTENT'
-  }
-];

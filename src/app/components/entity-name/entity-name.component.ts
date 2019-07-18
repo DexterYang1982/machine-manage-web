@@ -17,10 +17,10 @@ export class EntityNameComponent implements OnInit {
 
   @Input()
   set entity(e: StructureData<any>) {
-    this._entity = e;
-    if (e) {
+    if (e && e.id.length > 0 && e.nodeClassId.length > 0) {
       this.className = (entityServiceMap [e.dataName] as EntityService<any>).entityClassService.getOrCreateById(e.nodeClassId).name
     }
+    this._entity = e;
   }
 
   constructor(private menuService: MenuService) {

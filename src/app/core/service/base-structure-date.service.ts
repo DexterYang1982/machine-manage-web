@@ -33,7 +33,8 @@ export abstract class BaseStructureDateService<T> {
       parentId: null,
       nodeClassId: null,
       description: this.emptyDescription(),
-      dataName: this.getDataName()
+      dataName: this.getDataName(),
+      path: []
     }
   }
 

@@ -9,6 +9,16 @@ import {EntityClassService} from "../entityClass/entity-class.service";
 export const entityServiceMap = {};
 
 export abstract class EntityService<T> extends BaseStructureDateService<T> {
+  getBySameGroup(entity: StructureData<any>) {
+    const groupId = entity.path.length > 3 ? entity.path[3] : null;
+    return groupId ? this.data.filter(it => it.path.indexOf(groupId) > 0) : []
+  }
+
+  getBySameMachine(entity: StructureData<any>) {
+    const groupId = entity.path.length > 2 ? entity.path[2] : null;
+    return groupId ? this.data.filter(it => it.path.indexOf(groupId) > 0) : []
+  }
+
   fit(s: StructureDataCapsule): boolean {
     return s.dataName == this.getDataName();
   }

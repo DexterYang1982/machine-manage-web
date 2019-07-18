@@ -103,13 +103,20 @@ import {CabinClassService} from "./core/service/entityClass/cabin-class.service"
 import {DeviceClassService} from "./core/service/entityClass/device-class.service";
 import {TunnelClassService} from "./core/service/entityClass/tunnel-class.service";
 import {RequestInterceptor} from "./core/util/request.interceptor";
-import { ModbusUnitDescriptionComponent } from './components/modbus-unit-description/modbus-unit-description.component';
-import { DisplayClientVersionComponent } from './components/display-client-version/display-client-version.component';
+import {ModbusUnitDescriptionComponent} from './components/modbus-unit-description/modbus-unit-description.component';
+import {DisplayClientVersionComponent} from './components/display-client-version/display-client-version.component';
 import {MachineService} from "./core/service/entity/machine.service";
-import { MachineConfigComponent } from './pages/main/machine-config/machine-config.component';
-import { EntityNameComponent } from './components/entity-name/entity-name.component';
+import {MachineConfigComponent} from './pages/main/machine-config/machine-config.component';
+import {EntityNameComponent} from './components/entity-name/entity-name.component';
 import {ModbusSlaveService} from "./core/service/entity/modbus-slave.service";
 import {ModbusUnitService} from "./core/service/entity/modbus-unit.service";
+import {GroupService} from "./core/service/entity/group.service";
+import {DisplayService} from "./core/service/entity/display.service";
+import {DeviceService} from "./core/service/entity/device.service";
+import {CabinService} from "./core/service/entity/cabin.service";
+import {TunnelService} from "./core/service/entity/tunnel.service";
+import { ModbusReadComponent } from './components/modbus-read/modbus-read.component';
+import { ModbusWriteComponent } from './components/modbus-write/modbus-write.component';
 
 ////////////
 
@@ -135,6 +142,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DisplayClientVersionComponent,
     MachineConfigComponent,
     EntityNameComponent,
+    ModbusReadComponent,
+    ModbusWriteComponent,
   ],
   imports: [
     BrowserModule,
@@ -247,7 +256,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     TunnelClassService,
     MachineService,
     ModbusSlaveService,
-    ModbusUnitService
+    ModbusUnitService,
+    GroupService,
+    DisplayService,
+    DeviceService,
+    CabinService,
+    TunnelService
   ],
   bootstrap: [AppComponent]
 })

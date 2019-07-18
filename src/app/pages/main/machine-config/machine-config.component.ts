@@ -6,6 +6,11 @@ import {StructureData} from "../../../core/model/structure-data.capsule";
 import {MachineService} from "../../../core/service/entity/machine.service";
 import {ModbusSlaveService} from "../../../core/service/entity/modbus-slave.service";
 import {ModbusUnitService} from "../../../core/service/entity/modbus-unit.service";
+import {GroupService} from "../../../core/service/entity/group.service";
+import {DisplayService} from "../../../core/service/entity/display.service";
+import {CabinService} from "../../../core/service/entity/cabin.service";
+import {DeviceService} from "../../../core/service/entity/device.service";
+import {TunnelService} from "../../../core/service/entity/tunnel.service";
 
 @Component({
   selector: 'app-machine-config',
@@ -18,10 +23,15 @@ export class MachineConfigComponent implements OnInit {
   constructor(public framework: FrameComponent,
               public route: ActivatedRoute,
               public router: Router,
+              public menuService: MenuService,
               public machineService: MachineService,
               public modbusSlaveService: ModbusSlaveService,
               public modbusUnitService: ModbusUnitService,
-              public menuService: MenuService) {
+              public groupService: GroupService,
+              public displayService: DisplayService,
+              public cabinService: CabinService,
+              public deviceService: DeviceService,
+              public tunnelService: TunnelService) {
     route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.machine = machineService.getOrCreateById(id);
