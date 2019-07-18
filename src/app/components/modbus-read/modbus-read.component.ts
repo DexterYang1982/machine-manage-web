@@ -1,10 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DeviceDefinition, ModbusRead} from "../../core/model/device.description";
 import {ModbusUnitService} from "../../core/service/entity/modbus-unit.service";
-import {StructureData} from "../../core/model/structure-data.capsule";
-import {DeviceService} from "../../core/service/entity/device.service";
 import {ModbusUnitDescription} from "../../core/model/modbus-unit.description";
 import {MenuService} from "../../core/util/menu.service";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-modbus-read',
@@ -13,15 +11,17 @@ import {MenuService} from "../../core/util/menu.service";
 })
 export class ModbusReadComponent implements OnInit {
   @Input()
-  device: StructureData<DeviceDefinition>;
+  menu:MenuItem[];
   @Input()
-  modbusRead: ModbusRead;
+  modbusUnitId:string;
+  @Input()
+  readPointId:string;
 
   getModbusUnitName(modbusUnitId:string):string{
     return this.modbusUnitService.getOrCreateById(modbusUnitId).name;
   }
-  getReadPointName(readPointId: string): string {
-    const unit = this.modbusUnitService.getOrCreateById(this.modbusRead.modbusUnitId);
+  getReadPointName(modbusUnitId:string,readPointId: string): string {
+    const unit = this.modbusUnitService.getOrCreateById(modbusUnitId);
     if (unit) {
       const unitClass = this.modbusUnitService.entityClassService.getOrCreateById(unit.nodeClassId);
       if (unitClass) {
@@ -35,8 +35,7 @@ export class ModbusReadComponent implements OnInit {
   }
 
   constructor(public modbusUnitService: ModbusUnitService,
-              public menuService: MenuService,
-              public deviceService: DeviceService) {
+              public menuService: MenuService) {
   }
 
   ngOnInit() {

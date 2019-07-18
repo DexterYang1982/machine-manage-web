@@ -9,7 +9,7 @@
           <span translate>Modbus Slaves</span>
         </p-header>
         <div *ngFor="let modbusSlave of modbusSlaveService.getByParentId(machine.id)" class="p-grid">
-          <div class="p-col-3">
+          <div class="p-col-2">
             <app-entity-name [entity]="modbusSlave"
                              [menu]="modbusSlaveService.getMenu(modbusSlave,null)"></app-entity-name>
             <div>
@@ -17,11 +17,11 @@
               <span class="value"> {{modbusSlave.description.ip}}:{{modbusSlave.description.port}}</span>
             </div>
           </div>
-          <div class="p-col-9">
+          <div class="p-col-10">
             <p-fieldset>
               <p-header><span translate>Modbus Units</span></p-header>
               <div class="p-grid">
-                <div class="p-col-4" *ngFor="let modbusUnit of modbusUnitService.getByParentId(modbusSlave.id)">
+                <div class="p-col-3" *ngFor="let modbusUnit of modbusUnitService.getByParentId(modbusSlave.id)">
                   <app-entity-name [entity]="modbusUnit"
                                    [menu]="modbusUnitService.getMenu(modbusUnit,null)"></app-entity-name>
                 </div>
@@ -35,17 +35,17 @@
           <span translate>Groups</span>
         </p-header>
         <div *ngFor="let group of groupService.getByParentId(machine.id)" class="p-grid">
-          <div class="p-col-3">
+          <div class="p-col-2">
             <app-entity-name [entity]="group"
                              [menu]="groupService.getMenu(group,null)"></app-entity-name>
             <div>
             </div>
           </div>
-          <div class="p-col-9">
+          <div class="p-col-10">
             <p-fieldset>
               <p-header><span translate>Displays</span></p-header>
               <div class="p-grid">
-                <div class="p-col-4" *ngFor="let display of displayService.getByParentId(group.id)">
+                <div class="p-col-3" *ngFor="let display of displayService.getByParentId(group.id)">
                   <app-entity-name [entity]="display"
                                    [menu]="displayService.getMenu(display,null)"></app-entity-name>
                 </div>
@@ -54,7 +54,7 @@
             <p-fieldset>
               <p-header><span translate>Cabins</span></p-header>
               <div class="p-grid">
-                <div class="p-col-4" *ngFor="let cabin of cabinService.getByParentId(group.id)">
+                <div class="p-col-3" *ngFor="let cabin of cabinService.getByParentId(group.id)">
                   <app-entity-name [entity]="cabin"
                                    [menu]="cabinService.getMenu(cabin,null)"></app-entity-name>
                 </div>
@@ -63,21 +63,32 @@
             <p-fieldset>
               <p-header><span translate>Devices</span></p-header>
               <div class="p-grid" *ngFor="let device of deviceService.getByParentId(group.id)">
-                <div class="p-col-3">
+                <div class="p-col-2">
                   <app-entity-name [entity]="device"
                                    [menu]="deviceService.getMenu(device,null)"></app-entity-name>
                 </div>
-                <div class="p-col-9">
+                <div class="p-col-10">
                   <p-fieldset>
                     <p-header><span translate>Status</span></p-header>
                     <div class="p-grid">
-                      <div class="p-col-4" *ngFor="let status of device.description.status">
-                        <app-modbus-read [device]="device" [modbusRead]="status"></app-modbus-read>
+                      {{device.description.status.length}}
+                      <div class="p-col-3" *ngFor="let status of device.description.status">
+                        <app-modbus-read [menu]="deviceService.getStatusMenu(device,status)"
+                                         [modbusUnitId]="status.modbusUnitId"
+                                         [readPointId]="status.readPointId"></app-modbus-read>
                       </div>
                     </div>
                   </p-fieldset>
                   <p-fieldset>
                     <p-header><span translate>Commands</span></p-header>
+                    <div class="p-grid">
+                      {{device.description.commands.length}}
+                      <div class="p-col-3" *ngFor="let command of device.description.commands">
+                        <app-modbus-write [menu]="deviceService.getCommandMenu(device,command)"
+                                          [modbusUnitId]="command.modbusUnitId"
+                                          [writePointId]="command.writePointId"></app-modbus-write>
+                      </div>
+                    </div>
                   </p-fieldset>
                   <p-fieldset>
                     <p-header><span translate>Process</span></p-header>
@@ -91,11 +102,11 @@
             <p-fieldset>
               <p-header><span translate>Tunnels</span></p-header>
               <div class="p-grid" *ngFor="let tunnel of tunnelService.getByParentId(group.id)">
-                <div class="p-col-3">
+                <div class="p-col-2">
                   <app-entity-name [entity]="tunnel"
                                    [menu]="tunnelService.getMenu(tunnel,null)"></app-entity-name>
                 </div>
-                <div class="p-col-9">
+                <div class="p-col-10">
                   <p-fieldset>
                     <p-header><span translate>Transactions</span></p-header>
                   </p-fieldset>

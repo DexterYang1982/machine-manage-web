@@ -71,7 +71,9 @@ export abstract class BaseStructureDateService<T> {
       return this.fit(it)
     })).subscribe((parcel: StructureDataCapsule) => {
         if (parcel.updateType == UpdateType.update) {
+          console.log(parcel.content);
           const update = JSON.parse(parcel.content) as StructureData<T>;
+          console.log(update);
           update.dataName = parcel.dataName;
           const find = this.findAndUpdate(this.data, update);
           this.entityUpdated(find);

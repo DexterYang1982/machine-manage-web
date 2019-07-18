@@ -127,6 +127,7 @@ export class DeviceService extends EntityService<DeviceDefinition> {
         label: 'Add Command',
         icon: 'ui-icon-add',
         command: () => {
+          this.addOrEditCommand(entity, null);
         }
       });
     }
@@ -144,8 +145,101 @@ export class DeviceService extends EntityService<DeviceDefinition> {
       label: 'Delete',
       icon: 'ui-icon-add',
       command: () => {
+        this.deleteStatus(entity, status);
       }
     }];
+  }
+
+  getCommandMenu(entity: StructureData<DeviceDefinition>, command: ModbusWrite) {
+    return [{
+      label: 'Edit',
+      icon: 'ui-icon-edit',
+      command: () => {
+        this.addOrEditCommand(entity, command);
+      }
+    }, {
+      label: 'Delete',
+      icon: 'ui-icon-add',
+      command: () => {
+        this.deleteCommand(entity, command);
+      }
+    }];
+  }
+
+  deleteCommand(device: StructureData<DeviceDefinition>, command: ModbusWrite) {
+    this.alertService.needToConfirm('Delete Command',
+      '',
+      () => {
+        this.http_delete_command(device.id, command.id, () => {
+          this.alertService.operationDone();
+        });
+      }
+    );
+  }
+
+  addOrEditCommand(device: StructureData<DeviceDefinition>, command: ModbusWrite) {
+    const writePointSelect = {
+      label: 'Write Point',
+      name: 'writePointId',
+      type: FormItemType.SINGLE_SELECT,
+      required: true,
+      options: []
+    };
+    const fm: FormModel = {
+      title: command ? 'Edit Device Command' : 'Add Device Command',
+      action: command ? 'Edit' : 'Add',
+      windowWidth: 400,
+      data: {
+        id: command ? command.id : '',
+        modbusUnitId: command ? command.modbusUnitId : null,
+        writePointId: command ? command.writePointId : null
+      },
+      formItems: [
+        {
+          label: 'Modbus Unit',
+          name: 'modbusUnitId',
+          type: FormItemType.SINGLE_SELECT,
+          required: true,
+          options: this.modbusUnitService.getBySameMachine(device).map(it => {
+            return {value: it.id, label: it.name};
+          }),
+          onValueChanged: (item) => {
+            if(fm.data.modbusUnitId){
+              const modbusUnit = this.modbusUnitService.get(fm.data.modbusUnitId);
+              const modbusUnitClass = this.modbusUnitClassService.get(modbusUnit.nodeClassId);
+              writePointSelect.options = modbusUnitClass.description.write.map(it => {
+                return {value: it.id, label: it.name};
+              });
+            }
+          }
+        },
+        writePointSelect
+      ],
+      okFunction: () => {
+        if (command) {
+          this.http_update_command(device.id, fm.data, () => {
+            this.formService.closeForm();
+          });
+        } else {
+          this.http_add_command(device.id, fm.data, () => {
+            this.formService.closeForm();
+          });
+        }
+      }
+    };
+    this.formService.popupForm(fm);
+  }
+
+
+  deleteStatus(device: StructureData<DeviceDefinition>, status: ModbusRead) {
+    this.alertService.needToConfirm('Delete Status',
+      '',
+      () => {
+        this.http_delete_status(device.id, status.id, () => {
+          this.alertService.operationDone();
+        });
+      }
+    );
   }
 
   addOrEditStatus(device: StructureData<DeviceDefinition>, status: ModbusRead) {

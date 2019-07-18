@@ -1,9 +1,9 @@
-<div *ngIf="modbusRead">
+<div>
   <span class="menu-item"
-        (click)="menuService.showMenu(deviceService.getStatusMenu(device,modbusRead),$event)">
-    {{getReadPointName(modbusRead.readPointId)}}
+        (click)="menuService.showMenu(menu,$event)">
+    {{getReadPointName(modbusUnitId, readPointId)}}
   </span>
   <span
-    style="padding-left: 10px;font-size: 10px">( {{getModbusUnitName(modbusRead.modbusUnitId)}} )
+    style="padding-left: 10px;font-size: 10px">( {{getModbusUnitName(modbusUnitId)}} )
   </span>
 </div>
