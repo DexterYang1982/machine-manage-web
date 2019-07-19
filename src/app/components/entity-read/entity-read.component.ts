@@ -5,6 +5,8 @@ import {StructureData} from "../../core/model/structure-data.capsule";
 import {ModbusService} from "../../core/service/entity/modbus.service";
 import {CustomFieldService} from "../../core/service/entityField/custom-field.service";
 import {ValueDescription} from "../../core/model/field-value.description";
+import {MenuItem} from "primeng/api";
+import {MenuService} from "../../core/util/menu.service";
 
 @Component({
   selector: 'app-entity-read',
@@ -12,11 +14,13 @@ import {ValueDescription} from "../../core/model/field-value.description";
   styleUrls: ['./entity-read.component.css']
 })
 export class EntityReadComponent implements OnInit {
-
+  @Input()
+  menu: MenuItem[];
   @Input()
   entityRead: EntityRead;
 
   constructor(private modbusService: ModbusService,
+              public menuService:MenuService,
               private customFieldService: CustomFieldService) {
   }
 

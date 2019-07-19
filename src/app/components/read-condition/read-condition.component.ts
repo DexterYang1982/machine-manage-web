@@ -1,10 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ReadCondition} from "../../core/model/device.description";
+import {EntityRead, ReadCondition} from "../../core/model/device.description";
 import {StructureData} from "../../core/model/structure-data.capsule";
 import {MenuService} from "../../core/util/menu.service";
 import {FormItemType, FormModel, FormService} from "../../core/util/form.service";
 import {clone} from "../../core/util/utils";
 import {ReadWriteService} from "../../core/service/entity/read-write.service";
+import {MenuItem} from "primeng/api";
+import {AlertService} from "../../core/util/alert.service";
 
 @Component({
   selector: 'app-read-condition',
@@ -26,10 +28,45 @@ export class ReadConditionComponent implements OnInit {
 
   constructor(public menuService: MenuService,
               private readWriteService: ReadWriteService,
+              private alertService: AlertService,
               public formService: FormService) {
   }
 
   ngOnInit() {
+  }
+
+  getEntityReadMenu(entityRead: EntityRead): MenuItem[] {
+    return [
+      {
+        label: 'Edit',
+        icon: 'ui-icon-edit',
+        command: () => {
+          this.readWriteService.addOrEditEntityRead(this.entity, entityRead, 'read', (er) => {
+            const c = clone(this.readCondition);
+            c.reads.push(er);
+            if (this.updateFunction) {
+              this.updateFunction(this.entity, c)
+            }
+          });
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'ui-icon-edit',
+        command: () => {
+          this.alertService.needToConfirm('Delete',
+            'Condition',
+            () => {
+              const c = clone(this.readCondition);
+              c.reads = c.reads.filter(it => it.id != entityRead.id);
+              if (this.updateFunction) {
+                this.updateFunction(this.entity, c)
+              }
+            }
+          );
+        }
+      }
+    ]
   }
 
   editSatisfyMenu = [{
@@ -46,7 +83,7 @@ export class ReadConditionComponent implements OnInit {
         const c = clone(this.readCondition);
         c.reads.push(entityRead);
         if (this.updateFunction) {
-          this.updateFunction(this.entity,c)
+          this.updateFunction(this.entity, c)
         }
       });
     }
@@ -76,7 +113,7 @@ export class ReadConditionComponent implements OnInit {
         const c = clone(this.readCondition);
         c.matchAll = fm.data.satisfy;
         if (this.updateFunction) {
-          this.updateFunction(this.entity,c)
+          this.updateFunction(this.entity, c)
         }
         this.formService.closeForm();
       }
