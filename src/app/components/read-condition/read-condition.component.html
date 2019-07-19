@@ -4,6 +4,10 @@
     <span translate class="label menu-item"
           (click)="menuService.showMenu(editSatisfyMenu,$event)"
     >Satisfy</span>
-    <span translate class="value">{{readCondition.matchAll?'All':'Single'}}</span>
+    <span translate class="value">{{readCondition.matchAll ? 'All' : 'Single'}}</span>
+    <app-entity-read
+      *ngFor="let entityRead of readCondition.reads"
+      [entityRead]="entityRead"
+    ></app-entity-read>
   </div>
 </p-fieldset>

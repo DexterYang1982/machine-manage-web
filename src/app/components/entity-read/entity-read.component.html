@@ -1,1 +1,11 @@
-<p>entity-read works!</p>
+<div *ngIf="entityRead" style="padding-left: 10px;padding-top: 5px">
+  <span class="menu-item">
+    {{getTarget(entityRead.entityId, entityRead.dataName, entityRead.targetType, entityRead.targetId).name}}
+  </span>
+  <span style="font-size: 10px">
+    ({{getEntity(entityRead.entityId, entityRead.dataName).name}}) =
+  </span>
+  <span style="font-weight: bold;font-size: 10px">
+    {{getValueDescription(entityRead.entityId, entityRead.dataName, entityRead.targetType, entityRead.targetId, entityRead.valueDescriptionId).name}}
+  </span>
+</div>

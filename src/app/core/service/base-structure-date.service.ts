@@ -115,6 +115,9 @@ export abstract class BaseStructureDateService<T> {
     for (const p in newOne) {
       if (newOne.hasOwnProperty(p)) {
         if (Array.isArray(newOne[p])) {
+          if (oldOne[p] == null) {
+            oldOne[p] = [];
+          }
           const oldList = oldOne[p] as any[];
           const newList = (newOne[p] as any[]).map(it => this.findAndUpdate(oldList, it));
           oldList.filter(it => newList.indexOf(it) < 0).forEach(it => oldList.splice(oldList.indexOf(it), 1));

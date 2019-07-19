@@ -64,6 +64,7 @@ export class ReadWriteService {
         const op = t.options.find(it => it.value == fm.data.entityId);
         if (op) {
           const et = op.data as StructureData<any>;
+          fm.data.dataName = et.dataName;
           if (fm.data.targetType == targetType[0].value) {
             const device = et as StructureData<DeviceDefinition>;
             const points = rw == 'read' ?
@@ -72,7 +73,7 @@ export class ReadWriteService {
                 return {
                   modbusUnitId: it.modbusUnitId,
                   name: readPoint.name,
-                  id: readPoint.id,
+                  id: it.id,
                   resultFieldId: readPoint.resultFieldId
                 }
               })
@@ -81,7 +82,7 @@ export class ReadWriteService {
                 return {
                   modbusUnitId: it.modbusUnitId,
                   name: writePoint.name,
-                  id: writePoint.id,
+                  id: it.id,
                   resultFieldId: writePoint.resultFieldId
                 }
               });
@@ -130,6 +131,7 @@ export class ReadWriteService {
         id: erw ? erw.id : generateId(),
         targetType: erw ? erw.targetType : targetType[0].value,
         entityId: erw ? erw.entityId : null,
+        dataName: erw ? erw.dataName : null,
         targetId: erw ? erw.targetId : null,
         valueDescriptionId: erw ? erw.valueDescriptionId : null,
       },
@@ -254,6 +256,7 @@ export class ReadWriteService {
 interface ERW {
   id: string;
   entityId: string;
+  dataName: string;
   targetType: string;
   targetId: string;
   valueDescriptionId: string;

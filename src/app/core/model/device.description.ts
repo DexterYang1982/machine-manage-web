@@ -35,6 +35,7 @@ export interface DeviceProcessStep {
 export interface EntityRead {
   id: string;
   entityId: string;
+  dataName: string;
   targetType: string;
   targetId: string;
   valueDescriptionId: string;
@@ -43,6 +44,7 @@ export interface EntityRead {
 export interface EntityWrite {
   id: string;
   entityId: string;
+  dataName: string;
   targetType: string;
   targetId: string;
   valueDescriptionId: string;
