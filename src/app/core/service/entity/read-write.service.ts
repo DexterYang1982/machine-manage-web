@@ -9,7 +9,7 @@ import {DeviceService} from "./device.service";
 import {DisplayService} from "./display.service";
 import {CabinService} from "./cabin.service";
 import {TunnelService} from "./tunnel.service";
-import {FormItemType, FormModel, FormService} from "../../util/form.service";
+import {FormItem, FormItemType, FormModel, FormService} from "../../util/form.service";
 import {StructureData} from "../../model/structure-data.capsule";
 import {DeviceDefinition, READ_TARGET_TYPE, WRITE_TARGET_TYPE} from "../../model/device.description";
 import {generateId} from "../../util/utils";
@@ -32,7 +32,7 @@ export class ReadWriteService {
 
   }
 
-  addOrEditEntityRead(entity: StructureData<any>, erw: ERW, rw: string, commit: Function) {
+  addOrEditEntityRW(entity: StructureData<any>, erw: ERW, rw: string, commit: Function) {
     const targetType = rw == 'read' ? READ_TARGET_TYPE : WRITE_TARGET_TYPE;
     const valueDescriptionSelected = {
       label: 'Value',
@@ -47,8 +47,12 @@ export class ReadWriteService {
       type: FormItemType.SINGLE_SELECT,
       required: true,
       options: [],
-      onValueChanged: (t) => {
-        const op = t.options.find(it => it.value == fm.data.targetId);
+      onValueChanged: (fi: FormItem) => {
+        if (fi.data) {
+          fm.data.valueDescriptionId=null;
+        }
+        fi.data = true;
+        const op = fi.options.find(it => it.value == fm.data.targetId);
         if (op) {
           valueDescriptionSelected.options = op.data
         }
@@ -60,8 +64,13 @@ export class ReadWriteService {
       type: FormItemType.SINGLE_SELECT,
       required: true,
       options: [],
-      onValueChanged: (t) => {
-        const op = t.options.find(it => it.value == fm.data.entityId);
+      onValueChanged: (fi: FormItem) => {
+        if (fi.data) {
+          fm.data.valueDescriptionId=null;
+          fm.data.targetId=null;
+        }
+        fi.data = true;
+        const op = fi.options.find(it => it.value == fm.data.entityId);
         if (op) {
           const et = op.data as StructureData<any>;
           fm.data.dataName = et.dataName;
@@ -142,7 +151,13 @@ export class ReadWriteService {
           type: FormItemType.SINGLE_SELECT,
           required: true,
           options: targetType,
-          onValueChanged: () => {
+          onValueChanged: (fi: FormItem) => {
+            if (fi.data) {
+              fm.data.valueDescriptionId=null;
+              fm.data.targetId=null;
+              fm.data.entityId=null;
+            }
+            fi.data = true;
             if (fm.data.targetType == targetType[0].value) {
               entitySelect.options = this.getAllDeviceOption(entity)
             } else if (fm.data.targetType == targetType[1].value) {

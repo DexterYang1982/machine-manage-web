@@ -41,7 +41,7 @@ export class ReadConditionComponent implements OnInit {
         label: 'Edit',
         icon: 'ui-icon-edit',
         command: () => {
-          this.readWriteService.addOrEditEntityRead(this.entity, entityRead, 'read', (er) => {
+          this.readWriteService.addOrEditEntityRW(this.entity, entityRead, 'read', (er) => {
             const c = clone(this.readCondition);
             c.reads.push(er);
             if (this.updateFunction) {
@@ -79,7 +79,7 @@ export class ReadConditionComponent implements OnInit {
     label: 'Add Condition',
     icon: 'ui-icon-add',
     command: () => {
-      this.readWriteService.addOrEditEntityRead(this.entity, null, 'read', (entityRead) => {
+      this.readWriteService.addOrEditEntityRW(this.entity, null, 'read', (entityRead) => {
         const c = clone(this.readCondition);
         c.reads.push(entityRead);
         if (this.updateFunction) {

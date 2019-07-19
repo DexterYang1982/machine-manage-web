@@ -20,7 +20,7 @@ export class EntityReadComponent implements OnInit {
   entityRead: EntityRead;
 
   constructor(private modbusService: ModbusService,
-              public menuService:MenuService,
+              public menuService: MenuService,
               private customFieldService: CustomFieldService) {
   }
 
@@ -34,21 +34,31 @@ export class EntityReadComponent implements OnInit {
 
   getTarget(entityId: string, dataName: string, targetType: string, targetId: string): { name: string } {
     const entity = (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId);
+    let result = {name: ''};
     if (targetType == READ_TARGET_TYPE[0].value) {
       const status = (entity.description as DeviceDefinition).status.find(it => it.id == targetId);
-      return this.modbusService.getReadPoint(status.modbusUnitId, status.readPointId)
+      if (status) {
+        result = this.modbusService.getReadPoint(status.modbusUnitId, status.readPointId)
+      }
+
     } else {
-      return this.customFieldService.getByParentId(entity.nodeClassId).find(it => it.id == targetId);
+      result = this.customFieldService.getByParentId(entity.nodeClassId).find(it => it.id == targetId);
     }
+    return result;
   }
 
   getValueDescription(entityId: string, dataName: string, targetType: string, targetId: string, valueDescriptionId: string): { name: string } {
     const entity = (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId);
-    let valueDescriptions: ValueDescription[];
+    let valueDescriptions: ValueDescription[] = [];
     if (targetType == READ_TARGET_TYPE[0].value) {
       const status = (entity.description as DeviceDefinition).status.find(it => it.id == targetId);
-      const readPoint = this.modbusService.getReadPoint(status.modbusUnitId, status.readPointId);
-      valueDescriptions = this.modbusService.getRWPointValueDescription(status.modbusUnitId, readPoint.resultFieldId)
+      if (status) {
+        const readPoint = this.modbusService.getReadPoint(status.modbusUnitId, status.readPointId);
+        if (readPoint) {
+          valueDescriptions = this.modbusService.getRWPointValueDescription(status.modbusUnitId, readPoint.resultFieldId)
+        }
+      }
+
     } else {
       valueDescriptions = this.customFieldService.getByParentId(entity.nodeClassId).find(it => it.id == targetId).description.valueDescriptions;
     }
