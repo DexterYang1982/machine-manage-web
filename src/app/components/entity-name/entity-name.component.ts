@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StructureData} from "../../core/model/structure-data.capsule";
 import {EntityService, entityServiceMap} from "../../core/service/entity/entity.service";
 import {MenuItem} from "primeng/api";
 import {MenuService} from "../../core/util/menu.service";
+import {StructureData} from "../../core/model/structure-data.capsule";
 
 @Component({
   selector: 'app-entity-name',
@@ -10,17 +10,18 @@ import {MenuService} from "../../core/util/menu.service";
   styleUrls: ['./entity-name.component.css']
 })
 export class EntityNameComponent implements OnInit {
-  _entity: StructureData<any>;
-  className: string;
   @Input()
   menu: MenuItem[];
 
   @Input()
-  set entity(e: StructureData<any>) {
-    if (e && e.id.length > 0 && e.nodeClassId.length > 0) {
-      this.className = (entityServiceMap [e.dataName] as EntityService<any>).entityClassService.getOrCreateById(e.nodeClassId).name
+  entity:StructureData<any>;
+
+  getEntityClassName(dataName: string, entityClassId: string): string {
+    if (dataName && dataName.length > 0 && entityClassId && entityClassId.length > 0) {
+      return (entityServiceMap [dataName] as EntityService<any>).entityClassService.getOrCreateById(entityClassId).name
+    } else {
+      return ''
     }
-    this._entity = e;
   }
 
   constructor(private menuService: MenuService) {

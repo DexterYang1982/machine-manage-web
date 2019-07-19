@@ -117,6 +117,11 @@ import {CabinService} from "./core/service/entity/cabin.service";
 import {TunnelService} from "./core/service/entity/tunnel.service";
 import { ModbusReadComponent } from './components/modbus-read/modbus-read.component';
 import { ModbusWriteComponent } from './components/modbus-write/modbus-write.component';
+import { ReadConditionComponent } from './components/read-condition/read-condition.component';
+import {ModbusService} from "./core/service/entity/modbus.service";
+import {ReadWriteService} from "./core/service/entity/read-write.service";
+import { EntityReadComponent } from './components/entity-read/entity-read.component';
+import { EntityWriteComponent } from './components/entity-write/entity-write.component';
 
 ////////////
 
@@ -144,6 +149,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     EntityNameComponent,
     ModbusReadComponent,
     ModbusWriteComponent,
+    ReadConditionComponent,
+    EntityReadComponent,
+    EntityWriteComponent,
   ],
   imports: [
     BrowserModule,
@@ -261,7 +269,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     DisplayService,
     DeviceService,
     CabinService,
-    TunnelService
+    TunnelService,
+    ModbusService,
+    ReadWriteService
   ],
   bootstrap: [AppComponent]
 })

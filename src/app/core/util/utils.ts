@@ -13,3 +13,7 @@ export function generateId() {
   return '' + currentTime();
 }
 
+export function clone<T>(target:T):T {
+  return (JSON.parse(JSON.stringify(target)) as T)
+}
+

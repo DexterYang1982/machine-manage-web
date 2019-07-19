@@ -59,7 +59,7 @@ export const READ_TARGET_TYPE = [
     label: 'Device Status', value: 'DEVICE_STATUS'
   },
   {
-    label: 'Custom Field', value: 'CUSTOM_FIELD'
+    label: 'Entity Custom Output', value: 'CUSTOM_OUTPUT'
   }
 ];
 
@@ -68,6 +68,6 @@ export const WRITE_TARGET_TYPE = [
     label: 'Device Command', value: 'DEVICE_COMMAND'
   },
   {
-    label: 'Custom Field', value: 'CUSTOM_FIELD'
+    label: 'Entity Custom Input', value: 'CUSTOM_INPUT'
   }
 ];

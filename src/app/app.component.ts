@@ -14,6 +14,11 @@ import {TunnelClassService} from "./core/service/entityClass/tunnel-class.servic
 import {MachineService} from "./core/service/entity/machine.service";
 import {ModbusSlaveService} from "./core/service/entity/modbus-slave.service";
 import {ModbusUnitService} from "./core/service/entity/modbus-unit.service";
+import {GroupService} from "./core/service/entity/group.service";
+import {DeviceService} from "./core/service/entity/device.service";
+import {DisplayService} from "./core/service/entity/display.service";
+import {CabinService} from "./core/service/entity/cabin.service";
+import {TunnelService} from "./core/service/entity/tunnel.service";
 
 @Component({
   selector: 'app-root',
@@ -26,7 +31,7 @@ export class AppComponent implements AfterViewInit {
   constructor(public menuService: MenuService,
               public customFieldService: CustomFieldService,
               public embeddedFieldService: EmbeddedFieldService,
-              public machineClass: MachineClassService,
+              public machineClassService: MachineClassService,
               public modbusSlaveClassService: ModbusSlaveClassService,
               public modbusUnitClassService: ModbusUnitClassService,
               public groupClassService: GroupClassService,
@@ -36,7 +41,12 @@ export class AppComponent implements AfterViewInit {
               public tunnelClassService: TunnelClassService,
               public machineService: MachineService,
               public modbusSlaveService: ModbusSlaveService,
-              public modbusUnitService: ModbusUnitService
+              public modbusUnitService: ModbusUnitService,
+              public groupService: GroupService,
+              public deviceService: DeviceService,
+              public displayService: DisplayService,
+              public cabinService: CabinService,
+              public tunnelService: TunnelService
   ) {
   }
 

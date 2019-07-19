@@ -6,7 +6,7 @@ import {AlertService} from "../../util/alert.service";
 import {EntityService} from "./entity.service";
 import {StructureData} from "../../model/structure-data.capsule";
 import {DeviceClassService} from "../entityClass/device-class.service";
-import {DeviceDefinition, ModbusRead, ModbusWrite} from "../../model/device.description";
+import {DeviceDefinition, ModbusRead, ModbusWrite, ReadCondition} from "../../model/device.description";
 import {ModbusUnitService} from "./modbus-unit.service";
 import {ModbusUnitClassService} from "../entityClass/modbus-unit-class.service";
 
@@ -20,6 +20,18 @@ export class DeviceService extends EntityService<DeviceDefinition> {
   REQUEST_COMMAND_ADD = ['POST', 'api/' + this.getDataName() + '/addCommand'];
   REQUEST_COMMAND_UPDATE = ['PUT', 'api/' + this.getDataName() + '/updateCommand'];
   REQUEST_COMMAND_DELETE = ['DELETE', 'api/' + this.getDataName() + '/deleteCommand'];
+
+  REQUEST_ERROR_CONDITION_UPDATE = ['PUT', 'api/' + this.getDataName() + '/updateErrorCondition'];
+
+  http_update_error_condition(id: string, errorCondition: ReadCondition, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_ERROR_CONDITION_UPDATE,
+      {
+        id
+      }, errorCondition,
+      callBack
+    );
+  }
 
   http_add_command(id: string, modbusWrite: ModbusWrite, callBack: () => void) {
     this.httpService.http<any>(
@@ -134,6 +146,12 @@ export class DeviceService extends EntityService<DeviceDefinition> {
     return inherit
   }
 
+  errorConditionUpdate(device: StructureData<any>, readCondition: ReadCondition) {
+    this.http_update_error_condition(device.id, readCondition, () => {
+      this.alertService.operationDone();
+    });
+  }
+
   getStatusMenu(entity: StructureData<DeviceDefinition>, status: ModbusRead) {
     return [{
       label: 'Edit',
@@ -204,7 +222,7 @@ export class DeviceService extends EntityService<DeviceDefinition> {
             return {value: it.id, label: it.name};
           }),
           onValueChanged: (item) => {
-            if(fm.data.modbusUnitId){
+            if (fm.data.modbusUnitId) {
               const modbusUnit = this.modbusUnitService.get(fm.data.modbusUnitId);
               const modbusUnitClass = this.modbusUnitClassService.get(modbusUnit.nodeClassId);
               writePointSelect.options = modbusUnitClass.description.write.map(it => {

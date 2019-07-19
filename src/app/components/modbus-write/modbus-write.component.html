@@ -1,9 +1,9 @@
 <div>
   <span class="menu-item"
         (click)="menuService.showMenu(menu,$event)">
-    {{getWritePointName(modbusUnitId, writePointId)}}
+    {{modbusService.getWritePointName(modbusUnitId, writePointId)}}
   </span>
   <span
-    style="padding-left: 10px;font-size: 10px">( {{getModbusUnitName(modbusUnitId)}} )
+    style="padding-left: 10px;font-size: 10px">( {{modbusService.getModbusUnitName(modbusUnitId)}} )
   </span>
 </div>

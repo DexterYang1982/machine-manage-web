@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModbusUnitService} from "../../core/service/entity/modbus-unit.service";
-import {ModbusUnitDescription} from "../../core/model/modbus-unit.description";
 import {MenuService} from "../../core/util/menu.service";
 import {MenuItem} from "primeng/api";
+import {ModbusService} from "../../core/service/entity/modbus.service";
 
 @Component({
   selector: 'app-modbus-read',
@@ -17,27 +16,9 @@ export class ModbusReadComponent implements OnInit {
   @Input()
   readPointId:string;
 
-  getModbusUnitName(modbusUnitId:string):string{
-    return this.modbusUnitService.getOrCreateById(modbusUnitId).name;
-  }
-  getReadPointName(modbusUnitId:string,readPointId: string): string {
-    const unit = this.modbusUnitService.getOrCreateById(modbusUnitId);
-    if (unit) {
-      const unitClass = this.modbusUnitService.entityClassService.getOrCreateById(unit.nodeClassId);
-      if (unitClass) {
-        const readPoint = (unitClass.description as ModbusUnitDescription).read.find(it => it.id == readPointId);
-        if (readPoint) {
-          return readPoint.name
-        }
-      }
-    }
-    return ''
-  }
-
-  constructor(public modbusUnitService: ModbusUnitService,
+  constructor(public modbusService:ModbusService,
               public menuService: MenuService) {
   }
-
   ngOnInit() {
   }
 

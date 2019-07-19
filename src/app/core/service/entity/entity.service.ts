@@ -15,8 +15,8 @@ export abstract class EntityService<T> extends BaseStructureDateService<T> {
   }
 
   getBySameMachine(entity: StructureData<any>) {
-    const groupId = entity.path.length > 2 ? entity.path[2] : null;
-    return groupId ? this.data.filter(it => it.path.indexOf(groupId) > 0) : []
+    const machineId = entity.path.length > 2 ? entity.path[2] : null;
+    return machineId ? this.data.filter(it => it.path.indexOf(machineId) > 0) : []
   }
 
   fit(s: StructureDataCapsule): boolean {

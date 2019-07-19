@@ -63,15 +63,19 @@
             <p-fieldset>
               <p-header><span translate>Devices</span></p-header>
               <div class="p-grid" *ngFor="let device of deviceService.getByParentId(group.id)">
-                <div class="p-col-2">
+                <div class="p-col-3">
                   <app-entity-name [entity]="device"
                                    [menu]="deviceService.getMenu(device,null)"></app-entity-name>
+                  <app-read-condition [name]="'Error Condition'"
+                                      [readCondition]="device.description.errorCondition"
+                                      [entity]="device"
+                                      [updateFunction]="deviceService.errorConditionUpdate.bind(deviceService)"
+                  ></app-read-condition>
                 </div>
-                <div class="p-col-10">
+                <div class="p-col-9">
                   <p-fieldset>
                     <p-header><span translate>Status</span></p-header>
                     <div class="p-grid">
-                      {{device.description.status.length}}
                       <div class="p-col-3" *ngFor="let status of device.description.status">
                         <app-modbus-read [menu]="deviceService.getStatusMenu(device,status)"
                                          [modbusUnitId]="status.modbusUnitId"
@@ -82,7 +86,6 @@
                   <p-fieldset>
                     <p-header><span translate>Commands</span></p-header>
                     <div class="p-grid">
-                      {{device.description.commands.length}}
                       <div class="p-col-3" *ngFor="let command of device.description.commands">
                         <app-modbus-write [menu]="deviceService.getCommandMenu(device,command)"
                                           [modbusUnitId]="command.modbusUnitId"
@@ -93,9 +96,7 @@
                   <p-fieldset>
                     <p-header><span translate>Process</span></p-header>
                   </p-fieldset>
-                  <p-fieldset>
-                    <p-header><span translate>Error Condition</span></p-header>
-                  </p-fieldset>
+
                 </div>
               </div>
             </p-fieldset>

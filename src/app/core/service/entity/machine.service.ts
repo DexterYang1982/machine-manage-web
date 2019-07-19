@@ -22,6 +22,12 @@ export class MachineService extends EntityService<string> {
     super(websocketService, httpService, formService, alertService, machineClassService)
   }
 
+
+  getBySameMachine(entity: StructureData<any>) {
+    const machineId = entity.path.length > 2 ? entity.path[2] : null;
+    return [this.getOrCreateById(machineId)]
+  }
+
   emptyDescription(): string {
     return '';
   }

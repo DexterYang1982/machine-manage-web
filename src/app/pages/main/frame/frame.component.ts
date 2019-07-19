@@ -221,7 +221,6 @@ export class FrameComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   onTopbarSubItemClick(event) {
-    console.log(event);
     event.preventDefault();
   }
 

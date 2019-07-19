@@ -1,0 +1,9 @@
+<p-fieldset *ngIf="readCondition">
+  <p-header><span translate>{{name}}</span></p-header>
+  <div>
+    <span translate class="label menu-item"
+          (click)="menuService.showMenu(editSatisfyMenu,$event)"
+    >Satisfy</span>
+    <span translate class="value">{{readCondition.matchAll?'All':'Single'}}</span>
+  </div>
+</p-fieldset>
