@@ -44,7 +44,7 @@ export class ReadConditionComponent implements OnInit {
             const c = clone(this.readCondition);
             c.reads.push(er);
             if (this.updateFunction) {
-              this.updateFunction(this.entity, c)
+              this.updateFunction(c)
             }
           });
         }
@@ -59,7 +59,7 @@ export class ReadConditionComponent implements OnInit {
               const c = clone(this.readCondition);
               c.reads = c.reads.filter(it => it.id != entityRead.id);
               if (this.updateFunction) {
-                this.updateFunction(this.entity, c)
+                this.updateFunction(c)
               }
             }
           );
@@ -82,7 +82,7 @@ export class ReadConditionComponent implements OnInit {
         const c = clone(this.readCondition);
         c.reads.push(entityRead);
         if (this.updateFunction) {
-          this.updateFunction(this.entity, c)
+          this.updateFunction(c)
         }
       });
     }
@@ -112,7 +112,7 @@ export class ReadConditionComponent implements OnInit {
         const c = clone(this.readCondition);
         c.matchAll = fm.data.satisfy;
         if (this.updateFunction) {
-          this.updateFunction(this.entity, c)
+          this.updateFunction(c)
         }
         this.formService.closeForm();
       }

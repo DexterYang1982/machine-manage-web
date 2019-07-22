@@ -69,7 +69,7 @@
                   <app-read-condition [name]="'Error Condition'"
                                       [readCondition]="device.description.errorCondition"
                                       [entity]="device"
-                                      [updateFunction]="deviceService.errorConditionUpdate.bind(deviceService)"
+                                      [updateFunction]="deviceService.errorConditionUpdate(device)"
                   ></app-read-condition>
                 </div>
                 <div class="p-col-9">
@@ -98,14 +98,9 @@
                     <div *ngFor="let process of device.description.processes">
                       <div class="menu-item"
                            (click)="menuService.showMenu(deviceService.getProcessMenu(device,process),$event)">{{process.name}}</div>
-                      <div class="p-grid" style="border-bottom: 1px dashed #aaaaaa">
-                        <div class="p-col-4 label" translate>Step</div>
-                        <div class="p-col-4 label" translate>Start Condition</div>
-                        <div class="p-col-4 label" translate>End Condition</div>
-                      </div>
-                      <div class="p-grid" *ngFor="let step of process.steps">
+                      <div class="p-grid" *ngFor="let step of process.steps" style="padding-left: 20px">
                         <div class="p-col-4">
-                          <div class="menu-item"
+                          <div class="menu-item" style="margin-top: 10px"
                                (click)="menuService.showMenu(deviceService.getProcessStepMenu(device,process,step),$event)">{{step.name}}</div>
                           <div>
                             <span class="label" translate>Timeout</span>
@@ -116,8 +111,20 @@
                             <app-entity-write [entityWrite]="step.execute"></app-entity-write>
                           </div>
                         </div>
-                        <div class="p-col-4"></div>
-                        <div class="p-col-4"></div>
+                        <div class="p-col-4">
+                          <app-read-condition [name]="'Start Condition'"
+                                              [readCondition]="step.executeCondition"
+                                              [entity]="device"
+                                              [updateFunction]="deviceService.processStepExecuteConditionUpdate(device,process,step)"
+                          ></app-read-condition>
+                        </div>
+                        <div class="p-col-4">
+                          <app-read-condition [name]="'End Condition'"
+                                              [readCondition]="step.endCondition"
+                                              [entity]="device"
+                                              [updateFunction]="deviceService.processStepEndConditionUpdate(device,process,step)"
+                          ></app-read-condition>
+                        </div>
                       </div>
                     </div>
                   </p-fieldset>

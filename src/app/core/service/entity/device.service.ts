@@ -197,10 +197,32 @@ export class DeviceService extends EntityService<DeviceDefinition> {
     return inherit
   }
 
-  errorConditionUpdate(device: StructureData<any>, readCondition: ReadCondition) {
-    this.http_update_error_condition(device.id, readCondition, () => {
-      this.alertService.operationDone();
-    });
+  errorConditionUpdate(device: StructureData<any>) {
+    return (readCondition: ReadCondition) => {
+      this.http_update_error_condition(device.id, readCondition, () => {
+        this.alertService.operationDone();
+      });
+    }
+  }
+
+  processStepExecuteConditionUpdate(device: StructureData<any>, process: DeviceProcess, step: DeviceProcessStep) {
+    return (readCondition: ReadCondition) => {
+      const p = clone(process);
+      p.steps.find(it => it.id == step.id).executeCondition = readCondition;
+      this.http_update_process(device.id, p, () => {
+        this.alertService.operationDone();
+      });
+    }
+  }
+
+  processStepEndConditionUpdate(device: StructureData<any>, process: DeviceProcess, step: DeviceProcessStep) {
+    return (readCondition: ReadCondition) => {
+      const p = clone(process);
+      p.steps.find(it => it.id == step.id).endCondition = readCondition;
+      this.http_update_process(device.id, p, () => {
+        this.alertService.operationDone();
+      });
+    }
   }
 
   getStatusMenu(entity: StructureData<DeviceDefinition>, status: ModbusRead) {
@@ -274,7 +296,6 @@ export class DeviceService extends EntityService<DeviceDefinition> {
           this.http_update_process(entity.id, p, () => {
             this.alertService.operationDone();
           });
-          console.log(execute)
         })
       }
     }, {

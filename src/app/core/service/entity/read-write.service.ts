@@ -31,7 +31,6 @@ export class ReadWriteService {
               private tunnelService: TunnelService,
               private formService: FormService) {
     staticService.readWriteServiceInstance = this;
-    console.log(staticService)
   }
 
   addOrEditEntityRW(entity: StructureData<any>, erw: ERW, rw: string, commit: Function) {
