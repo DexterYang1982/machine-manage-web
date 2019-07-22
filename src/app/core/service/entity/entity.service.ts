@@ -7,6 +7,9 @@ import {AlertService} from "../../util/alert.service";
 import {EntityClassService} from "../entityClass/entity-class.service";
 
 export const entityServiceMap = {};
+export const staticService = {
+  readWriteServiceInstance:null
+};
 
 export abstract class EntityService<T> extends BaseStructureDateService<T> {
   getBySameGroup(entity: StructureData<any>) {

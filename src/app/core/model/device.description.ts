@@ -28,7 +28,7 @@ export interface DeviceProcessStep {
   name: string;
   timeout: number;
   executeCondition: ReadCondition;
-  execute: EntityWrite;
+  execute?: EntityWrite;
   endCondition: ReadCondition;
 }
 
@@ -38,6 +38,7 @@ export interface EntityRead {
   dataName: string;
   targetType: string;
   targetId: string;
+  equals: boolean;
   valueDescriptionId: string;
 }
 

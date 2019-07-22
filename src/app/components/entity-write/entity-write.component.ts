@@ -1,4 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {MenuItem} from "primeng/api";
+import {
+  DeviceDefinition,
+  EntityWrite,
+  WRITE_TARGET_TYPE
+} from "../../core/model/device.description";
+import {ModbusService} from "../../core/service/entity/modbus.service";
+import {MenuService} from "../../core/util/menu.service";
+import {CustomFieldService} from "../../core/service/entityField/custom-field.service";
+import {StructureData} from "../../core/model/structure-data.capsule";
+import {EntityService, entityServiceMap} from "../../core/service/entity/entity.service";
+import {ValueDescription} from "../../core/model/field-value.description";
 
 @Component({
   selector: 'app-entity-write',
@@ -7,9 +19,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EntityWriteComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  menu: MenuItem[];
+  @Input()
+  entityWrite: EntityWrite;
+
+  constructor(private modbusService: ModbusService,
+              public menuService: MenuService,
+              private customFieldService: CustomFieldService) {
+  }
 
   ngOnInit() {
+  }
+
+
+  getEntity(entityId: string, dataName: string): StructureData<any> {
+    return (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId)
+  }
+
+  getTarget(entityId: string, dataName: string, targetType: string, targetId: string): { name: string } {
+    const entity = (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId);
+    let result = {name: ''};
+    if (targetType == WRITE_TARGET_TYPE[0].value) {
+      const command = (entity.description as DeviceDefinition).commands.find(it => it.id == targetId);
+      if (command) {
+        result = this.modbusService.getWritePoint(command.modbusUnitId, command.writePointId)
+      }
+
+    } else {
+      result = this.customFieldService.getByParentId(entity.nodeClassId).find(it => it.id == targetId);
+    }
+    return result;
+  }
+
+  getValueDescription(entityId: string, dataName: string, targetType: string, targetId: string, valueDescriptionId: string): { name: string } {
+    const entity = (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId);
+    let valueDescriptions: ValueDescription[] = [];
+    if (targetType == WRITE_TARGET_TYPE[0].value) {
+      const command = (entity.description as DeviceDefinition).commands.find(it => it.id == targetId);
+      if (command) {
+        const writePoint = this.modbusService.getWritePoint(command.modbusUnitId, command.writePointId);
+        if (writePoint) {
+          valueDescriptions = this.modbusService.getRWPointValueDescription(command.modbusUnitId, writePoint.commandFieldId)
+        }
+      }
+
+    } else {
+      valueDescriptions = this.customFieldService.getByParentId(entity.nodeClassId).find(it => it.id == targetId).description.valueDescriptions;
+    }
+    return valueDescriptions.find(it => it.id == valueDescriptionId)
   }
 
 }

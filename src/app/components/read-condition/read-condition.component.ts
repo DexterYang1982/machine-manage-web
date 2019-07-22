@@ -4,9 +4,9 @@ import {StructureData} from "../../core/model/structure-data.capsule";
 import {MenuService} from "../../core/util/menu.service";
 import {FormItemType, FormModel, FormService} from "../../core/util/form.service";
 import {clone} from "../../core/util/utils";
-import {ReadWriteService} from "../../core/service/entity/read-write.service";
 import {MenuItem} from "primeng/api";
 import {AlertService} from "../../core/util/alert.service";
+import {staticService} from "../../core/service/entity/entity.service";
 
 @Component({
   selector: 'app-read-condition',
@@ -27,7 +27,6 @@ export class ReadConditionComponent implements OnInit {
   readCondition: ReadCondition;
 
   constructor(public menuService: MenuService,
-              private readWriteService: ReadWriteService,
               private alertService: AlertService,
               public formService: FormService) {
   }
@@ -41,7 +40,7 @@ export class ReadConditionComponent implements OnInit {
         label: 'Edit',
         icon: 'ui-icon-edit',
         command: () => {
-          this.readWriteService.addOrEditEntityRW(this.entity, entityRead, 'read', (er) => {
+          staticService.readWriteServiceInstance.addOrEditEntityRW(this.entity, entityRead, 'read', (er) => {
             const c = clone(this.readCondition);
             c.reads.push(er);
             if (this.updateFunction) {
@@ -79,7 +78,7 @@ export class ReadConditionComponent implements OnInit {
     label: 'Add Condition',
     icon: 'ui-icon-add',
     command: () => {
-      this.readWriteService.addOrEditEntityRW(this.entity, null, 'read', (entityRead) => {
+      staticService.readWriteServiceInstance.addOrEditEntityRW(this.entity, null, 'read', (entityRead) => {
         const c = clone(this.readCondition);
         c.reads.push(entityRead);
         if (this.updateFunction) {

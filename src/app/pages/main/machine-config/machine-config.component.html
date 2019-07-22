@@ -95,8 +95,32 @@
                   </p-fieldset>
                   <p-fieldset>
                     <p-header><span translate>Process</span></p-header>
+                    <div *ngFor="let process of device.description.processes">
+                      <div class="menu-item"
+                           (click)="menuService.showMenu(deviceService.getProcessMenu(device,process),$event)">{{process.name}}</div>
+                      <div class="p-grid" style="border-bottom: 1px dashed #aaaaaa">
+                        <div class="p-col-4 label" translate>Step</div>
+                        <div class="p-col-4 label" translate>Start Condition</div>
+                        <div class="p-col-4 label" translate>End Condition</div>
+                      </div>
+                      <div class="p-grid" *ngFor="let step of process.steps">
+                        <div class="p-col-4">
+                          <div class="menu-item"
+                               (click)="menuService.showMenu(deviceService.getProcessStepMenu(device,process,step),$event)">{{step.name}}</div>
+                          <div>
+                            <span class="label" translate>Timeout</span>
+                            <span class="value">{{step.timeout}}</span>
+                          </div>
+                          <div>
+                            <span class="label" translate>Execute</span>
+                            <app-entity-write [entityWrite]="step.execute"></app-entity-write>
+                          </div>
+                        </div>
+                        <div class="p-col-4"></div>
+                        <div class="p-col-4"></div>
+                      </div>
+                    </div>
                   </p-fieldset>
-
                 </div>
               </div>
             </p-fieldset>

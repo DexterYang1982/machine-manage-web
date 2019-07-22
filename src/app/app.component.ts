@@ -19,6 +19,7 @@ import {DeviceService} from "./core/service/entity/device.service";
 import {DisplayService} from "./core/service/entity/display.service";
 import {CabinService} from "./core/service/entity/cabin.service";
 import {TunnelService} from "./core/service/entity/tunnel.service";
+import {ReadWriteService} from "./core/service/entity/read-write.service";
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,8 @@ export class AppComponent implements AfterViewInit {
               public deviceService: DeviceService,
               public displayService: DisplayService,
               public cabinService: CabinService,
-              public tunnelService: TunnelService
+              public tunnelService: TunnelService,
+              public readWriteService: ReadWriteService
   ) {
   }
 

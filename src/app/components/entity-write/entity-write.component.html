@@ -1,1 +1,15 @@
-<p>entity-write works!</p>
+<div *ngIf="entityWrite" style="padding-left: 10px;padding-top: 5px">
+  <span [ngClass]="{'menu-item':menu!=null}"
+        (click)="menuService.showMenu(menu,$event)">
+    {{getTarget(entityWrite.entityId, entityWrite.dataName, entityWrite.targetType, entityWrite.targetId).name}}
+  </span>
+  <span style="font-size: 10px">
+    ({{getEntity(entityWrite.entityId, entityWrite.dataName).name}})
+  </span>
+  <span>
+    -->
+  </span>
+  <span style="font-weight: bold;font-size: 10px">
+    {{getValueDescription(entityWrite.entityId, entityWrite.dataName, entityWrite.targetType, entityWrite.targetId, entityWrite.valueDescriptionId).name}}
+  </span>
+</div>

@@ -14,6 +14,7 @@ import {StructureData} from "../../model/structure-data.capsule";
 import {DeviceDefinition, READ_TARGET_TYPE, WRITE_TARGET_TYPE} from "../../model/device.description";
 import {generateId} from "../../util/utils";
 import {CustomFieldService} from "../entityField/custom-field.service";
+import {staticService} from "./entity.service";
 
 @Injectable()
 export class ReadWriteService {
@@ -29,7 +30,8 @@ export class ReadWriteService {
               private cabinService: CabinService,
               private tunnelService: TunnelService,
               private formService: FormService) {
-
+    staticService.readWriteServiceInstance = this;
+    console.log(staticService)
   }
 
   addOrEditEntityRW(entity: StructureData<any>, erw: ERW, rw: string, commit: Function) {
@@ -49,7 +51,7 @@ export class ReadWriteService {
       options: [],
       onValueChanged: (fi: FormItem) => {
         if (fi.data) {
-          fm.data.valueDescriptionId=null;
+          fm.data.valueDescriptionId = null;
         }
         fi.data = true;
         const op = fi.options.find(it => it.value == fm.data.targetId);
@@ -66,8 +68,8 @@ export class ReadWriteService {
       options: [],
       onValueChanged: (fi: FormItem) => {
         if (fi.data) {
-          fm.data.valueDescriptionId=null;
-          fm.data.targetId=null;
+          fm.data.valueDescriptionId = null;
+          fm.data.targetId = null;
         }
         fi.data = true;
         const op = fi.options.find(it => it.value == fm.data.entityId);
@@ -83,23 +85,23 @@ export class ReadWriteService {
                   modbusUnitId: it.modbusUnitId,
                   name: readPoint.name,
                   id: it.id,
-                  resultFieldId: readPoint.resultFieldId
+                  fieldId: readPoint.resultFieldId
                 }
               })
               : device.description.commands.map(it => {
-                const writePoint = this.modbusService.getWritePoint(it.modbusUnitId, it.writePointId)
+                const writePoint = this.modbusService.getWritePoint(it.modbusUnitId, it.writePointId);
                 return {
                   modbusUnitId: it.modbusUnitId,
                   name: writePoint.name,
                   id: it.id,
-                  resultFieldId: writePoint.resultFieldId
+                  fieldId: writePoint.commandFieldId
                 }
               });
             targetSelect.options = points.map(it => {
               return {
                 label: it.name,
                 value: it.id,
-                data: this.modbusService.getRWPointValueDescription(it.modbusUnitId, it.resultFieldId).map(vd => {
+                data: this.modbusService.getRWPointValueDescription(it.modbusUnitId, it.fieldId).map(vd => {
                   return {
                     label: vd.name,
                     value: vd.id
@@ -153,9 +155,9 @@ export class ReadWriteService {
           options: targetType,
           onValueChanged: (fi: FormItem) => {
             if (fi.data) {
-              fm.data.valueDescriptionId=null;
-              fm.data.targetId=null;
-              fm.data.entityId=null;
+              fm.data.valueDescriptionId = null;
+              fm.data.targetId = null;
+              fm.data.entityId = null;
             }
             fi.data = true;
             if (fm.data.targetType == targetType[0].value) {
@@ -175,6 +177,14 @@ export class ReadWriteService {
         this.formService.closeForm();
       }
     };
+    if (rw == 'read') {
+      fm.data['equals'] = erw ? erw['equals'] : true;
+      fm.formItems.push({
+        label: 'Equals',
+        name: 'equals',
+        type: FormItemType.CHECK
+      })
+    }
     this.formService.popupForm(fm);
   }
 

@@ -3,12 +3,21 @@ import {StructureDataSyncService} from "../structure-data-sync.service";
 import {HttpService} from "../../util/http.service";
 import {FormItemType, FormModel, FormService} from "../../util/form.service";
 import {AlertService} from "../../util/alert.service";
-import {EntityService} from "./entity.service";
+import {EntityService, staticService} from "./entity.service";
 import {StructureData} from "../../model/structure-data.capsule";
 import {DeviceClassService} from "../entityClass/device-class.service";
-import {DeviceDefinition, ModbusRead, ModbusWrite, ReadCondition} from "../../model/device.description";
+import {
+  DeviceDefinition,
+  DeviceProcess,
+  DeviceProcessStep,
+  EntityWrite,
+  ModbusRead,
+  ModbusWrite,
+  ReadCondition
+} from "../../model/device.description";
 import {ModbusUnitService} from "./modbus-unit.service";
 import {ModbusUnitClassService} from "../entityClass/modbus-unit-class.service";
+import {clone, generateId} from "../../util/utils";
 
 @Injectable()
 export class DeviceService extends EntityService<DeviceDefinition> {
@@ -21,6 +30,10 @@ export class DeviceService extends EntityService<DeviceDefinition> {
   REQUEST_COMMAND_UPDATE = ['PUT', 'api/' + this.getDataName() + '/updateCommand'];
   REQUEST_COMMAND_DELETE = ['DELETE', 'api/' + this.getDataName() + '/deleteCommand'];
 
+  REQUEST_PROCESS_ADD = ['POST', 'api/' + this.getDataName() + '/addProcess'];
+  REQUEST_PROCESS_UPDATE = ['PUT', 'api/' + this.getDataName() + '/updateProcess'];
+  REQUEST_PROCESS_DELETE = ['DELETE', 'api/' + this.getDataName() + '/deleteProcess'];
+
   REQUEST_ERROR_CONDITION_UPDATE = ['PUT', 'api/' + this.getDataName() + '/updateErrorCondition'];
 
   http_update_error_condition(id: string, errorCondition: ReadCondition, callBack: () => void) {
@@ -29,6 +42,37 @@ export class DeviceService extends EntityService<DeviceDefinition> {
       {
         id
       }, errorCondition,
+      callBack
+    );
+  }
+
+  http_add_process(id: string, deviceProcess: DeviceProcess, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_PROCESS_ADD,
+      {
+        id
+      }, deviceProcess,
+      callBack
+    );
+  }
+
+  http_update_process(id: string, deviceProcess: DeviceProcess, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_PROCESS_UPDATE,
+      {
+        id
+      }, deviceProcess,
+      callBack
+    );
+  }
+
+  http_delete_process(id: string, processId: string, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_PROCESS_DELETE,
+      {
+        id,
+        processId
+      }, null,
       callBack
     );
   }
@@ -142,6 +186,13 @@ export class DeviceService extends EntityService<DeviceDefinition> {
           this.addOrEditCommand(entity, null);
         }
       });
+      inherit.push({
+        label: 'Add Process',
+        icon: 'ui-icon-add',
+        command: () => {
+          this.addOrEditProcessName(entity, null);
+        }
+      });
     }
     return inherit
   }
@@ -184,6 +235,67 @@ export class DeviceService extends EntityService<DeviceDefinition> {
     }];
   }
 
+  getProcessMenu(entity: StructureData<DeviceDefinition>, process: DeviceProcess) {
+    return [{
+      label: 'Edit',
+      icon: 'ui-icon-edit',
+      command: () => {
+        this.addOrEditProcessName(entity, process);
+      }
+    }, {
+      label: 'Delete',
+      icon: 'ui-icon-delete',
+      command: () => {
+        this.deleteProcess(entity, process);
+      }
+    }, {
+      label: 'Add Step',
+      icon: 'ui-icon-add',
+      command: () => {
+        this.addOrEditProcessStepName(entity, process, null);
+      }
+    }];
+  }
+
+  getProcessStepMenu(entity: StructureData<DeviceDefinition>, process: DeviceProcess, step: DeviceProcessStep) {
+    return [{
+      label: 'Edit',
+      icon: 'ui-icon-edit',
+      command: () => {
+        this.addOrEditProcessStepName(entity, process, step);
+      }
+    }, {
+      label: 'Edit Execute',
+      icon: 'ui-icon-edit',
+      command: () => {
+        staticService.readWriteServiceInstance.addOrEditEntityRW(entity, step.execute, 'write', (execute: EntityWrite) => {
+          const p = clone(process);
+          p.steps.find(it => it.id == step.id).execute = execute;
+          this.http_update_process(entity.id, p, () => {
+            this.alertService.operationDone();
+          });
+          console.log(execute)
+        })
+      }
+    }, {
+      label: 'Delete',
+      icon: 'ui-icon-delete',
+      command: () => {
+      }
+    }];
+  }
+
+  deleteProcess(device: StructureData<DeviceDefinition>, process: DeviceProcess) {
+    this.alertService.needToConfirm('Delete Process',
+      process.name,
+      () => {
+        this.http_delete_process(device.id, process.id, () => {
+          this.alertService.operationDone();
+        });
+      }
+    );
+  }
+
   deleteCommand(device: StructureData<DeviceDefinition>, command: ModbusWrite) {
     this.alertService.needToConfirm('Delete Command',
       '',
@@ -193,6 +305,42 @@ export class DeviceService extends EntityService<DeviceDefinition> {
         });
       }
     );
+  }
+
+  addOrEditProcessName(device: StructureData<DeviceDefinition>, process: DeviceProcess) {
+    const fm: FormModel = {
+      title: status ? 'Edit Device Process' : 'Add Device Process',
+      action: status ? 'Edit' : 'Add',
+      windowWidth: 400,
+      data: {
+        id: process ? process.id : '',
+        name: process ? process.name : '',
+      },
+      formItems: [
+        {
+          label: 'Name',
+          name: 'name',
+          type: FormItemType.SINGLE_TEXT,
+          required: true
+        }
+      ],
+      okFunction: () => {
+        if (process) {
+          const p = clone(process);
+          p.name = fm.data.name;
+          this.http_update_process(device.id, p, () => {
+            this.alertService.operationDone();
+            this.formService.closeForm();
+          });
+        } else {
+          this.http_add_process(device.id, {id: '', name: fm.data.name, steps: []}, () => {
+            this.alertService.operationDone();
+            this.formService.closeForm();
+          });
+        }
+      }
+    };
+    this.formService.popupForm(fm);
   }
 
   addOrEditCommand(device: StructureData<DeviceDefinition>, command: ModbusWrite) {
@@ -236,10 +384,12 @@ export class DeviceService extends EntityService<DeviceDefinition> {
       okFunction: () => {
         if (command) {
           this.http_update_command(device.id, fm.data, () => {
+            this.alertService.operationDone();
             this.formService.closeForm();
           });
         } else {
           this.http_add_command(device.id, fm.data, () => {
+            this.alertService.operationDone();
             this.formService.closeForm();
           });
         }
@@ -301,13 +451,65 @@ export class DeviceService extends EntityService<DeviceDefinition> {
       okFunction: () => {
         if (status) {
           this.http_update_status(device.id, fm.data, () => {
+            this.alertService.operationDone();
             this.formService.closeForm();
           });
         } else {
           this.http_add_status(device.id, fm.data, () => {
+            this.alertService.operationDone();
             this.formService.closeForm();
           });
         }
+      }
+    };
+    this.formService.popupForm(fm);
+  }
+
+
+  addOrEditProcessStepName(device: StructureData<DeviceDefinition>, process: DeviceProcess, step: DeviceProcessStep) {
+    const fm: FormModel = {
+      title: status ? 'Edit Process Step' : 'Add Process Step',
+      action: status ? 'Edit' : 'Add',
+      windowWidth: 400,
+      data: {
+        id: step ? step.id : '',
+        name: step ? step.name : '',
+        timeout: step ? step.timeout : 60000
+      },
+      formItems: [
+        {
+          label: 'Name',
+          name: 'name',
+          type: FormItemType.SINGLE_TEXT,
+          required: true
+        },
+        {
+          label: 'Time Out',
+          name: 'timeout',
+          type: FormItemType.SINGLE_TEXT,
+          required: true
+        }
+      ],
+      okFunction: () => {
+        const p = clone(process);
+        if (step) {
+          const s = p.steps.find(it => it.id == step.id);
+          s.name = fm.data.name;
+          s.timeout = fm.data.timeout;
+        } else {
+          p.steps.push({
+            id: generateId(),
+            name: fm.data.name,
+            timeout: fm.data.timeout,
+            execute: null,
+            executeCondition: {matchAll: true, reads: []},
+            endCondition: {matchAll: true, reads: []}
+          });
+        }
+        this.http_update_process(device.id, p, () => {
+          this.alertService.operationDone();
+          this.formService.closeForm();
+        });
       }
     };
     this.formService.popupForm(fm);
