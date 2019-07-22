@@ -16,12 +16,12 @@ export class EntityNameComponent implements OnInit {
   @Input()
   entity:StructureData<any>;
 
-  getEntityClassName(dataName: string, entityClassId: string): string {
+  getEntityClassName(dataName: string, entityClassId: string): {name:string} {
+    let result={name:'---'};
     if (dataName && dataName.length > 0 && entityClassId && entityClassId.length > 0) {
-      return (entityServiceMap [dataName] as EntityService<any>).entityClassService.getOrCreateById(entityClassId).name
-    } else {
-      return ''
+      result= (entityServiceMap [dataName] as EntityService<any>).entityClassService.getOrCreateById(entityClassId)
     }
+    return result;
   }
 
   constructor(private menuService: MenuService) {

@@ -96,7 +96,16 @@ export abstract class BaseStructureDateService<T> {
       }
       return find;
     }
-    return null;
+    return {
+      id: id,
+      name: '---',
+      alias: '---',
+      description: null,
+      nodeClassId: null,
+      parentId: null,
+      path: [],
+      dataName: this.getDataName()
+    };
   }
 
 

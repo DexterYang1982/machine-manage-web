@@ -8,9 +8,10 @@ import {MachineClassService} from "../entityClass/machine-class.service";
 import {StructureData} from "../../model/structure-data.capsule";
 import {ModbusSlaveService} from "./modbus-slave.service";
 import {GroupService} from "./group.service";
+import {MachineDescription} from "../../model/machine.description";
 
 @Injectable()
-export class MachineService extends EntityService<string> {
+export class MachineService extends EntityService<MachineDescription> {
 
   constructor(public websocketService: StructureDataSyncService,
               public httpService: HttpService,
@@ -28,8 +29,10 @@ export class MachineService extends EntityService<string> {
     return [this.getOrCreateById(machineId)]
   }
 
-  emptyDescription(): string {
-    return '';
+  emptyDescription(): MachineDescription {
+    return {
+      triggers: []
+    };
   }
 
   getDataName(): string {
@@ -40,7 +43,7 @@ export class MachineService extends EntityService<string> {
     return 'Machine'
   }
 
-  getMenu(entity: StructureData<string>, parentId: string) {
+  getMenu(entity: StructureData<MachineDescription>, parentId: string) {
     const inherit = super.getMenu(entity, parentId);
     if (entity) {
       inherit.push({

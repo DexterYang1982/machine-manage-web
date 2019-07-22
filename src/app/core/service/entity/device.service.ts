@@ -36,6 +36,7 @@ export class DeviceService extends EntityService<DeviceDefinition> {
 
   REQUEST_ERROR_CONDITION_UPDATE = ['PUT', 'api/' + this.getDataName() + '/updateErrorCondition'];
 
+
   http_update_error_condition(id: string, errorCondition: ReadCondition, callBack: () => void) {
     this.httpService.http<any>(
       this.REQUEST_ERROR_CONDITION_UPDATE,
@@ -328,6 +329,7 @@ export class DeviceService extends EntityService<DeviceDefinition> {
     );
   }
 
+
   addOrEditProcessName(device: StructureData<DeviceDefinition>, process: DeviceProcess) {
     const fm: FormModel = {
       title: status ? 'Edit Device Process' : 'Add Device Process',
@@ -534,5 +536,10 @@ export class DeviceService extends EntityService<DeviceDefinition> {
       }
     };
     this.formService.popupForm(fm);
+  }
+
+  getDeviceProcessName(deviceId: string, processId: string): { name: string } {
+    const process = this.getOrCreateById(deviceId).description.processes.find(it => it.id == processId);
+    return process ? process : {name: '---'};
   }
 }

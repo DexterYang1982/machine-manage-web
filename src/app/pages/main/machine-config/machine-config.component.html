@@ -137,10 +137,51 @@
                 <div class="p-col-2">
                   <app-entity-name [entity]="tunnel"
                                    [menu]="tunnelService.getMenu(tunnel,null)"></app-entity-name>
+                  <div>
+                    <span class="label" translate>Main Cabin</span>
+                    <span
+                      class="value">{{cabinService.getOrCreateById(tunnel.description.mainCabinId).name}}</span>
+                  </div>
                 </div>
                 <div class="p-col-10">
                   <p-fieldset>
                     <p-header><span translate>Transactions</span></p-header>
+                    <div class="p-grid" *ngFor="let transaction of tunnel.description.transactions">
+                      <div class="p-col-2">
+                        <div class="menu-item"
+                             (click)="menuService.showMenu(tunnelService.getTransactionMenu(tunnel,transaction),$event)"
+                        >{{transaction.name}}</div>
+                        <div>
+                          <span class="label" translate>Target Cabin</span>
+                          <span
+                            class="value">{{cabinService.getOrCreateById(transaction.targetCabinId).name}}</span>
+                        </div>
+                      </div>
+                      <div class="p-col-10">
+                        <p-fieldset>
+                          <p-header><span translate>Phases</span></p-header>
+                          <div class="p-grid" style="margin: 5px; border-bottom: 1px dashed #aaaaaa">
+                            <div class="p-col-4 label" translate>Device Process</div>
+                            <div class="p-col-2 label" translate>Delay</div>
+                            <div class="p-col-3 label" translate>Export Cabin</div>
+                            <div class="p-col-3 label" translate>Import Cabin</div>
+                          </div>
+                          <div class="p-grid" *ngFor="let phase of transaction.phases">
+                            <div class="p-col-4 value">
+                              <span class="menu-item"
+                                    (click)="menuService.showMenu(tunnelService.getTransactionPhaseMenu(tunnel,transaction,phase),$event)">
+                              {{deviceService.getOrCreateById(phase.deviceId).name}}
+                              </span>
+                              <span> ( {{deviceService.getDeviceProcessName(phase.deviceId, phase.deviceProcessId).name}}
+                                ) </span>
+                            </div>
+                            <div class="p-col-2 value">{{phase.delay}}</div>
+                            <div class="p-col-3 value">{{cabinService.getOrCreateById(phase.exportCabinId).name}}</div>
+                            <div class="p-col-3 value">{{cabinService.getOrCreateById(phase.importCabinId).name}}</div>
+                          </div>
+                        </p-fieldset>
+                      </div>
+                    </div>
                   </p-fieldset>
                 </div>
               </div>

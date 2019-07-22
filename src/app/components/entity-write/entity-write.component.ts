@@ -1,14 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
-import {
-  DeviceDefinition,
-  EntityWrite,
-  WRITE_TARGET_TYPE
-} from "../../core/model/device.description";
+import {DeviceDefinition, EntityWrite, WRITE_TARGET_TYPE} from "../../core/model/device.description";
 import {ModbusService} from "../../core/service/entity/modbus.service";
 import {MenuService} from "../../core/util/menu.service";
 import {CustomFieldService} from "../../core/service/entityField/custom-field.service";
-import {StructureData} from "../../core/model/structure-data.capsule";
 import {EntityService, entityServiceMap} from "../../core/service/entity/entity.service";
 import {ValueDescription} from "../../core/model/field-value.description";
 
@@ -33,13 +28,14 @@ export class EntityWriteComponent implements OnInit {
   }
 
 
-  getEntity(entityId: string, dataName: string): StructureData<any> {
-    return (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId)
+  getEntity(entityId: string, dataName: string): { name: string } {
+    const result = (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId);
+    return result ? result : {name: '---'}
   }
 
   getTarget(entityId: string, dataName: string, targetType: string, targetId: string): { name: string } {
     const entity = (entityServiceMap[dataName] as EntityService<any>).getOrCreateById(entityId);
-    let result = {name: ''};
+    let result = {name: '---'};
     if (targetType == WRITE_TARGET_TYPE[0].value) {
       const command = (entity.description as DeviceDefinition).commands.find(it => it.id == targetId);
       if (command) {
@@ -67,7 +63,8 @@ export class EntityWriteComponent implements OnInit {
     } else {
       valueDescriptions = this.customFieldService.getByParentId(entity.nodeClassId).find(it => it.id == targetId).description.valueDescriptions;
     }
-    return valueDescriptions.find(it => it.id == valueDescriptionId)
+    const result = valueDescriptions.find(it => it.id == valueDescriptionId);
+    return result ? result : {name: '---'}
   }
 
 }

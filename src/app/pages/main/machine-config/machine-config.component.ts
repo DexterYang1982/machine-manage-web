@@ -11,6 +11,7 @@ import {DisplayService} from "../../../core/service/entity/display.service";
 import {CabinService} from "../../../core/service/entity/cabin.service";
 import {DeviceService} from "../../../core/service/entity/device.service";
 import {TunnelService} from "../../../core/service/entity/tunnel.service";
+import {MachineDescription} from "../../../core/model/machine.description";
 
 @Component({
   selector: 'app-machine-config',
@@ -18,7 +19,7 @@ import {TunnelService} from "../../../core/service/entity/tunnel.service";
   styleUrls: ['./machine-config.component.css']
 })
 export class MachineConfigComponent implements OnInit {
-  machine: StructureData<string>;
+  machine: StructureData<MachineDescription>;
 
   constructor(public framework: FrameComponent,
               public route: ActivatedRoute,
