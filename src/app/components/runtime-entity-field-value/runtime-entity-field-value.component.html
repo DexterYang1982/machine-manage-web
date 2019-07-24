@@ -1,0 +1,29 @@
+<div class="p-grid" *ngIf="info">
+  <div class="p-col" *ngIf="showEntity">
+    <span translate>{{info.entity.name}}</span>
+  </div>
+  <div class="p-col">
+    <span class="label" translate>{{info.fieldName}}</span>
+  </div>
+  <div class="p-col" *ngIf="fit(embeddedField.cabinStorage)">
+    <span class="value">{{info.runtimeData.value.length}}</span>
+  </div>
+  <div class="p-col" *ngIf="fit(embeddedField.cabinIsEmpty)">
+    <i class="material-icons" style="color: red" *ngIf="info.runtimeData.value==true">battery_alert</i>
+    <i class="material-icons" style="color: green" *ngIf="info.runtimeData.value!=true">battery_full</i>
+  </div>
+  <div class="p-col" *ngIf="fit(embeddedField.deviceHealthy)">
+    <i class="material-icons" style="color: green" *ngIf="info.runtimeData.value==true">favorite</i>
+    <i class="material-icons" style="color: red" *ngIf="info.runtimeData.value!=true">favorite</i>
+  </div>
+  <div class="p-col" *ngIf="fit(embeddedField.connection)">
+    <i class="material-icons" style="color: green" *ngIf="info.runtimeData.value==true">router</i>
+    <i class="material-icons" style="color: red" *ngIf="info.runtimeData.value!=true">router</i>
+  </div>
+  <div class="p-col" *ngIf="fit(embeddedField.secret)">
+    <span class="value">{{info.runtimeData.value}}</span>
+  </div>
+  <div class="p-col">
+    <span class="value">{{info.runtimeData.updateTime|date:'MM.dd-hh:mm:ss'}}</span>
+  </div>
+</div>

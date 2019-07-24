@@ -10,29 +10,21 @@ export class RuntimeDataSyncService {
               private alertService: AlertService) {
   }
 
-  data: RuntimeData[] = [];
+  data: RuntimeData<any>[] = [];
   websocket: WebSocket;
 
-  getOrCreateByNodeAndFieldKey(node: { id: string }, nodeClass: { id: string }, fieldKey: string): RuntimeData {
-    return this.getOrCreateById(node.id + '^' + nodeClass.id + '^' + fieldKey)
+  getOrCreateByNodeAndFieldKey(entityId: string, nodeClassId: string, fieldKey: string): RuntimeData<any> {
+    return this.getOrCreateById(entityId + '^' + nodeClassId + '^' + fieldKey)
   }
 
-  getOrCreateByNodeAndField(node: { id: string }, field: { id: string }): RuntimeData {
-    return this.getOrCreateById(node.id + '^' + field.id)
+  getOrCreateByNodeAndField(entityId: string, fieldId: string): RuntimeData<any> {
+    return this.getOrCreateById(entityId + '^' + fieldId)
   }
 
-  getOrCreateById(id: string): RuntimeData {
+  getOrCreateById(id: string): RuntimeData<any> {
     let find = this.data.find(it => it.id === id);
     if (!find) {
-      find = {
-        id: id,
-        nodeId: '',
-        fieldId: '',
-        fieldKey: '',
-        value: '',
-        session: '',
-        updateTime: null
-      };
+      find = this.empty(id);
       this.data.push(find);
     }
     return find;
@@ -56,8 +48,9 @@ export class RuntimeDataSyncService {
       this.websocket = new WebSocket('ws://' + serverEntry.ip + ':'
         + serverEntry.port + '/machineRuntimeData?nodeId=' + serverEntry.domainId + '&nodeSecret=' + serverEntry.domainSecret + '&machineNodeId=' + machineNodeId);
       this.websocket.onmessage = (message => {
-        const runtimeData = JSON.parse(message.data.toString()) as RuntimeData;
-        runtimeData.value = JSON.parse(runtimeData.value);
+        const rawData = JSON.parse(message.data.toString()) as RuntimeData<string>;
+        const runtimeData = this.empty('');
+        Object.assign(runtimeData, rawData, {value: JSON.parse(rawData.value)});
         console.log(runtimeData);
         findAndUpdate(this.data, runtimeData);
       });
@@ -79,14 +72,38 @@ export class RuntimeDataSyncService {
       this.alertService.alert(e.message);
     }
   }
+
+  empty(id: string): RuntimeData<any> {
+    return {
+      id: id,
+      nodeId: '',
+      fieldId: '',
+      fieldKey: '',
+      value: null,
+      session: '',
+      updateTime: null
+    }
+  }
 }
 
-export interface RuntimeData {
+export interface RuntimeData<T> {
   id: string;
   nodeId: string;
   fieldId: string;
   fieldKey: string;
-  value: string;
+  value: T;
   session: string;
   updateTime: number;
 }
+
+export const EmbeddedField = {
+  connection: [{dataName: 'Machine', fieldName: 'Connection', fieldKey: 'RUNNING-STATUS'},
+    {dataName: 'Display', fieldName: 'Connection', fieldKey: 'RUNNING-STATUS'},
+    {dataName: 'ModbusSlave', fieldName: 'Connection', fieldKey: 'slave-connection'}],
+  secret: [{dataName: 'Machine', fieldName: 'Connect Secret', fieldKey: 'SECRET'},
+    {dataName: 'Display', fieldName: 'Connect Secret', fieldKey: 'SECRET'}],
+  deviceHealthy: [{dataName: 'Device', fieldName: 'Healthy', fieldKey: 'device-healthy'}],
+  cabinIsEmpty: [{dataName: 'Cabin', fieldName: 'Empty', fieldKey: 'cabin-is-empty'}],
+  cabinStorage: [{dataName: 'Cabin', fieldName: 'Storage', fieldKey: 'cabin-storage'}],
+  custom: [{dataName: null, fieldName: 'Custom Field', fieldKey: 'custom'}]
+};

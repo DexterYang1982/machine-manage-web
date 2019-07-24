@@ -115,19 +115,19 @@ import {DisplayService} from "./core/service/entity/display.service";
 import {DeviceService} from "./core/service/entity/device.service";
 import {CabinService} from "./core/service/entity/cabin.service";
 import {TunnelService} from "./core/service/entity/tunnel.service";
-import { ModbusReadComponent } from './components/modbus-read/modbus-read.component';
-import { ModbusWriteComponent } from './components/modbus-write/modbus-write.component';
-import { ReadConditionComponent } from './components/read-condition/read-condition.component';
+import {ModbusReadComponent} from './components/modbus-read/modbus-read.component';
+import {ModbusWriteComponent} from './components/modbus-write/modbus-write.component';
+import {ReadConditionComponent} from './components/read-condition/read-condition.component';
 import {ModbusService} from "./core/service/entity/modbus.service";
 import {ReadWriteService} from "./core/service/entity/read-write.service";
-import { EntityReadComponent } from './components/entity-read/entity-read.component';
-import { EntityWriteComponent } from './components/entity-write/entity-write.component';
+import {EntityReadComponent} from './components/entity-read/entity-read.component';
+import {EntityWriteComponent} from './components/entity-write/entity-write.component';
 import {RuntimeDataSyncService} from "./core/service/runtime-data-sync.service";
-import { MachineRuntimeComponent } from './pages/main/machine-runtime/machine-runtime.component';
-import { RuntimeEntityComponent } from './components/runtime-entity/runtime-entity.component';
-import { RuntimeEntityConnectionComponent } from './components/runtime-entity-connection/runtime-entity-connection.component';
-import { RuntimeCustomFieldComponent } from './components/runtime-custom-field/runtime-custom-field.component';
-import { RuntimeEntitySecretComponent } from './components/runtime-entity-secret/runtime-entity-secret.component';
+import {MachineRuntimeComponent} from './pages/main/machine-runtime/machine-runtime.component';
+import {RuntimeEntityComponent} from './components/runtime-entity/runtime-entity.component';
+import {RuntimeEntityFieldComponent} from './components/runtime-entity-field/runtime-entity-field.component';
+import {RuntimeEntityFieldValueComponent} from './components/runtime-entity-field-value/runtime-entity-field-value.component';
+import { RuntimeDeviceComponent } from './components/runtime-device/runtime-device.component';
 
 ////////////
 
@@ -160,10 +160,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     EntityWriteComponent,
     MachineRuntimeComponent,
     RuntimeEntityComponent,
-    RuntimeEntityConnectionComponent,
-    RuntimeCustomFieldComponent,
-    RuntimeEntitySecretComponent,
-    RuntimeEntitySecretComponent,
+    RuntimeEntityFieldComponent,
+    RuntimeEntityFieldValueComponent,
+    RuntimeDeviceComponent,
   ],
   imports: [
     BrowserModule,

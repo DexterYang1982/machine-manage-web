@@ -3,13 +3,23 @@
     <div style="font-weight: bold;margin-bottom: 10px">
       <span translate>{{_entity.dataName}}</span>
       <span> : {{_entity.name}}</span>
-      <app-runtime-entity-connection [entity]="_entity"></app-runtime-entity-connection>
     </div>
-    <app-runtime-entity-secret [entity]="_entity"></app-runtime-entity-secret>
+    <app-runtime-entity-field
+      [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.connection}"></app-runtime-entity-field>
+    <app-runtime-entity-field
+      [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.secret}"></app-runtime-entity-field>
+    <app-runtime-entity-field
+      [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.deviceHealthy}"></app-runtime-entity-field>
+    <app-runtime-entity-field
+      [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.cabinIsEmpty}"></app-runtime-entity-field>
+    <app-runtime-entity-field
+      [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.cabinStorage}"></app-runtime-entity-field>
     <p-fieldset *ngIf="customFields&&customFields.length>0">
       <p-header translate>Custom Field</p-header>
-      <app-runtime-custom-field *ngFor="let customField of customFields"
-                                [entityAndField]="{entity:_entity,field:customField}"></app-runtime-custom-field>
+      <app-runtime-entity-field-value *ngFor="let customField of customFields"
+                                      [showEntity]="false"
+                                      [info]="getCustomFieldInfo(customField)"></app-runtime-entity-field-value>
     </p-fieldset>
+    <app-runtime-device *ngIf="_entity.dataName=='Device'" [device]="_entity"></app-runtime-device>
   </div>
 </div>

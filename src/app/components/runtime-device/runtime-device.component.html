@@ -1,0 +1,12 @@
+<p-fieldset>
+  <p-header translate>Status</p-header>
+  <app-runtime-entity-field-value *ngFor="let status of device.description.status"
+                                  [showEntity]="false"
+                                  [info]="getStatusInfo(status)"></app-runtime-entity-field-value>
+</p-fieldset>
+<p-fieldset>
+  <p-header translate>Command</p-header>
+  <app-runtime-entity-field-value *ngFor="let command of device.description.commands"
+                                  [showEntity]="false"
+                                  [info]="getCommandInfo(command)"></app-runtime-entity-field-value>
+</p-fieldset>

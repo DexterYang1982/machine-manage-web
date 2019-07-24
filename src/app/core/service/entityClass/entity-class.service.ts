@@ -25,7 +25,6 @@ export abstract class EntityClassService<T> extends BaseStructureDateService<T> 
                         public alertService: AlertService,
                         public customFieldService: CustomFieldService) {
     super(websocketService);
-
     entityClassServiceMap[this.getDataName()] = this;
     entityClassServices.push(this);
   }

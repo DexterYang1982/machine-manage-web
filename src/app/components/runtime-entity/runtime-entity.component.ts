@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StructureData} from "../../core/model/structure-data.capsule";
 import {CustomFieldService} from "../../core/service/entityField/custom-field.service";
-import {RuntimeDataSyncService} from "../../core/service/runtime-data-sync.service";
+import {EmbeddedField, RuntimeData, RuntimeDataSyncService} from "../../core/service/runtime-data-sync.service";
 import {FieldValueDescription} from "../../core/model/field-value.description";
+import {DeviceDefinition} from "../../core/model/device.description";
 
 @Component({
   selector: 'app-runtime-entity',
@@ -10,6 +11,7 @@ import {FieldValueDescription} from "../../core/model/field-value.description";
   styleUrls: ['./runtime-entity.component.css']
 })
 export class RuntimeEntityComponent implements OnInit {
+  embeddedField = EmbeddedField;
   _entity: StructureData<any>;
   customFields: StructureData<FieldValueDescription>[];
 
@@ -28,4 +30,12 @@ export class RuntimeEntityComponent implements OnInit {
   ngOnInit() {
   }
 
+  getCustomFieldInfo(customField: StructureData<any>): { entity: StructureData<any>, fieldName: string, fieldKey: string, runtimeData: RuntimeData<any> } {
+    return {
+      entity: this._entity,
+      fieldName: customField.name,
+      fieldKey: 'custom',
+      runtimeData: this.runtimeDataSyncService.getOrCreateByNodeAndField(this._entity.id, customField.id)
+    }
+  }
 }
