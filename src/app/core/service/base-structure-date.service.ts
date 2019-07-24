@@ -1,6 +1,7 @@
 import {StructureDataSyncService} from "./structure-data-sync.service";
 import {filter} from "rxjs/operators";
 import {StructureData, StructureDataCapsule, UpdateType} from "../model/structure-data.capsule";
+import {findAndUpdate} from "../util/utils";
 
 export abstract class BaseStructureDateService<T> {
   data: StructureData<T>[] = [];
@@ -73,7 +74,7 @@ export abstract class BaseStructureDateService<T> {
         if (parcel.updateType == UpdateType.update) {
           const update = JSON.parse(parcel.content) as StructureData<T>;
           update.dataName = parcel.dataName;
-          const find = this.findAndUpdate(this.data, update);
+          const find = findAndUpdate(this.data, update);
           this.entityUpdated(find);
         } else if (parcel.updateType == UpdateType.delete) {
           const toDelete = this.getOrCreateById(parcel.id);
@@ -109,33 +110,4 @@ export abstract class BaseStructureDateService<T> {
   }
 
 
-  findAndUpdate(list: any[], newOne: any) {
-    const oldOne = list.find(it => it['id'] && (it['id'] === newOne['id']));
-    if (oldOne) {
-      this.deepCopy(oldOne, newOne);
-      return oldOne;
-    } else {
-      list.push(newOne);
-      return newOne;
-    }
-  }
-
-  deepCopy(oldOne: any, newOne: any) {
-    for (const p in newOne) {
-      if (newOne.hasOwnProperty(p)) {
-        if (Array.isArray(newOne[p])) {
-          if (oldOne[p] == null) {
-            oldOne[p] = [];
-          }
-          const oldList = oldOne[p] as any[];
-          const newList = (newOne[p] as any[]).map(it => this.findAndUpdate(oldList, it));
-          oldList.filter(it => newList.indexOf(it) < 0).forEach(it => oldList.splice(oldList.indexOf(it), 1));
-        } else if (typeof newOne[p] === 'object') {
-          this.deepCopy(oldOne[p], newOne[p]);
-        } else if (newOne[p] !== oldOne[p]) {
-          oldOne[p] = newOne[p];
-        }
-      }
-    }
-  }
 }

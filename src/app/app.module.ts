@@ -122,6 +122,12 @@ import {ModbusService} from "./core/service/entity/modbus.service";
 import {ReadWriteService} from "./core/service/entity/read-write.service";
 import { EntityReadComponent } from './components/entity-read/entity-read.component';
 import { EntityWriteComponent } from './components/entity-write/entity-write.component';
+import {RuntimeDataSyncService} from "./core/service/runtime-data-sync.service";
+import { MachineRuntimeComponent } from './pages/main/machine-runtime/machine-runtime.component';
+import { RuntimeEntityComponent } from './components/runtime-entity/runtime-entity.component';
+import { RuntimeEntityConnectionComponent } from './components/runtime-entity-connection/runtime-entity-connection.component';
+import { RuntimeCustomFieldComponent } from './components/runtime-custom-field/runtime-custom-field.component';
+import { RuntimeEntitySecretComponent } from './components/runtime-entity-secret/runtime-entity-secret.component';
 
 ////////////
 
@@ -152,6 +158,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReadConditionComponent,
     EntityReadComponent,
     EntityWriteComponent,
+    MachineRuntimeComponent,
+    RuntimeEntityComponent,
+    RuntimeEntityConnectionComponent,
+    RuntimeCustomFieldComponent,
+    RuntimeEntitySecretComponent,
+    RuntimeEntitySecretComponent,
   ],
   imports: [
     BrowserModule,
@@ -271,7 +283,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CabinService,
     TunnelService,
     ModbusService,
-    ReadWriteService
+    ReadWriteService,
+    RuntimeDataSyncService
   ],
   bootstrap: [AppComponent]
 })

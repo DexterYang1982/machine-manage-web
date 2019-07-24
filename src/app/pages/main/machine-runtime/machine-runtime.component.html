@@ -1,0 +1,39 @@
+<div class="p-grid" *ngIf="machine&&!machine['delete']">
+  <div class="p-col">
+    <div class="card" style="position:relative;background-color: #ededed"
+         [ngStyle]="{'min-height.px': framework.height-160}">
+      <div class="ui-g">
+        <div class="ui-g-4" style="padding-top: 14px">
+          <app-runtime-entity [entity]="machine"></app-runtime-entity>
+        </div>
+        <div class="ui-g-8">
+          <div class="ui-g" *ngFor="let modbusSlave of modbusSlaveService.getByParentId(machine.id)">
+            <div class="ui-g-6">
+              <app-runtime-entity [entity]="modbusSlave"></app-runtime-entity>
+            </div>
+            <div class="ui-g-6">
+              <app-runtime-entity *ngFor="let modbusUnit of modbusUnitService.getByParentId(modbusSlave.id)"
+                                  [entity]="modbusUnit"
+              ></app-runtime-entity>
+            </div>
+          </div>
+          <div class="ui-g" *ngFor="let group of groupService.getByParentId(machine.id)">
+            <div class="ui-g-6">
+              <app-runtime-entity [entity]="group"></app-runtime-entity>
+            </div>
+            <div class="ui-g-6">
+              <app-runtime-entity *ngFor="let display of displayService.getByParentId(group.id)" [entity]="display"
+              ></app-runtime-entity>
+              <app-runtime-entity *ngFor="let cabin of cabinService.getByParentId(group.id)" [entity]="cabin"
+              ></app-runtime-entity>
+              <app-runtime-entity *ngFor="let device of deviceService.getByParentId(group.id)" [entity]="device"
+              ></app-runtime-entity>
+              <app-runtime-entity *ngFor="let tunnel of tunnelService.getByParentId(group.id)" [entity]="tunnel"
+              ></app-runtime-entity>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

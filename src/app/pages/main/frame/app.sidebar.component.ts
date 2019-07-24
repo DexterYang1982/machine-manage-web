@@ -34,4 +34,8 @@ export class AppSideBarComponent {
   machineConfig(machine:StructureData<any>){
     this.router.navigate(['machine/' + machine.id], {relativeTo: this.route});
   }
+
+  machineRuntime(machine:StructureData<any>){
+    this.router.navigate(['runtime/' + machine.id], {relativeTo: this.route});
+  }
 }

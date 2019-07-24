@@ -4,6 +4,7 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
 .item-selected {
   background-color: #eeeeee;
 }
@@ -26,7 +27,7 @@
   font-size: 10px;
 }
 
-.field-input{
+.field-input {
   display: inline-block;
   margin-right: 20px;
   font-size: 10px;
@@ -39,7 +40,8 @@
   color: white;
   border: solid 1px gray;
 }
-.field-output{
+
+.field-output {
   display: inline-block;
   margin-right: 20px;
   font-size: 10px;
@@ -52,7 +54,12 @@
   color: black;
   border: solid 1px gray;
 }
-body .ui-panel .ui-panel-titlebar .ui-panel-titlebar-icon{
+
+body .ui-panel .ui-panel-titlebar .ui-panel-titlebar-icon {
   float: left;
   margin-right: 15px;
+}
+
+.runtime-tree {
+  border: none !important;
 }

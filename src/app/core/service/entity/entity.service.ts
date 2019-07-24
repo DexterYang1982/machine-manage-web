@@ -8,7 +8,7 @@ import {EntityClassService} from "../entityClass/entity-class.service";
 
 export const entityServiceMap = {};
 export const staticService = {
-  readWriteServiceInstance:null
+  readWriteServiceInstance:null,
 };
 
 export abstract class EntityService<T> extends BaseStructureDateService<T> {

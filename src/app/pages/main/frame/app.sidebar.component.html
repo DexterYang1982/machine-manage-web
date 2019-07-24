@@ -35,6 +35,10 @@
           <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
         </div>
         <app-sidebarTabContent>
+          <div *ngFor="let machine of machineService.data" style="padding: 5px 5px 5px 25px;">
+              <span class="inbox-label menu-item" translate
+                    (click)="machineRuntime(machine)">{{machine.name}}</span>
+          </div>
         </app-sidebarTabContent>
       </div>
       <div class="layout-tabmenu-content"
@@ -46,11 +50,10 @@
           <a href="#" class="menu-button material-icons" (click)="app.closeSidebar($event)">menu</a>
         </div>
         <app-sidebarTabContent>
-            <div *ngFor="let machine of machineService.data" style="padding: 5px 5px 5px 25px;"
-                [ngClass]="{'item-selected':machineService.getDataName()==selectedEntityClass.selectedDataName}">
+          <div *ngFor="let machine of machineService.data" style="padding: 5px 5px 5px 25px;">
               <span class="inbox-label menu-item" translate
                     (click)="machineConfig(machine)">{{machine.name}}</span>
-            </div>
+          </div>
         </app-sidebarTabContent>
       </div>
       <div class="layout-tabmenu-content"

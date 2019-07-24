@@ -28,24 +28,24 @@ export class StructureDataSyncService {
         try {
           const serverEntry = this.serverEntryService.currentServerEntry;
           this.websocket = new WebSocket('ws://' + serverEntry.ip + ':'
-            + serverEntry.port + '/management?nodeId=' + serverEntry.domainId + '&nodeSecret=' + serverEntry.domainSecret);
+            + serverEntry.port + '/machineStructureData?nodeId=' + serverEntry.domainId + '&nodeSecret=' + serverEntry.domainSecret);
           this.websocket.onmessage = (message => {
             const exchangeModel = JSON.parse(message.data.toString()) as StructureDataCapsule;
             this.exchangePublisher.next(exchangeModel);
           });
           this.websocket.onerror = (e) => {
-            this.alertService.alert('Disconnected with error');
+            this.alertService.alert('Structure Data Sync Service Disconnected with error');
             this.websocket.close();
             this.websocket = null;
             console.log(e);
           };
           this.websocket.onclose = (e) => {
-            this.alertService.alert('Disconnected');
+            this.alertService.alert('Structure Data Sync Service Disconnected');
             this.websocket = null;
             console.log(e);
           };
           this.websocket.onopen = () => {
-            console.log('websocket connected');
+            console.log('Structure Data Sync Service Connected');
             this.syncPublisher.next(true);
             obs.next(true);
             obs.complete();

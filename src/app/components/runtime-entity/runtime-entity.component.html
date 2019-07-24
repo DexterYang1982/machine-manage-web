@@ -1,0 +1,15 @@
+<div style="padding: 10px">
+  <div class="card">
+    <div style="font-weight: bold;margin-bottom: 10px">
+      <span translate>{{_entity.dataName}}</span>
+      <span> : {{_entity.name}}</span>
+      <app-runtime-entity-connection [entity]="_entity"></app-runtime-entity-connection>
+    </div>
+    <app-runtime-entity-secret [entity]="_entity"></app-runtime-entity-secret>
+    <p-fieldset *ngIf="customFields&&customFields.length>0">
+      <p-header translate>Custom Field</p-header>
+      <app-runtime-custom-field *ngFor="let customField of customFields"
+                                [entityAndField]="{entity:_entity,field:customField}"></app-runtime-custom-field>
+    </p-fieldset>
+  </div>
+</div>
