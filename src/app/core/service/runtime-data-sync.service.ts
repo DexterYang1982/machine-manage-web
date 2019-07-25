@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ServerEntryService} from "../util/server-entry.service";
 import {AlertService} from "../util/alert.service";
-import {findAndUpdate} from "../util/utils";
+import {clone, findAndUpdate} from "../util/utils";
+import {Subject} from "rxjs";
 
 
 @Injectable()
@@ -11,6 +12,7 @@ export class RuntimeDataSyncService {
   }
 
   data: RuntimeData<any>[] = [];
+  dataPublisher = new Subject<RuntimeData<any>>();
   websocket: WebSocket;
 
   getOrCreateByNodeAndFieldKey(entityId: string, nodeClassId: string, fieldKey: string): RuntimeData<any> {
@@ -51,7 +53,7 @@ export class RuntimeDataSyncService {
         const rawData = JSON.parse(message.data.toString()) as RuntimeData<string>;
         const runtimeData = this.empty('');
         Object.assign(runtimeData, rawData, {value: JSON.parse(rawData.value)});
-        console.log(runtimeData);
+        this.dataPublisher.next(clone(runtimeData));
         findAndUpdate(this.data, runtimeData);
       });
       this.websocket.onerror = (e) => {
@@ -76,9 +78,12 @@ export class RuntimeDataSyncService {
   empty(id: string): RuntimeData<any> {
     return {
       id: id,
-      nodeId: '',
+      entityId: '',
+      entityName: '',
+      dataName: '',
       fieldId: '',
       fieldKey: '',
+      fieldName: '',
       value: null,
       session: '',
       updateTime: null
@@ -88,9 +93,12 @@ export class RuntimeDataSyncService {
 
 export interface RuntimeData<T> {
   id: string;
-  nodeId: string;
+  entityId: string;
+  entityName: string;
+  dataName: string;
   fieldId: string;
   fieldKey: string;
+  fieldName: string;
   value: T;
   session: string;
   updateTime: number;

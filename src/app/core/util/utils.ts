@@ -40,6 +40,9 @@ export function deepCopy(oldOne: any, newOne: any) {
         const newList = (newOne[p] as any[]).map(it => findAndUpdate(oldList, it));
         oldList.filter(it => newList.indexOf(it) < 0).forEach(it => oldList.splice(oldList.indexOf(it), 1));
       } else if (typeof newOne[p] === 'object') {
+        if (oldOne[p] == null) {
+          oldOne[p] = {}
+        }
         deepCopy(oldOne[p], newOne[p]);
       } else if (newOne[p] !== oldOne[p]) {
         oldOne[p] = newOne[p];

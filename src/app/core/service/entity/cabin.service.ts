@@ -5,8 +5,6 @@ import {FormService} from "../../util/form.service";
 import {AlertService} from "../../util/alert.service";
 import {EntityService} from "./entity.service";
 import {StructureData} from "../../model/structure-data.capsule";
-import {ModbusUnitClassService} from "../entityClass/modbus-unit-class.service";
-import {DisplayClassService} from "../entityClass/display-class.service";
 import {CabinClassService} from "../entityClass/cabin-class.service";
 
 @Injectable()

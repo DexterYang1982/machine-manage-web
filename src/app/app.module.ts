@@ -128,6 +128,8 @@ import {RuntimeEntityComponent} from './components/runtime-entity/runtime-entity
 import {RuntimeEntityFieldComponent} from './components/runtime-entity-field/runtime-entity-field.component';
 import {RuntimeEntityFieldValueComponent} from './components/runtime-entity-field-value/runtime-entity-field-value.component';
 import { RuntimeDeviceComponent } from './components/runtime-device/runtime-device.component';
+import {RuntimeExecuteService} from "./core/service/runtime-execute.service";
+import { DataObserverComponent } from './components/data-observer/data-observer.component';
 
 ////////////
 
@@ -163,6 +165,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RuntimeEntityFieldComponent,
     RuntimeEntityFieldValueComponent,
     RuntimeDeviceComponent,
+    DataObserverComponent,
   ],
   imports: [
     BrowserModule,
@@ -283,7 +286,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TunnelService,
     ModbusService,
     ReadWriteService,
-    RuntimeDataSyncService
+    RuntimeDataSyncService,
+    RuntimeExecuteService
   ],
   bootstrap: [AppComponent]
 })

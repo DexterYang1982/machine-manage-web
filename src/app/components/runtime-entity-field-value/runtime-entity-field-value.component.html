@@ -3,27 +3,35 @@
     <span translate>{{info.entity.name}}</span>
   </div>
   <div class="p-col">
-    <span class="label" translate>{{info.fieldName}}</span>
+    <span class="label" translate [ngClass]="{'menu-item':info.menu!=null}"
+          (click)="showMenu($event)">{{info.fieldName}}</span>
   </div>
   <div class="p-col" *ngIf="fit(embeddedField.cabinStorage)">
-    <span class="value">{{info.runtimeData.value.length}}</span>
+    <span class="value" *ngIf="info.runtimeData.value">{{info.runtimeData.value.length}}</span>
   </div>
-  <div class="p-col" *ngIf="fit(embeddedField.cabinIsEmpty)">
-    <i class="material-icons" style="color: red" *ngIf="info.runtimeData.value==true">battery_alert</i>
-    <i class="material-icons" style="color: green" *ngIf="info.runtimeData.value!=true">battery_full</i>
+  <div class="p-col value" *ngIf="fit(embeddedField.cabinIsEmpty)">
+    <span style="color: red;font-weight: bold" *ngIf="info.runtimeData.value==true">Empty</span>
+    <span style="color: green;font-weight: bold" *ngIf="info.runtimeData.value!=true">Normal</span>
   </div>
-  <div class="p-col" *ngIf="fit(embeddedField.deviceHealthy)">
-    <i class="material-icons" style="color: green" *ngIf="info.runtimeData.value==true">favorite</i>
-    <i class="material-icons" style="color: red" *ngIf="info.runtimeData.value!=true">favorite</i>
+  <div class="p-col value" *ngIf="fit(embeddedField.deviceHealthy)">
+    <span style="color: green;font-weight: bold" *ngIf="info.runtimeData.value==true">Yes</span>
+    <span style="color: red;font-weight: bold" *ngIf="info.runtimeData.value!=true">No</span>
   </div>
-  <div class="p-col" *ngIf="fit(embeddedField.connection)">
-    <i class="material-icons" style="color: green" *ngIf="info.runtimeData.value==true">router</i>
-    <i class="material-icons" style="color: red" *ngIf="info.runtimeData.value!=true">router</i>
+  <div class="p-col value" *ngIf="fit(embeddedField.connection)">
+    <span style="color: green;font-weight: bold" *ngIf="info.runtimeData.value==true">Connected</span>
+    <span style="color: red;font-weight: bold" *ngIf="info.runtimeData.value!=true">Disconnected</span>
   </div>
-  <div class="p-col" *ngIf="fit(embeddedField.secret)">
+  <div class="p-col value" *ngIf="fit(embeddedField.secret)">
     <span class="value">{{info.runtimeData.value}}</span>
   </div>
+  <div class="p-col" *ngIf="fit(embeddedField.custom)">
+    <div *ngIf="info.runtimeData.value">
+      <div style="width: 15px;height: 13px;display: inline-block; border: 1px solid black;margin-right: 10px"
+           [ngStyle]="{'backgroundColor':info.runtimeData.value.color}"></div>
+      <span class="value">{{info.runtimeData.value.name}}</span>
+    </div>
+  </div>
   <div class="p-col">
-    <span class="value">{{info.runtimeData.updateTime|date:'MM.dd-hh:mm:ss'}}</span>
+    <span class="value" style="float: right">{{info.runtimeData.updateTime|date:'MM.dd-hh:mm:ss'}}</span>
   </div>
 </div>

@@ -1,0 +1,23 @@
+<p-dialog [style]="{width: '600px',height:'400px'}" [modal]="true"
+          [responsive]="true" (onHide)="runtimeExecuteService.closeDataObserver()"
+          [maximizable]="true" [(visible)]="runtimeExecuteService.dataObserverVisible">
+  <p-header>
+    Data Observer
+  </p-header>
+  <div class="p-grid" style="margin: 5px; border-bottom: 1px dashed #aaaaaa">
+    <div class="p-col">
+      <span class="label" translate>Entity</span>
+    </div>
+    <div class="p-col">
+      <span class="label" translate>Field</span>
+    </div>
+    <div class="p-col">
+      <span class="label" translate>Value</span>
+    </div>
+    <div class="p-col">
+      <span class="label" translate>Update Time</span>
+    </div>
+  </div>
+  <app-runtime-entity-field-value *ngFor="let info of runtimeExecuteService.data"
+                                  [showEntity]="true" [info]="info"></app-runtime-entity-field-value>
+</p-dialog>

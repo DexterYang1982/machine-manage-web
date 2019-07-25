@@ -1,8 +1,35 @@
 <div style="padding: 10px">
   <div class="card">
     <div style="font-weight: bold;margin-bottom: 10px">
-      <span translate>{{_entity.dataName}}</span>
-      <span> : {{_entity.name}}</span>
+      <span translate>{{_entity.dataName}}</span> :
+      <span>{{_entity.name}}</span>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <span class="label" translate>ID</span>
+      </div>
+      <div class="p-col">
+        <span class="value">{{_entity.id}}</span>
+      </div>
+      <div class="p-col"></div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <span class="label" translate>Alias</span>
+      </div>
+      <div class="p-col">
+        <span class="value">{{_entity.alias}}</span>
+      </div>
+      <div class="p-col"></div>
+    </div>
+    <div class="p-grid" *ngIf="_entity.dataName=='ModbusSlave'">
+      <div class="p-col">
+        <span class="label" translate>Address</span>
+      </div>
+      <div class="p-col">
+        <span class="value">{{_entity.description['ip'] + ':' + _entity.description['port']}}</span>
+      </div>
+      <div class="p-col"></div>
     </div>
     <app-runtime-entity-field
       [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.connection}"></app-runtime-entity-field>

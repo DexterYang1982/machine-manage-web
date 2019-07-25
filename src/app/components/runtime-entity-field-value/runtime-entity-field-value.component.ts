@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StructureData} from "../../core/model/structure-data.capsule";
 import {EmbeddedField, RuntimeData} from "../../core/service/runtime-data-sync.service";
+import {MenuItem} from "primeng/api";
+import {MenuService} from "../../core/util/menu.service";
 
 @Component({
   selector: 'app-runtime-entity-field-value',
@@ -13,9 +15,9 @@ export class RuntimeEntityFieldValueComponent implements OnInit {
   showEntity: boolean;
 
   @Input()
-  info: { entity: StructureData<any>, fieldName: string, fieldKey: string, runtimeData: RuntimeData<any> };
+  info: { entity: {id:string,name:string,dataName:string}, fieldName: string, fieldKey: string, runtimeData: RuntimeData<any>, menu?: MenuItem[] };
 
-  constructor() {
+  constructor(public menuService: MenuService) {
   }
 
   ngOnInit() {
@@ -27,6 +29,12 @@ export class RuntimeEntityFieldValueComponent implements OnInit {
       return true;
     }
     return restriction.find(it => this.info.entity.dataName == it.dataName && this.info.fieldKey == it.fieldKey) != null
+  }
+
+  showMenu($event) {
+    if (this.info.menu != null) {
+      this.menuService.showMenu(this.info.menu, $event);
+    }
   }
 
 }
