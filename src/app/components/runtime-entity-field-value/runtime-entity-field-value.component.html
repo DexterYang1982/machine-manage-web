@@ -1,6 +1,9 @@
 <div class="p-grid" *ngIf="info">
   <div class="p-col" *ngIf="showEntity">
-    <span translate>{{info.entity.name}}</span>
+    <span translate class="label">{{info.entity.dataName}}</span>
+  </div>
+  <div class="p-col" *ngIf="showEntity">
+    <span class="label">{{info.entity.name}}</span>
   </div>
   <div class="p-col">
     <span class="label" translate [ngClass]="{'menu-item':info.menu!=null}"
@@ -32,6 +35,8 @@
     </div>
   </div>
   <div class="p-col">
-    <span class="value" style="float: right">{{info.runtimeData.updateTime|date:'MM.dd-hh:mm:ss'}}</span>
+    <span class="value" *ngIf="executionTime!=null"> {{info.runtimeData.updateTime - executionTime}}</span>
+    <span class="value" *ngIf="executionTime==null"
+          style="float: right">{{info.runtimeData.updateTime|date:'MM.dd-hh:mm:ss'}}</span>
   </div>
 </div>

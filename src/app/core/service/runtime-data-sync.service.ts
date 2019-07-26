@@ -111,7 +111,9 @@ export const EmbeddedField = {
   secret: [{dataName: 'Machine', fieldName: 'Connect Secret', fieldKey: 'SECRET'},
     {dataName: 'Display', fieldName: 'Connect Secret', fieldKey: 'SECRET'}],
   deviceHealthy: [{dataName: 'Device', fieldName: 'Healthy', fieldKey: 'device-healthy'}],
+  deviceCurrentProcess: [{dataName: 'Device', fieldName: 'Current Process', fieldKey: 'current-process'}],
+  deviceProcessQueue: [{dataName: 'Device', fieldName: 'Process Queue', fieldKey: 'process-queue'}],
   cabinIsEmpty: [{dataName: 'Cabin', fieldName: 'Empty', fieldKey: 'cabin-is-empty'}],
   cabinStorage: [{dataName: 'Cabin', fieldName: 'Storage', fieldKey: 'cabin-storage'}],
-  custom: [{dataName: null, fieldName: 'Custom Field', fieldKey: 'custom'}]
+  custom: [{dataName: null, fieldName: 'Custom Field', fieldKey: 'custom'}],
 };

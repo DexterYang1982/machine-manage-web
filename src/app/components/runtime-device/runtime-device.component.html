@@ -10,3 +10,12 @@
                                   [showEntity]="false"
                                   [info]="getCommandInfo(command)"></app-runtime-entity-field-value>
 </p-fieldset>
+<p-fieldset>
+  <p-header translate>Process</p-header>
+  <div class="p-grid">
+    <div class="p-col" *ngFor="let process of device.description.processes">
+      <span class="label menu-item"
+            (click)="menuService.showMenu(getProcessMenu(process),$event)">{{process.name}}</span>
+    </div>
+  </div>
+</p-fieldset>
