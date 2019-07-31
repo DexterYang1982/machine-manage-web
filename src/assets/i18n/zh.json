@@ -79,6 +79,8 @@
   "Session Follows": "过程跟随",
   "Shell Versions": "外显示版本",
   "Single": "任一",
+  "Export Single": "一次一个",
+  "Export All": "一次全部",
   "Status": "状态",
   "Target": "目标",
   "Target Type": "目标类型",

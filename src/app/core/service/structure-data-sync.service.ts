@@ -7,13 +7,19 @@ import {StructureDataCapsule} from "../model/structure-data.capsule";
 
 @Injectable()
 export class StructureDataSyncService {
-  constructor(private serverEntryService: ServerEntryService,
-              private alertService: AlertService) {
-  }
-
+  syncFinished: boolean = false;
   exchangePublisher = new Subject<StructureDataCapsule>();
   syncPublisher = new Subject<boolean>();
   websocket: WebSocket;
+
+
+  constructor(private serverEntryService: ServerEntryService,
+              private alertService: AlertService) {
+    this.syncPublisher.subscribe(sync => {
+      this.syncFinished = sync;
+    })
+  }
+
 
   closeCurrentAndConnect(): Observable<boolean> {
     if (this.websocket) {
@@ -31,7 +37,11 @@ export class StructureDataSyncService {
             + serverEntry.port + '/machineStructureData?nodeId=' + serverEntry.domainId + '&nodeSecret=' + serverEntry.domainSecret);
           this.websocket.onmessage = (message => {
             const exchangeModel = JSON.parse(message.data.toString()) as StructureDataCapsule;
-            this.exchangePublisher.next(exchangeModel);
+            if (exchangeModel.id == null) {
+              this.syncPublisher.next(true);
+            } else {
+              this.exchangePublisher.next(exchangeModel);
+            }
           });
           this.websocket.onerror = (e) => {
             this.alertService.alert('Structure Data Sync Service Disconnected with error');
@@ -46,7 +56,7 @@ export class StructureDataSyncService {
           };
           this.websocket.onopen = () => {
             console.log('Structure Data Sync Service Connected');
-            this.syncPublisher.next(true);
+            this.syncPublisher.next(false);
             obs.next(true);
             obs.complete();
           };

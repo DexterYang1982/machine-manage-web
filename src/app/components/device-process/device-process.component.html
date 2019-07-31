@@ -1,0 +1,17 @@
+<span *ngIf="processRuntime" style="border: #0c1c2c 1px dashed;padding: 4px;cursor: pointer;margin: 2px"
+      (click)="op.toggle($event)">
+  {{processRuntime.state.substr(0, 1)|uppercase}}
+  <p-overlayPanel #op appendTo="body">
+  <div>
+    <span class=" label" translate>State</span>
+    <span class=" value">{{processRuntime.state}}</span>
+  </div>
+  <div>
+    <span class=" label" translate>Init Time</span>
+    <span class=" value">{{processRuntime.initTime|date:'MM.dd-hh:mm:ss'}}</span>
+  </div>
+    <div class="p-grid" style="width: 400px" *ngIf="processRuntime.stepRuntime.length>0">
+
+    </div>
+</p-overlayPanel>
+</span>

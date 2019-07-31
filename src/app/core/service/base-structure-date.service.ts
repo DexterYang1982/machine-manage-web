@@ -64,9 +64,11 @@ export abstract class BaseStructureDateService<T> {
   }
 
   protected constructor(public websocketService: StructureDataSyncService) {
-    websocketService.syncPublisher.subscribe(_ => {
-      this.data = [];
-      this.parentMap = {};
+    websocketService.syncPublisher.subscribe(sync => {
+      if(!sync){
+        this.data = [];
+        this.parentMap = {};
+      }
     });
     websocketService.exchangePublisher.pipe(filter(it => {
       return this.fit(it)

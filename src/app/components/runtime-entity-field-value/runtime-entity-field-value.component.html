@@ -34,6 +34,16 @@
       <span class="value">{{info.runtimeData.value.name}}</span>
     </div>
   </div>
+  <div class="p-col value" *ngIf="fit(embeddedField.tunnelCurrentTransaction)">
+    <app-tunnel-transaction [currentTransaction]="info.runtimeData.value"></app-tunnel-transaction>
+  </div>
+  <div class="p-col value" *ngIf="fit(embeddedField.deviceCurrentProcess)">
+    <app-device-process [processRuntime]="info.runtimeData.value"></app-device-process>
+  </div>
+  <div class="p-col value" *ngIf="fit(embeddedField.deviceProcessQueue)">
+    <app-device-process [processRuntime]="processRuntime"
+                        *ngFor="let processRuntime of info.runtimeData.value"></app-device-process>
+  </div>
   <div class="p-col">
     <span class="value" *ngIf="executionTime!=null"> {{info.runtimeData.updateTime - executionTime}}</span>
     <span class="value" *ngIf="executionTime==null"

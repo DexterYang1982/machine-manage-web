@@ -14,6 +14,8 @@ import {StructureData} from "../../../core/model/structure-data.capsule";
 import {MachineDescription} from "../../../core/model/machine.description";
 import {RuntimeDataSyncService} from "../../../core/service/runtime-data-sync.service";
 import {TreeNode} from "primeng/api";
+import {StructureDataSyncService} from "../../../core/service/structure-data-sync.service";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-machine-runtime',
@@ -36,14 +38,25 @@ export class MachineRuntimeComponent implements OnInit, OnDestroy {
               public displayService: DisplayService,
               public cabinService: CabinService,
               public deviceService: DeviceService,
-              public tunnelService: TunnelService) {
+              public tunnelService: TunnelService,
+              private structureDataSyncService: StructureDataSyncService) {
     route.paramMap.subscribe(params => {
       const id = params.get('id');
-      this.machine = machineService.getOrCreateById(id);
-      if (this.machine) {
-        this.runtimeDataSyncService.closeCurrentAndConnect(id);
+      if (structureDataSyncService.syncFinished){
+        this.show(id)
+      }else{
+        structureDataSyncService.syncPublisher.pipe(filter(it=>it==true)).subscribe(it=>{
+          this.show(id)
+        })
       }
     });
+  }
+
+  show(machineId:string){
+    this.machine = this.machineService.getOrCreateById(machineId);
+    if (this.machine) {
+      this.runtimeDataSyncService.closeCurrentAndConnect(machineId);
+    }
   }
 
   ngOnInit() {

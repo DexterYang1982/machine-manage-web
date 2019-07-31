@@ -12,8 +12,9 @@ export class RuntimeExecuteService {
 
   subscription: Subscription;
 
-  REQUEST_EXECUTE_DEVICE_COMMAND = ['POST', 'api/Runtime/ExecuteDeviceCommand'];
-  REQUEST_EXECUTE_DEVICE_PROCESS = ['POST', 'api/Runtime/ExecuteDeviceProcess'];
+  REQUEST_EXECUTE_DEVICE_COMMAND = ['POST', 'api/Runtime/executeDeviceCommand'];
+  REQUEST_EXECUTE_DEVICE_PROCESS = ['POST', 'api/Runtime/executeDeviceProcess'];
+  REQUEST_EXECUTE_TUNNEL_TRANSACTION = ['POST', 'api/Runtime/executeTunnelTransaction'];
 
   constructor(public httpService: HttpService,
               private runtimeDataSyncService: RuntimeDataSyncService) {
@@ -65,6 +66,17 @@ export class RuntimeExecuteService {
         deviceId,
         commandId,
         valueDescriptionId,
+        session
+      }, null,
+      callBack
+    );
+  }
+  http_execute_tunnel_transaction(tunnelId: string, transactionId: string, session: string, callBack: () => void) {
+    this.httpService.http<any>(
+      this.REQUEST_EXECUTE_TUNNEL_TRANSACTION,
+      {
+        tunnelId,
+        transactionId,
         session
       }, null,
       callBack

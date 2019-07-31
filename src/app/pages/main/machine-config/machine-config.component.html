@@ -54,9 +54,25 @@
             <p-fieldset>
               <p-header><span translate>Cabins</span></p-header>
               <div class="p-grid">
-                <div class="p-col-3" *ngFor="let cabin of cabinService.getByParentId(group.id)">
-                  <app-entity-name [entity]="cabin"
-                                   [menu]="cabinService.getMenu(cabin,null)"></app-entity-name>
+                <div class="p-col-6" *ngFor="let cabin of cabinService.getByParentId(group.id)">
+                  <div class="p-grid">
+                    <div class="p-col-4">
+                      <app-entity-name [entity]="cabin"
+                                       [menu]="cabinService.getMenu(cabin,null)"></app-entity-name>
+                      <div>
+                        <span class="label" translate>Export Mode</span>
+                        <span class="value"
+                              translate> {{cabin.description.exportSingle ? 'Export Single' : 'Export All'}}</span>
+                      </div>
+                    </div>
+                    <div class="p-col-8">
+                      <app-read-condition [name]="'Empty Condition'"
+                                          [readCondition]="cabin.description.emptyCondition"
+                                          [entity]="cabin"
+                                          [updateFunction]="cabinService.emptyConditionUpdate(cabin)"
+                      ></app-read-condition>
+                    </div>
+                  </div>
                 </div>
               </div>
             </p-fieldset>

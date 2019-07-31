@@ -1,0 +1,8 @@
+<div *ngIf="currentTransaction">
+<span>
+  <i class="material-icons" style="color: red;font-size: 20px" *ngIf="!currentTransaction.finishedExportation">assignment_return</i>
+  <i class="material-icons" style="color: green;font-size: 20px" *ngIf="currentTransaction.finishedExportation">assignment_return</i>
+</span>
+  <app-device-process *ngFor="let processRuntime of currentTransaction.transactionProcesses"
+                      [processRuntime]="processRuntime"></app-device-process>
+</div>

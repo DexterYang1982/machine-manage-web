@@ -113,6 +113,7 @@ export const EmbeddedField = {
   deviceHealthy: [{dataName: 'Device', fieldName: 'Healthy', fieldKey: 'device-healthy'}],
   deviceCurrentProcess: [{dataName: 'Device', fieldName: 'Current Process', fieldKey: 'current-process'}],
   deviceProcessQueue: [{dataName: 'Device', fieldName: 'Process Queue', fieldKey: 'process-queue'}],
+  tunnelCurrentTransaction: [{dataName: 'Tunnel', fieldName: 'Current Transaction', fieldKey: 'current-transaction'}],
   cabinIsEmpty: [{dataName: 'Cabin', fieldName: 'Empty', fieldKey: 'cabin-is-empty'}],
   cabinStorage: [{dataName: 'Cabin', fieldName: 'Storage', fieldKey: 'cabin-storage'}],
   custom: [{dataName: null, fieldName: 'Custom Field', fieldKey: 'custom'}],

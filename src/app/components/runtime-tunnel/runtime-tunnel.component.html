@@ -1,0 +1,9 @@
+<p-fieldset>
+  <p-header translate>Transactions</p-header>
+  <div class="p-grid">
+    <div class="p-col" *ngFor="let transaction of tunnel.description.transactions">
+      <span class="label menu-item"
+            (click)="menuService.showMenu(getTransactionMenu(transaction),$event)">{{transaction.name}}</span>
+    </div>
+  </div>
+</p-fieldset>

@@ -3,7 +3,6 @@ import {StructureData} from "../../core/model/structure-data.capsule";
 import {CustomFieldService} from "../../core/service/entityField/custom-field.service";
 import {EmbeddedField, RuntimeData, RuntimeDataSyncService} from "../../core/service/runtime-data-sync.service";
 import {FieldValueDescription} from "../../core/model/field-value.description";
-import {DeviceDefinition} from "../../core/model/device.description";
 
 @Component({
   selector: 'app-runtime-entity',

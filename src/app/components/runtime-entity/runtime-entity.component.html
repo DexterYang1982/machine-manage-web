@@ -45,6 +45,8 @@
       [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.cabinIsEmpty}"></app-runtime-entity-field>
     <app-runtime-entity-field
       [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.cabinStorage}"></app-runtime-entity-field>
+    <app-runtime-entity-field
+      [entityFieldInfo]="{ entity:_entity, restriction:embeddedField.tunnelCurrentTransaction}"></app-runtime-entity-field>
     <p-fieldset *ngIf="customFields&&customFields.length>0">
       <p-header translate>Custom Field</p-header>
       <app-runtime-entity-field-value *ngFor="let customField of customFields"
@@ -52,5 +54,6 @@
                                       [info]="getCustomFieldInfo(customField)"></app-runtime-entity-field-value>
     </p-fieldset>
     <app-runtime-device *ngIf="_entity.dataName=='Device'" [device]="_entity"></app-runtime-device>
+    <app-runtime-tunnel *ngIf="_entity.dataName=='Tunnel'" [tunnel]="_entity"></app-runtime-tunnel>
   </div>
 </div>

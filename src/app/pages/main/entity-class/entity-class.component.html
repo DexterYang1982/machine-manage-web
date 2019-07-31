@@ -13,58 +13,63 @@
                 (click)="menuService.showMenu(entityClassService.getMenu(entityClass),$event)">{{entityClass.name}}</span>
           <span style="margin-left: 15px" class="value"> ( {{entityClass.alias}} )</span>
         </p-header>
-        <div class="p-grid" style="margin: 5px; border-bottom: 1px dashed #aaaaaa">
-          <div class="p-col-2">
-            <span class="label">Field Name</span>
+
+        <p-fieldset>
+          <p-header><span translate>Custom Field</span></p-header>
+          <div class="p-grid" style="margin: 5px; border-bottom: 1px dashed #aaaaaa">
+            <div class="p-col-2">
+              <span class="label">Field Name</span>
+            </div>
+            <div class="p-col-2">
+              <span class="label">Field Alias</span>
+            </div>
+            <div class="p-col-2">
+              <span class="label">Value Name</span>
+            </div>
+            <div class="p-col-2">
+              <span class="label">Value Alias</span>
+            </div>
+            <div class="p-col-2">
+              <span class="label">Value Expression</span>
+            </div>
+            <div class="p-col-2">
+              <span class="label">Extra Info</span>
+            </div>
           </div>
-          <div class="p-col-2">
-            <span class="label">Field Alias</span>
-          </div>
-          <div class="p-col-2">
-            <span class="label">Value Name</span>
-          </div>
-          <div class="p-col-2">
-            <span class="label">Value Alias</span>
-          </div>
-          <div class="p-col-2">
-            <span class="label">Value Expression</span>
-          </div>
-          <div class="p-col-2">
-            <span class="label">Extra Info</span>
-          </div>
-        </div>
-        <div class="p-grid" *ngFor="let customField of customFieldService.getByParentId(entityClass.id)">
-          <div class="p-col-2">
-            <div class="field-input" *ngIf="!customField.description.output">I</div>
-            <div class="field-output" *ngIf="customField.description.output">O</div>
-            <span class="menu-item"
-                  (click)="menuService.showMenu(customFieldService.getMenu(entityClass,customField),$event)">{{customField.name}}</span>
-          </div>
-          <div class="p-col-2">
-            <span class="value">{{customField.alias}}</span>
-          </div>
-          <div class="p-col-8">
-            <div class="p-grid" *ngFor="let valueDescription of customField.description.valueDescriptions">
-              <div class="p-col">
+          <div class="p-grid" *ngFor="let customField of customFieldService.getByParentId(entityClass.id)" style="margin: 5px; border-bottom: 1px solid  #dddddd">
+            <div class="p-col-2">
+              <div class="field-input" *ngIf="!customField.description.output">I</div>
+              <div class="field-output" *ngIf="customField.description.output">O</div>
+              <span class="menu-item"
+                    (click)="menuService.showMenu(customFieldService.getMenu(entityClass,customField),$event)">{{customField.name}}</span>
+            </div>
+            <div class="p-col-2">
+              <span class="value">{{customField.alias}}</span>
+            </div>
+            <div class="p-col-8">
+              <div class="p-grid" *ngFor="let valueDescription of customField.description.valueDescriptions">
+                <div class="p-col">
           <span class=" value menu-item"
                 (click)="menuService.showMenu(customFieldService.getFieldValueDescriptionMenu(customField,valueDescription),$event)">
             {{valueDescription.name}}
           </span>
-              </div>
-              <div class="p-col">
-                <span class="value">{{valueDescription.alias}}</span>
-              </div>
-              <div class="p-col">
-                <span class="value">{{valueDescription.valueExp}}</span>
-              </div>
-              <div class="p-col">
-                <div style="width: 15px;height: 13px;display: inline-block; border: 1px solid black;margin-right: 10px"
-                     [ngStyle]="{'backgroundColor':valueDescription.color}"></div>
-                <span class="value">{{valueDescription.extra}}</span>
+                </div>
+                <div class="p-col">
+                  <span class="value">{{valueDescription.alias}}</span>
+                </div>
+                <div class="p-col">
+                  <span class="value">{{valueDescription.valueExp}}</span>
+                </div>
+                <div class="p-col">
+                  <div
+                    style="width: 15px;height: 13px;display: inline-block; border: 1px solid black;margin-right: 10px"
+                    [ngStyle]="{'backgroundColor':valueDescription.color}"></div>
+                  <span class="value">{{valueDescription.extra}}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </p-fieldset>
         <app-modbus-unit-description [modbusUnitClass]="entityClass"></app-modbus-unit-description>
         <app-display-client-version [displayClass]="entityClass"></app-display-client-version>
       </p-panel>

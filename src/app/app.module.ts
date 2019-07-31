@@ -130,6 +130,9 @@ import {RuntimeEntityFieldValueComponent} from './components/runtime-entity-fiel
 import { RuntimeDeviceComponent } from './components/runtime-device/runtime-device.component';
 import {RuntimeExecuteService} from "./core/service/runtime-execute.service";
 import { DataObserverComponent } from './components/data-observer/data-observer.component';
+import { RuntimeTunnelComponent } from './components/runtime-tunnel/runtime-tunnel.component';
+import { TunnelTransactionComponent } from './components/tunnel-transaction/tunnel-transaction.component';
+import { DeviceProcessComponent } from './components/device-process/device-process.component';
 
 ////////////
 
@@ -166,6 +169,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     RuntimeEntityFieldValueComponent,
     RuntimeDeviceComponent,
     DataObserverComponent,
+    RuntimeTunnelComponent,
+    TunnelTransactionComponent,
+    DeviceProcessComponent,
   ],
   imports: [
     BrowserModule,
