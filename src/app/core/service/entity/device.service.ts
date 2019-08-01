@@ -38,6 +38,7 @@ export class DeviceService extends EntityService<DeviceDefinition> {
 
 
   http_update_error_condition(id: string, errorCondition: ReadCondition, callBack: () => void) {
+    console.log(errorCondition);
     this.httpService.http<any>(
       this.REQUEST_ERROR_CONDITION_UPDATE,
       {

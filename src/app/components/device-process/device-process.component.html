@@ -1,17 +1,68 @@
-<span *ngIf="processRuntime" style="border: #0c1c2c 1px dashed;padding: 4px;cursor: pointer;margin: 2px"
+<span *ngIf="_processRuntime" style="border: #0c1c2c 1px dashed;padding: 4px;cursor: pointer;margin: 2px"
       (click)="op.toggle($event)">
-  {{processRuntime.state.substr(0, 1)|uppercase}}
-  <p-overlayPanel #op appendTo="body">
-  <div>
-    <span class=" label" translate>State</span>
-    <span class=" value">{{processRuntime.state}}</span>
-  </div>
-  <div>
-    <span class=" label" translate>Init Time</span>
-    <span class=" value">{{processRuntime.initTime|date:'MM.dd-hh:mm:ss'}}</span>
-  </div>
-    <div class="p-grid" style="width: 400px" *ngIf="processRuntime.stepRuntime.length>0">
+  {{_processRuntime.state.substr(0, 1)|uppercase}}
 
+  <p-overlayPanel #op appendTo="body">
+    <div style="width: 600px;">
+      <div class="p-grid" *ngIf="process">
+        <div class="p-col-4">
+          <span class=" label" translate>Name</span>
+        </div>
+        <div class="p-col-8">
+          <span class=" value">{{process.name}}</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-4">
+          <span class=" label" translate>State</span>
+        </div>
+        <div class="p-col-8">
+          <span class=" value">{{_processRuntime.state}}</span>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-4">
+          <span class=" label" translate>Init Time</span>
+        </div>
+        <div class="p-col-8">
+          <span class=" value">{{_processRuntime.initTime|date:'MM.dd-hh:mm:ss'}}</span>
+        </div>
+      </div>
+      <div class="p-grid" style="border-bottom: 1px gray dashed">
+          <div class="p-col">
+            <span class=" label" translate>Step</span>
+          </div>
+          <div class="p-col">
+            <span class=" label" translate>State</span>
+          </div>
+          <div class="p-col">
+            <span class=" label" translate>Start</span>
+          </div>
+          <div class="p-col">
+            <span class=" label" translate>End</span>
+          </div>
+          <div class="p-col">
+            <span class=" label" translate>Duration</span>
+            <span class=" label" translate>(MS)</span>
+          </div>
+      </div>
+      <div class="p-grid" *ngFor="let step of _processRuntime.stepRuntime">
+          <div class="p-col">
+            <span class="value">{{stepName(step.stepId)}}</span>
+          </div>
+          <div class="p-col">
+            <span class="value">{{step.state}}</span>
+          </div>
+          <div class="p-col">
+            <span class="value">{{step.startTime|date:'MM.dd-hh:mm:ss'}}</span>
+          </div>
+          <div class="p-col">
+            <span class="value">{{step.endTime|date:'MM.dd-hh:mm:ss'}}</span>
+          </div>
+          <div class="p-col">
+            <span class="value">{{duration(step)}}</span>
+          </div>
+        </div>
     </div>
 </p-overlayPanel>
 </span>

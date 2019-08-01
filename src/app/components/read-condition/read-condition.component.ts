@@ -42,7 +42,12 @@ export class ReadConditionComponent implements OnInit {
         command: () => {
           staticService.readWriteServiceInstance.addOrEditEntityRW(this.entity, entityRead, 'read', (er) => {
             const c = clone(this.readCondition);
-            c.reads.push(er);
+            c.reads = c.reads.map(it => {
+              if (it.id == er.id)
+                return er;
+              else
+                return it;
+            });
             if (this.updateFunction) {
               this.updateFunction(c)
             }
