@@ -123,8 +123,10 @@
                             <span class="value">{{step.timeout}}</span>
                           </div>
                           <div>
-                            <span class="label" translate>Execute</span>
-                            <app-entity-write [entityWrite]="step.execute"></app-entity-write>
+                            <span class="label" translate>Writes</span>
+                            <app-entity-write [entityWrite]="write" *ngFor="let write of step.writes"
+                                              [menu]="deviceService.getProcessStepWriteMenu(device,process,step,write)"
+                            ></app-entity-write>
                           </div>
                         </div>
                         <div class="p-col-4">
@@ -199,6 +201,21 @@
                       </div>
                     </div>
                   </p-fieldset>
+                </div>
+              </div>
+            </p-fieldset>
+            <p-fieldset>
+              <p-header><span translate>Triggers</span></p-header>
+              <div *ngFor="let trigger of group.description.triggers" class="p-grid">
+                <div class="p-col-2">
+                  <div class="menu-item"
+                       (click)="menuService.showMenu(groupService.getTriggerMenu(group,trigger),$event)"
+                  >{{trigger.name}}</div>
+                  <div>
+                    <span class="label" translate>Delay</span>
+                    <span
+                      class="value">{{trigger.delay}}</span>
+                  </div>
                 </div>
               </div>
             </p-fieldset>

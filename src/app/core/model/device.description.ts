@@ -28,7 +28,7 @@ export interface DeviceProcessStep {
   name: string;
   timeout: number;
   executeCondition: ReadCondition;
-  execute?: EntityWrite;
+  writes: EntityWrite[];
   endCondition: ReadCondition;
 }
 

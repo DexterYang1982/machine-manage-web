@@ -199,6 +199,7 @@ export class DeviceService extends EntityService<DeviceDefinition> {
     return inherit
   }
 
+
   errorConditionUpdate(device: StructureData<any>) {
     return (readCondition: ReadCondition) => {
       this.http_update_error_condition(device.id, readCondition, () => {
@@ -289,12 +290,12 @@ export class DeviceService extends EntityService<DeviceDefinition> {
         this.addOrEditProcessStepName(entity, process, step);
       }
     }, {
-      label: 'Edit Execute',
-      icon: 'ui-icon-edit',
+      label: 'Add Write',
+      icon: 'ui-icon-add',
       command: () => {
-        staticService.readWriteServiceInstance.addOrEditEntityRW(entity, step.execute, 'write', (execute: EntityWrite) => {
+        staticService.readWriteServiceInstance.addOrEditEntityRW(entity, null, 'write', (write: EntityWrite) => {
           const p = clone(process);
-          p.steps.find(it => it.id == step.id).execute = execute;
+          p.steps.find(it => it.id == step.id).writes.push(write);
           this.http_update_process(entity.id, p, () => {
             this.alertService.operationDone();
           });
@@ -304,6 +305,56 @@ export class DeviceService extends EntityService<DeviceDefinition> {
       label: 'Delete',
       icon: 'ui-icon-delete',
       command: () => {
+        const p = clone(process);
+        p.steps=p.steps.filter(s=>s.id!=step.id)
+        this.http_update_process(entity.id, p, () => {
+          this.alertService.operationDone();
+        });
+      }
+    }];
+  }
+
+  getProcessStepWriteMenu(entity: StructureData<DeviceDefinition>, process: DeviceProcess, step: DeviceProcessStep, write: EntityWrite) {
+    return [{
+      label: 'Edit',
+      icon: 'ui-icon-edit',
+      command: () => {
+        staticService.readWriteServiceInstance.addOrEditEntityRW(entity, write, 'write', (write_edit: EntityWrite) => {
+          const process_edit = clone(process);
+          const step_edit = clone(step);
+          step_edit.writes = step_edit.writes.map(w => {
+            if (w.id == write_edit.id)
+              return write_edit;
+            else
+              return w;
+          });
+          process_edit.steps = process_edit.steps.map(s => {
+            if (s.id == step_edit.id)
+              return step_edit;
+            else
+              return s;
+          });
+          this.http_update_process(entity.id, process_edit, () => {
+            this.alertService.operationDone();
+          });
+        })
+      }
+    }, {
+      label: 'Delete',
+      icon: 'ui-icon-delete',
+      command: () => {
+        const process_edit = clone(process);
+        const step_edit = clone(step);
+        step_edit.writes = step_edit.writes.filter(w => w.id != write.id);
+        process_edit.steps = process_edit.steps.map(s => {
+          if (s.id == step_edit.id)
+            return step_edit;
+          else
+            return s;
+        });
+        this.http_update_process(entity.id, process_edit, () => {
+          this.alertService.operationDone();
+        });
       }
     }];
   }
@@ -525,7 +576,7 @@ export class DeviceService extends EntityService<DeviceDefinition> {
             id: generateId(),
             name: fm.data.name,
             timeout: fm.data.timeout,
-            execute: null,
+            writes: [],
             executeCondition: {matchAll: true, reads: []},
             endCondition: {matchAll: true, reads: []}
           });

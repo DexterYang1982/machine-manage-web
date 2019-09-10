@@ -34,13 +34,13 @@ export class RuntimeExecuteService {
 
   updateEntityInput(entityId: string, inputFieldId: string) {
     const field = this.customFieldService.get(inputFieldId);
-    const value = this.runtimeDataSyncService.getOrCreateByNodeAndField(entityId, inputFieldId).value;
+    const fieldValue = this.runtimeDataSyncService.getOrCreateByNodeAndField(entityId, inputFieldId).value;
     const fm: FormModel = {
       title: 'Update Input Field Value',
       action: 'Update',
       windowWidth: 400,
       data: {
-        value: value,
+        value: field.description.valueDescriptions.length > 0 ?fieldValue.valueExp:fieldValue.name,
         session: '',
       },
       formItems: [
