@@ -3,7 +3,7 @@ import {StructureDataSyncService} from "../structure-data-sync.service";
 import {HttpService} from "../../util/http.service";
 import {FormItemType, FormModel, FormService} from "../../util/form.service";
 import {AlertService} from "../../util/alert.service";
-import {EntityService} from "./entity.service";
+import {EntityService, staticService} from "./entity.service";
 import {StructureData} from "../../model/structure-data.capsule";
 import {GroupClassService} from "../entityClass/group-class.service";
 import {DisplayService} from "./display.service";
@@ -12,6 +12,8 @@ import {DeviceService} from "./device.service";
 import {TunnelService} from "./tunnel.service";
 import {GroupDescription} from "../../model/group.description";
 import {Trigger} from "../../model/machine.description";
+import {EntityWrite, ReadCondition} from "../../model/device.description";
+import {clone} from "../../util/utils";
 
 @Injectable()
 export class GroupService extends EntityService<GroupDescription> {
@@ -96,10 +98,53 @@ export class GroupService extends EntityService<GroupDescription> {
         this.addOrEditTriggerName(group, trigger);
       }
     }, {
+      label: 'Add Write',
+      icon: 'ui-icon-add',
+      command: () => {
+        staticService.readWriteServiceInstance.addOrEditEntityRW(group, null, 'write', (write_edit: EntityWrite) => {
+          const trigger_edit = clone(trigger);
+          trigger_edit.writes.push(write_edit);
+          this.http_update_trigger(group.id, trigger_edit, () => {
+            this.alertService.operationDone();
+          });
+        })
+      }
+    }, {
       label: 'Delete',
       icon: 'ui-icon-delete',
       command: () => {
         this.deleteTrigger(group, trigger);
+      }
+    }];
+  }
+
+  getTriggerWriteMenu(group: StructureData<GroupDescription>, trigger: Trigger, write: EntityWrite) {
+    return [{
+      label: 'Edit',
+      icon: 'ui-icon-edit',
+      command: () => {
+        staticService.readWriteServiceInstance.addOrEditEntityRW(group, write, 'write', (write_edit: EntityWrite) => {
+          const trigger_edit = clone(trigger);
+          trigger_edit.writes = trigger_edit.writes.map(w => {
+            if (w.id == write_edit.id)
+              return write_edit;
+            else
+              return w;
+          });
+          this.http_update_trigger(group.id, trigger_edit, () => {
+            this.alertService.operationDone();
+          });
+        })
+      }
+    }, {
+      label: 'Delete',
+      icon: 'ui-icon-delete',
+      command: () => {
+        const trigger_edit = clone(trigger);
+        trigger_edit.writes = trigger_edit.writes.filter(w => w.id != write.id);
+        this.http_update_trigger(group.id, trigger_edit, () => {
+          this.alertService.operationDone();
+        });
       }
     }];
   }
@@ -143,7 +188,8 @@ export class GroupService extends EntityService<GroupDescription> {
       data: {
         id: trigger ? trigger.id : '',
         name: trigger ? trigger.name : '',
-        delay: trigger ? trigger.delay : 1000
+        delay: trigger ? trigger.delay : 1000,
+        timeout: trigger ? trigger.timeout : 5000
       },
       formItems: [
         {
@@ -157,6 +203,12 @@ export class GroupService extends EntityService<GroupDescription> {
           name: 'delay',
           type: FormItemType.SINGLE_TEXT,
           required: true
+        },
+        {
+          label: 'Timeout',
+          name: 'timeout',
+          type: FormItemType.SINGLE_TEXT,
+          required: true
         }
       ],
       okFunction: () => {
@@ -165,6 +217,7 @@ export class GroupService extends EntityService<GroupDescription> {
             id: trigger.id,
             name: fm.data['name'],
             delay: fm.data['delay'],
+            timeout: fm.data['timeout'],
             condition: trigger.condition,
             writes: trigger.writes
           };
@@ -177,6 +230,7 @@ export class GroupService extends EntityService<GroupDescription> {
             id: '',
             name: fm.data['name'],
             delay: fm.data['delay'],
+            timeout: fm.data['timeout'],
             condition: {matchAll: true, reads: []},
             writes: []
           };
@@ -199,5 +253,16 @@ export class GroupService extends EntityService<GroupDescription> {
         });
       }
     );
+  }
+
+
+  triggerConditionUpdate(group: StructureData<GroupDescription>, trigger: Trigger) {
+    return (readCondition: ReadCondition) => {
+      const t = clone(trigger);
+      t.condition = readCondition
+      this.http_update_trigger(group.id, t, () => {
+        this.alertService.operationDone();
+      });
+    }
   }
 }

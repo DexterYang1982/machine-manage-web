@@ -216,6 +216,26 @@
                     <span
                       class="value">{{trigger.delay}}</span>
                   </div>
+                  <div>
+                    <span class="label" translate>Timeout</span>
+                    <span
+                      class="value">{{trigger.timeout}}</span>
+                  </div>
+                </div>
+                <div class="p-col-5">
+                  <app-read-condition [name]="'Start Condition'"
+                                      [readCondition]="trigger.condition"
+                                      [entity]="group"
+                                      [updateFunction]="groupService.triggerConditionUpdate(group,trigger)"
+                  ></app-read-condition>
+                </div>
+                <div class="p-col-5">
+                  <p-fieldset>
+                    <p-header><span translate>Writes</span></p-header>
+                    <app-entity-write [entityWrite]="write" *ngFor="let write of trigger.writes"
+                                      [menu]="groupService.getTriggerWriteMenu(group,trigger,write)"
+                    ></app-entity-write>
+                  </p-fieldset>
                 </div>
               </div>
             </p-fieldset>

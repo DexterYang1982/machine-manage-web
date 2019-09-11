@@ -8,6 +8,7 @@ export interface Trigger {
   id: string;
   name: string;
   delay: number;
+  timeout: number;
   condition: ReadCondition;
-  writes:EntityWrite[];
+  writes: EntityWrite[];
 }
