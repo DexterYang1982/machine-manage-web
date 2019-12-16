@@ -93,6 +93,7 @@
                     <p-header><span translate>Status</span></p-header>
                     <div class="p-grid">
                       <div class="p-col-3" *ngFor="let status of device.description.status">
+                        <span>{{status.id}}</span>
                         <app-modbus-read [menu]="deviceService.getStatusMenu(device,status)"
                                          [modbusUnitId]="status.modbusUnitId"
                                          [readPointId]="status.readPointId"></app-modbus-read>

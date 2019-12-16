@@ -40,7 +40,7 @@ export class RuntimeExecuteService {
       action: 'Update',
       windowWidth: 400,
       data: {
-        value: field.description.valueDescriptions.length > 0 ? fieldValue.valueExp : (fieldValue ? fieldValue.name : ''),
+        value: field.description.valueDescriptions.length > 0 ? (fieldValue ? fieldValue.valueExp : '') : (fieldValue ? fieldValue.name : ''),
         session: '',
       },
       formItems: [

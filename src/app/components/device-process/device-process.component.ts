@@ -18,7 +18,7 @@ export class DeviceProcessComponent implements OnInit {
     if(v){
       this._processRuntime = v;
       const device = this.deviceService.getOrCreateById(v.deviceId);
-      this.process = device.description.processes.find(it => it.id == v.deviceProcessId)
+      this.process = device.description?device.description.processes.find(it => it.id == v.deviceProcessId):null;
     }
   }
 
