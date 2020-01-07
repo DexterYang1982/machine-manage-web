@@ -42,6 +42,7 @@
               <div class="field-output" *ngIf="customField.description.output">O</div>
               <span class="menu-item"
                     (click)="menuService.showMenu(customFieldService.getMenu(entityClass,customField),$event)">{{customField.name}}</span>
+              <span>{{customField.id}}</span>
             </div>
             <div class="p-col-2">
               <span class="value">{{customField.alias}}</span>
